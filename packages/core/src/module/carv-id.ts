@@ -71,10 +71,9 @@ export class CarvIdWidget extends LitElement {
   options?: I_CarvIdWidgetOptions = defaultCarvIdWidgetOptions;
 
   private config = defaultCarvIdWidgetOptions;
-
-  // private authorized = false;
-  private isDragging = false;
-  private position = { x: 0, y: 0 };
+  private isDragging = false; // 是否正在拖动
+  private dragFlag = { x1: 0, y1: 0, x2: 0, y2: 0 }; // 拖动标记
+  private position = { x: 0, y: 0 }; // 图标当前位置
   private showModal = false;
 
   static styles = css`
@@ -155,6 +154,9 @@ export class CarvIdWidget extends LitElement {
     return throttle(this.updatePosition, 1000).bind(this)();
   }
   handleClick() {
+    const { x1, y1, x2, y2 } = this.dragFlag;
+    if (Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2)) > 5) return; // 防止误触发点击事件
+
     // @ts-ignore
     const carvIdInstance = this.config.carvIdInstance!;
     if (carvIdInstance.token) {
@@ -169,6 +171,7 @@ export class CarvIdWidget extends LitElement {
           console.log("res-widget-trigger-authenticateUser", res);
         });
     }
+
     // this.showModal = true;
     // (document.getElementById("carv-id-modal") as any)?.open();
   }
@@ -187,6 +190,9 @@ export class CarvIdWidget extends LitElement {
       event instanceof MouseEvent ? event.clientY : event.touches[0].clientY;
     this.position.x = clientX - (this.getBoundingClientRect().left || 0);
     this.position.y = clientY - (this.getBoundingClientRect().top || 0);
+
+    this.dragFlag.x1 = clientX;
+    this.dragFlag.y1 = clientY;
 
     window.addEventListener("mousemove", this.handleOnDrag.bind(this));
     window.addEventListener("mouseup", this.handleStopDrag.bind(this));
@@ -239,6 +245,11 @@ export class CarvIdWidget extends LitElement {
     const maxX = window.innerWidth - iconWidth;
     const maxY = window.innerHeight - iconHeight;
 
+    const clientX =
+      event instanceof MouseEvent ? event.clientX : event.touches[0].clientX;
+    const clientY =
+      event instanceof MouseEvent ? event.clientY : event.touches[0].clientY;
+
     const offsetLeft = iconRect.left;
     const offsetTop = iconRect.top;
 
@@ -249,6 +260,8 @@ export class CarvIdWidget extends LitElement {
       this.position.x = maxX - this.config.offset.right;
     }
 
+    this.dragFlag.x2 = clientX;
+    this.dragFlag.y2 = clientY;
     // 垂直方向保持当前位置，只要在可视区域内
     // if (offsetTop < this.config.offset.top) {
     //   // 吸附到顶部
