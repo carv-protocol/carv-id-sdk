@@ -1,15 +1,24 @@
-<!-- <!doctype html> -->
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + TS</title>
+    <title>CARV ID demo</title>
     <!-- <% if(NODE_ENV==='production' && APP_ENV==='dev' ){ %> -->
     <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
     <script>
       eruda.init();
     </script>
+    <!-- <script src="./src/dist/index.umd.js"></script>
+    <script>
+      window.onload = function () {
+        const instance = new CarvIdSDK.CarvId({
+          showWidget: true,
+        });
+        console.log(instance, "CarvID initialized");
+      };
+    </script> -->
     <!-- <% } %> -->
   </head>
   <body>

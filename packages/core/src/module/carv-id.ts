@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { LitElement, html, css } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import IconCARVID from "../assets/icon/carv_id.svg";
+// import IconCARVID from "../assets/icon/carv_id.svg";
 import { MapUrl } from "../config/url";
+import { IconCARVID } from "../config/file";
 import { throttle } from "lodash-es";
-// import { sleep } from "@carvid/utils";
+import { sleep } from "@carvid/utils";
 
 const sleep = (ms = 1000) => {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -155,7 +156,10 @@ export class CarvIdWidget extends LitElement {
   }
   handleClick() {
     const { x1, y1, x2, y2 } = this.dragFlag;
+    console.log("clicked", this.config);
     if (Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2)) > 5) return; // 防止误触发点击事件
+
+    console.log("clicked into");
 
     // @ts-ignore
     const carvIdInstance = this.config.carvIdInstance!;
@@ -176,7 +180,6 @@ export class CarvIdWidget extends LitElement {
     // (document.getElementById("carv-id-modal") as any)?.open();
   }
   handleCloseModal() {
-    console.log(3344);
     this.showModal = false;
   }
   handleStartDrag(event: MouseEvent | TouchEvent) {
@@ -246,9 +249,13 @@ export class CarvIdWidget extends LitElement {
     const maxY = window.innerHeight - iconHeight;
 
     const clientX =
-      event instanceof MouseEvent ? event.clientX : event.touches[0].clientX;
+      event instanceof MouseEvent
+        ? event.clientX
+        : event.touches?.[0]?.clientX || 0;
     const clientY =
-      event instanceof MouseEvent ? event.clientY : event.touches[0].clientY;
+      event instanceof MouseEvent
+        ? event.clientY
+        : event.touches?.[0]?.clientY || 0;
 
     const offsetLeft = iconRect.left;
     const offsetTop = iconRect.top;
@@ -319,7 +326,7 @@ export class CarvIdWidget extends LitElement {
     this.style.setProperty("--icon-size", this.config.size);
 
     window.addEventListener("resize", this.handleResize.bind(this));
-    console.log(this.config, "Initialized👌🏻");
+    console.log(this.config, "CarvID Widget Initialized👌🏻");
   }
   destroyed() {
     window.addEventListener("resize", this.handleResize.bind(this));
@@ -373,16 +380,6 @@ export class CarvIdWidget extends LitElement {
           : "#fff"}"
           />
         </svg> -->
-
-        <!-- <dile-modal
-          id="carv-id-modal"
-          showCloseIcon="true"
-          blocking="true"
-          opened=${this.showModal}
-          @dile-modal-closed=${this.handleCloseModal}
-        >
-          <p style="color:#333">老司机分离焦虑大开杀戒过啦盛大国际</p>
-        </dile-modal> -->
       </div>
     `;
   }

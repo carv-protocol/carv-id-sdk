@@ -1,16 +1,24 @@
+import "./style.css";
+
 import {
   CarvId,
   Enum_Env,
   Enum_CarvIdTheme,
   Enum_CarvIdIconPlacement,
 } from "@carvid/core/carv-id";
-import "./style.css";
+// import {
+//   CarvId,
+//   Enum_Env,
+//   Enum_CarvIdTheme,
+//   Enum_CarvIdIconPlacement,
+// } from "./dist/index";
 
 window.onload = () => {
   const elButton = document.querySelector(
     "#btn-authorize"
   ) as HTMLButtonElement;
   const elResult = document.querySelector("#result") as HTMLButtonElement;
+  console.log(CarvId, "CarvId");
 
   // 初始化 CarvId 实例
   const CarvIdInstance = new CarvId({
