@@ -1,5 +1,5 @@
 {
-  "extends": "@carvid/typescript-config/vite.json",
+  "extends": "@carvid/typescript-config/base.json",
   "include": [
     "src",
     "src/**/*"

@@ -3,18 +3,24 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "license": "MIT",
   "scripts": {
-    "dev": "vite --clearScreen false",
-    "build": "tsc && vite build",
+    "dev": "vite --clearScreen false --mode dev",
+    "dev:prod": "vite --clearScreen false --mode prod",
+    "build": "tsc && vite build --mode dev",
+    "build:prod": "tsc && vite build --mode prod",
     "preview": "vite preview",
     "lint": "eslint \"src/**/*.ts\""
   },
   "dependencies": {
-    "@repo/ui": "workspace:*"
+    "@carvid/core": "workspace:*",
+    "@carvid/utils": "workspace:*",
+    "@carvid/assets": "workspace:*",
+    "lit": "^3.2.0"
   },
   "devDependencies": {
-    "@repo/eslint-config": "workspace:*",
-    "@repo/typescript-config": "workspace:*",
+    "@carvid/eslint-config": "workspace:*",
+    "@carvid/typescript-config": "workspace:*",
     "eslint": "^8.57.0",
     "typescript": "^5.3.3",
     "vite": "^5.1.4"

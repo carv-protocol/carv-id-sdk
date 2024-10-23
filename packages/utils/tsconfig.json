@@ -1,0 +1,6 @@
+{
+  "extends": "@carvid/typescript-config/base.json",
+  "include": [
+    "./",
+  ],
+}

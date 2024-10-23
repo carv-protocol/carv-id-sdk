@@ -2,7 +2,8 @@
   "extends": "./base.json",
   "compilerOptions": {
     "target": "ESNext",
-    "useDefineForClassFields": true,
+    "experimentalDecorators": true,
+    "useDefineForClassFields": false,
     "module": "ESNext",
     "lib": ["ESNext", "DOM"],
     "sourceMap": true,
@@ -12,5 +13,11 @@
     "noUnusedParameters": true,
     "noImplicitReturns": true
   },
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules"],
+  "resolve": {
+    "alias": {
+      "@": "src"
+    }
+  },
+  "buildOptions": {}
 }
