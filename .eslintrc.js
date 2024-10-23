@@ -1,7 +1,7 @@
 /** @type {import("eslint").Linter.Config} */
 module.exports = {
   root: true,
-  extends: ["@carvid/eslint-config/index.js"],
+  extends: ["@carvid/eslint-config/index.js", "plugin:storybook/recommended"],
   overrides: [
     {
       files: ["*.ts", "*.tsx", "*.js", "*.jsx"],
