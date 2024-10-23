@@ -11,7 +11,7 @@ import {
 //   Enum_Env,
 //   Enum_CarvIdTheme,
 //   Enum_CarvIdIconPlacement,
-// } from "./dist/index";
+// } from "@carvid/core";
 
 window.onload = () => {
   const elButton = document.querySelector(

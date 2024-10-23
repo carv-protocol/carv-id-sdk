@@ -5,11 +5,7 @@ import { customElement, property } from "lit/decorators.js";
 import { MapUrl } from "../config/url";
 import { IconCARVID } from "../config/file";
 import { throttle } from "lodash-es";
-import { sleep } from "@carvid/utils";
-
-const sleep = (ms = 1000) => {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-};
+import { sleep } from "@carvid/utils/common";
 
 export enum Enum_Env {
   DEV = "dev",
@@ -326,7 +322,7 @@ export class CarvIdWidget extends LitElement {
     this.style.setProperty("--icon-size", this.config.size);
 
     window.addEventListener("resize", this.handleResize.bind(this));
-    console.log(this.config, "CarvID Widget Initialized👌🏻");
+    console.log(this.config, "CarvID Widget Initialized👌🏻 -9999999");
   }
   destroyed() {
     window.addEventListener("resize", this.handleResize.bind(this));
