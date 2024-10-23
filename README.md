@@ -1,14 +1,22 @@
-# `Turborepo` Vite starter
+# CARV ID SDK
 
-This is an official starter Turborepo.
+The SDK for CARV ID ecosystem.
 
-## Using this example
 
-Run the following command:
+## Turborepo
+
+This project generated from a [Turborepo](https://turbo.build/repo/docs) starter. Run the following command to init a new project:
 
 ```sh
 npx create-turbo@latest -e with-vite
 ```
+
+## Configurations
+
+-  carv-id-demo（测试 Demo）: [https://t.me/BabyChinBot/carv_id_demo](https://t.me/BabyChinBot/carv_id_demo)
+-  carv-id-dev (测试环境 App): [https://t.me/carv_identity_dev_bot/carv_id](https://t.me/carv_identity_dev_bot/carv_id)
+-  carv-id（正式环境 App）: [https://t.me/carv_identity_bot/carv_id](https://t.me/carv_identity_bot/carv_id)
+
 
 ## What's inside?
 
@@ -33,8 +41,32 @@ This Turborepo has some additional tools already setup for you:
 - [ESLint](https://eslint.org/) for code linting
 - [Prettier](https://prettier.io) for code formatting
 
-### Demo
+### Usage
 
-```html
-<carv-id theme="light" placement="top-left" offset=${JSON.stringify({ top: 100, right: 54 })}></carv-id>
+```js
+import {
+  CarvId,
+  Enum_Env,
+  Enum_CarvIdTheme,
+  Enum_CarvIdIconPlacement,
+} from "@carvid/core/carv-id";
+
+window.onload =function()=>{
+   // 初始化 CarvId 实例
+  const CarvIdInstance = new CarvId({
+    env: Enum_Env.DEV,
+    theme: Enum_CarvIdTheme.LIGHT,
+    showWidget: true,
+    widgetOptions: {
+      size: "60px",
+      placement: Enum_CarvIdIconPlacement.BOTTOM_RIGHT,
+    },
+    onLoad: (data) => {
+      console.log("onLoad", data);
+    },
+    onSuccess: (data) => {
+      console.log("onSuccess", data);
+    },
+  });
+}
 ```
