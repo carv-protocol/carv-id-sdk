@@ -73,7 +73,6 @@ export class CarvIdWidget extends LitElement {
   private isDragging = false; // 是否正在拖动
   private dragFlag = { x1: 0, y1: 0, x2: 0, y2: 0 }; // 拖动标记
   private position = { x: 0, y: 0 }; // 图标当前位置
-  // private showModal = false;
 
   static styles = css`
     :host {
@@ -173,12 +172,6 @@ export class CarvIdWidget extends LitElement {
           console.log("res-widget-trigger-authenticateUser", res);
         });
     }
-
-    // this.showModal = true;
-    // (document.getElementById("carv-id-modal") as any)?.open();
-  }
-  handleCloseModal() {
-    // this.showModal = false;
   }
   handleStartDrag(event: MouseEvent | TouchEvent) {
     event.stopPropagation();
@@ -196,18 +189,18 @@ export class CarvIdWidget extends LitElement {
     this.dragFlag.x1 = clientX;
     this.dragFlag.y1 = clientY;
 
-    // window.addEventListener("mousemove", this.handleOnDrag.bind(this));
-    // window.addEventListener("mouseup", this.handleStopDrag.bind(this));
-    // window.addEventListener("touchmove", this.handleOnDrag.bind(this), {
-    //   passive: false,
-    // });
-    // window.addEventListener("touchend", this.handleStopDrag.bind(this));
-    this.addEventListener("mousemove", this.handleOnDrag.bind(this));
-    this.addEventListener("mouseup", this.handleStopDrag.bind(this));
-    this.addEventListener("touchmove", this.handleOnDrag.bind(this), {
+    window.addEventListener("mousemove", this.handleOnDrag.bind(this));
+    window.addEventListener("mouseup", this.handleStopDrag.bind(this));
+    window.addEventListener("touchmove", this.handleOnDrag.bind(this), {
       passive: false,
     });
-    this.addEventListener("touchend", this.handleStopDrag.bind(this));
+    window.addEventListener("touchend", this.handleStopDrag.bind(this));
+    // this.addEventListener("mousemove", this.handleOnDrag.bind(this));
+    // this.addEventListener("mouseup", this.handleStopDrag.bind(this));
+    // this.addEventListener("touchmove", this.handleOnDrag.bind(this), {
+    //   passive: false,
+    // });
+    // this.addEventListener("touchend", this.handleStopDrag.bind(this));
   }
   handleOnDrag(event: MouseEvent | TouchEvent) {
     event.stopPropagation();
@@ -309,23 +302,23 @@ export class CarvIdWidget extends LitElement {
     this.style.right = "auto";
     this.style.bottom = "auto";
 
-    // window.removeEventListener("mousemove", this.handleOnDrag.bind(this));
-    // window.removeEventListener("mouseup", this.handleStopDrag.bind(this));
-    // window.removeEventListener("touchmove", this.handleOnDrag.bind(this));
-    // window.removeEventListener("touchend", this.handleStopDrag.bind(this));
-    this.removeEventListener("mousemove", this.handleOnDrag.bind(this));
-    this.removeEventListener("mouseup", this.handleStopDrag.bind(this));
-    this.removeEventListener("touchmove", this.handleOnDrag.bind(this));
-    this.removeEventListener("touchend", this.handleStopDrag.bind(this));
+    window.removeEventListener("mousemove", this.handleOnDrag.bind(this));
+    window.removeEventListener("mouseup", this.handleStopDrag.bind(this));
+    window.removeEventListener("touchmove", this.handleOnDrag.bind(this));
+    window.removeEventListener("touchend", this.handleStopDrag.bind(this));
+    // this.removeEventListener("mousemove", this.handleOnDrag.bind(this));
+    // this.removeEventListener("mouseup", this.handleStopDrag.bind(this));
+    // this.removeEventListener("touchmove", this.handleOnDrag.bind(this));
+    // this.removeEventListener("touchend", this.handleStopDrag.bind(this));
   }
   handleOnMouseLeave(event: MouseEvent | TouchEvent) {
     event.stopPropagation();
     event.preventDefault();
 
-    // window.removeEventListener("touchmove", this.handleOnDrag.bind(this));
-    // window.removeEventListener("touchend", this.handleStopDrag.bind(this));
-    this.removeEventListener("touchmove", this.handleOnDrag.bind(this));
-    this.removeEventListener("touchend", this.handleStopDrag.bind(this));
+    window.removeEventListener("touchmove", this.handleOnDrag.bind(this));
+    window.removeEventListener("touchend", this.handleStopDrag.bind(this));
+    // this.removeEventListener("touchmove", this.handleOnDrag.bind(this));
+    // this.removeEventListener("touchend", this.handleStopDrag.bind(this));
   }
 
   async firstUpdated() {

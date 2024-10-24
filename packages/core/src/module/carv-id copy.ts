@@ -73,7 +73,6 @@ export class CarvIdWidget extends LitElement {
   private isDragging = false; // 是否正在拖动
   private dragFlag = { x1: 0, y1: 0, x2: 0, y2: 0 }; // 拖动标记
   private position = { x: 0, y: 0 }; // 图标当前位置
-  // private showModal = false;
 
   static styles = css`
     :host {
@@ -173,12 +172,6 @@ export class CarvIdWidget extends LitElement {
           console.log("res-widget-trigger-authenticateUser", res);
         });
     }
-
-    // this.showModal = true;
-    // (document.getElementById("carv-id-modal") as any)?.open();
-  }
-  handleCloseModal() {
-    // this.showModal = false;
   }
   handleStartDrag(event: MouseEvent | TouchEvent) {
     event.stopPropagation();
