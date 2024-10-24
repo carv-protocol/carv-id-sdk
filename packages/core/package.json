@@ -18,10 +18,13 @@
     "lint": "eslint \"**/*.ts\""
   },
   "devDependencies": {
-    "@carvid/utils": "workspace:*",
     "@carvid/eslint-config": "workspace:*",
     "@carvid/typescript-config": "workspace:*",
+    "@carvid/utils": "workspace:*",
     "eslint": "^8.57.0",
     "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "draggabilly": "^3.0.0"
   }
 }

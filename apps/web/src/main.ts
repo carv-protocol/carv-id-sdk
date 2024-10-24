@@ -22,6 +22,7 @@ window.onload = () => {
 
   // 初始化 CarvId 实例
   const CarvIdInstance = new CarvId({
+    // @ts-ignore
     env: import.meta.env.VITE_APP_ENV === "dev" ? Enum_Env.DEV : Enum_Env.PROD,
     theme: Enum_CarvIdTheme.LIGHT,
     showWidget: true,

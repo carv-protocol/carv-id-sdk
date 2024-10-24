@@ -196,18 +196,18 @@ export class CarvIdWidget extends LitElement {
     this.dragFlag.x1 = clientX;
     this.dragFlag.y1 = clientY;
 
-    // window.addEventListener("mousemove", this.handleOnDrag.bind(this));
-    // window.addEventListener("mouseup", this.handleStopDrag.bind(this));
-    // window.addEventListener("touchmove", this.handleOnDrag.bind(this), {
-    //   passive: false,
-    // });
-    // window.addEventListener("touchend", this.handleStopDrag.bind(this));
-    this.addEventListener("mousemove", this.handleOnDrag.bind(this));
-    this.addEventListener("mouseup", this.handleStopDrag.bind(this));
-    this.addEventListener("touchmove", this.handleOnDrag.bind(this), {
+    window.addEventListener("mousemove", this.handleOnDrag.bind(this));
+    window.addEventListener("mouseup", this.handleStopDrag.bind(this));
+    window.addEventListener("touchmove", this.handleOnDrag.bind(this), {
       passive: false,
     });
-    this.addEventListener("touchend", this.handleStopDrag.bind(this));
+    window.addEventListener("touchend", this.handleStopDrag.bind(this));
+    // this.addEventListener("mousemove", this.handleOnDrag.bind(this));
+    // this.addEventListener("mouseup", this.handleStopDrag.bind(this));
+    // this.addEventListener("touchmove", this.handleOnDrag.bind(this), {
+    //   passive: false,
+    // });
+    // this.addEventListener("touchend", this.handleStopDrag.bind(this));
   }
   handleOnDrag(event: MouseEvent | TouchEvent) {
     event.stopPropagation();
@@ -309,23 +309,23 @@ export class CarvIdWidget extends LitElement {
     this.style.right = "auto";
     this.style.bottom = "auto";
 
-    // window.removeEventListener("mousemove", this.handleOnDrag.bind(this));
-    // window.removeEventListener("mouseup", this.handleStopDrag.bind(this));
-    // window.removeEventListener("touchmove", this.handleOnDrag.bind(this));
-    // window.removeEventListener("touchend", this.handleStopDrag.bind(this));
-    this.removeEventListener("mousemove", this.handleOnDrag.bind(this));
-    this.removeEventListener("mouseup", this.handleStopDrag.bind(this));
-    this.removeEventListener("touchmove", this.handleOnDrag.bind(this));
-    this.removeEventListener("touchend", this.handleStopDrag.bind(this));
+    window.removeEventListener("mousemove", this.handleOnDrag.bind(this));
+    window.removeEventListener("mouseup", this.handleStopDrag.bind(this));
+    window.removeEventListener("touchmove", this.handleOnDrag.bind(this));
+    window.removeEventListener("touchend", this.handleStopDrag.bind(this));
+    // this.removeEventListener("mousemove", this.handleOnDrag.bind(this));
+    // this.removeEventListener("mouseup", this.handleStopDrag.bind(this));
+    // this.removeEventListener("touchmove", this.handleOnDrag.bind(this));
+    // this.removeEventListener("touchend", this.handleStopDrag.bind(this));
   }
   handleOnMouseLeave(event: MouseEvent | TouchEvent) {
     event.stopPropagation();
     event.preventDefault();
 
-    // window.removeEventListener("touchmove", this.handleOnDrag.bind(this));
-    // window.removeEventListener("touchend", this.handleStopDrag.bind(this));
-    this.removeEventListener("touchmove", this.handleOnDrag.bind(this));
-    this.removeEventListener("touchend", this.handleStopDrag.bind(this));
+    window.removeEventListener("touchmove", this.handleOnDrag.bind(this));
+    window.removeEventListener("touchend", this.handleStopDrag.bind(this));
+    // this.removeEventListener("touchmove", this.handleOnDrag.bind(this));
+    // this.removeEventListener("touchend", this.handleStopDrag.bind(this));
   }
 
   async firstUpdated() {
@@ -337,47 +337,6 @@ export class CarvIdWidget extends LitElement {
     this.style.setProperty("--icon-size", this.config.size);
 
     await sleep(1000);
-
-    if (this.config.draggable) {
-      const walletBtn = document.querySelector(".carv-id-widget");
-      const Draggabilly = (await import("draggabilly")).default;
-      draggie = new Draggabilly(walletBtn);
-      draggie.on("dragStart", () => {
-        isDraggie = true;
-        walletBtn.style.cursor = "move";
-      });
-      draggie.on("dragMove", () => {
-        // this.updateIframeContentPosition();
-      });
-      draggie.on("dragEnd", (event, pointer) => {
-        event.stopPropagation();
-        walletBtn.style.cursor = "pointer";
-        const { clientX: x, clientY: y } = pointer;
-        // const { left, top, direction } = this.updateWalletBtnPosition(
-        //   x,
-        //   y - 35
-        // );
-        // walletBtn.style.left = left + "px";
-        // walletBtn.style.top = top + "px";
-        // this.updateIframeContentPosition();
-        // (async () => {
-        //   let count = 0;
-        //   do {
-        //     count++;
-        //     await this.sleep(20);
-        //     this.updateIframeContentPosition();
-        //   } while (count < 70);
-        // })();
-        // this.setButtonStorageData({
-        //   x: left,
-        //   y: top,
-        //   direction,
-        // });
-        // setTimeout(() => {
-        //   isDraggie = false;
-        // }, 50);
-      });
-    }
 
     window.addEventListener("resize", this.handleResize.bind(this));
     console.log(this.config, "CarvID Widget Initialized👌🏻 -9999999");
