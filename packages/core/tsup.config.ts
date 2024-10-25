@@ -2,9 +2,9 @@ import { defineConfig } from "tsup";
 
 export default defineConfig({
   entry: ["./src/index.ts"],
-  minify: true,
-  minifySyntax: true,
-  minifyWhitespace: true,
+  // minify: true,
+  // minifySyntax: true,
+  // minifyWhitespace: true,
   treeshake: true,
   splitting: false,
   sourcemap: false,
