@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { LitElement, html, css } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { MapUrl } from "../config/url";
-import { IconCARVID } from "../config/file";
-import { throttle } from "lodash-es";
 import { sleep } from "@carvid/utils/common";
+import { IconCARVID } from "../config/file";
+import { MapUrl } from "../config/url";
+import { throttle } from "lodash-es";
 
 export enum Enum_Env {
   DEV = "dev",
@@ -56,7 +56,12 @@ export interface I_CarvIdWidgetOptions {
   carvIdInstance?: CarvId;
   entryUrl?: string;
   placement?: Enum_CarvIdIconPlacement;
-  offset?: { left: number; right: number; top: number; bottom: number };
+  offset?: { left?: number; right?: number; top?: number; bottom?: number };
+}
+export interface I_PositionInfo {
+  x: number;
+  y: number;
+  direction: Enum_CarvIdIconDirection;
 }
 
 const FLAG_CARV_ID_BTN_POSITION = "carv_id_btn_position";
@@ -83,8 +88,15 @@ export class CarvIdWidget extends LitElement {
   private elBtn: HTMLElement | null = null;
   private config = defaultCarvIdWidgetOptions;
   private draggie: any; // 拖拽实例
+  // @ts-ignore
   private isDragging = false; // 是否正在拖动
-  private position = { x: 0, y: 0, direction: Enum_CarvIdIconDirection.RIGHT }; // 图标当前位置信息
+  // @ts-ignore
+  private position: I_PositionInfo = {
+    x: 0,
+    y: 0,
+    direction: Enum_CarvIdIconDirection.RIGHT,
+  }; // 图标当前位置信息
+  private resizeHandler: any; // 窗口大小变化事件处理函数
 
   static styles = css`
     :host {
@@ -108,7 +120,7 @@ export class CarvIdWidget extends LitElement {
   `;
 
   // 记录位置信息到本地存储
-  setButtonStorageData(data) {
+  setButtonStorageData(data: I_PositionInfo) {
     const { innerWidth, innerHeight } = window;
     localStorage.setItem(
       FLAG_CARV_ID_BTN_POSITION,
@@ -132,9 +144,9 @@ export class CarvIdWidget extends LitElement {
     const localWindowSize = localStorage.getItem(
       FLAG_CARV_ID_BTN_POSITION + "_window"
     );
-    let [width, height] = localWindowSize ? localWindowSize.split(",") : [];
-    width = Number(width || 0);
-    height = Number(height || 0);
+    const res = localWindowSize ? localWindowSize.split(",") : [];
+    const width = Number(res[0] || 0);
+    const height = Number(res[1] || 0);
 
     if (width && height && (width != innerWidth || height != innerHeight)) {
       this.clearButtonStorageData();
@@ -147,8 +159,8 @@ export class CarvIdWidget extends LitElement {
     }
 
     return {
-      x: Number(x) || 0,
-      y: Number(y) || 0,
+      x: Number(x || 0),
+      y: Number(y || 0),
       direction,
       placement,
     };
@@ -209,7 +221,7 @@ export class CarvIdWidget extends LitElement {
       top: iconTop,
       width: iconWidth,
       height: iconHeight,
-    } = this.elBtn.getBoundingClientRect();
+    } = this.elBtn!.getBoundingClientRect();
     const isResize = type === "windowResize"; // 是否来自 Resize 事件
     const iconOffsetLeft = isResize ? iconLeft : x; // 按钮左侧位置
     const iconOffsetTop = isResize ? iconTop : y; // 按钮左侧位置
@@ -248,6 +260,7 @@ export class CarvIdWidget extends LitElement {
   }
   // 点击按钮
   handleClick() {
+    // @ts-ignore
     const carvIdInstance = this.config.carvIdInstance!;
     if (carvIdInstance.token) {
       window.open(this.config.entryUrl, "_blank");
@@ -264,12 +277,15 @@ export class CarvIdWidget extends LitElement {
   }
   // 销毁
   destroy() {
+    if (!this.elBtn) return;
+
     this.draggie?.destroy();
-    this.elBtn.parentNode.removeChild(this.elBtn);
+    this.elBtn.parentNode?.removeChild(this.elBtn);
     this.elBtn = null;
-    this.resizeHander = null;
-    if (this.config.watchResize) {
+
+    if (this.config.watchResize && this.resizeHandler) {
       window.removeEventListener("resize", this.resizeHandler);
+      this.resizeHandler = null;
     }
   }
 
@@ -298,10 +314,15 @@ export class CarvIdWidget extends LitElement {
     }, 100);
 
     // 是否记住位置信息
-    if (!this.options.rememberPosition) {
+    if (!this.config.rememberPosition) {
       this.clearButtonStorageData();
     }
 
+    this.position = {
+      x: 0,
+      y: 0,
+      direction: Enum_CarvIdIconDirection.RIGHT,
+    };
     this.elBtn = this.shadowRoot?.host as HTMLElement; // 缓存当前按钮元素
     this.elBtn.style.setProperty("--icon-size", this.config.size); // 设置图标大小
     this.setInitialPosition(); // 设置初始位置
@@ -312,39 +333,46 @@ export class CarvIdWidget extends LitElement {
       const Draggabilly = (await import("draggabilly")).default;
       this.draggie = new Draggabilly(this.elBtn);
 
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      this.draggie.on("dragStart", (event, pointer) => {
-        // console.log(event, pointer, "dragStart");
-        this.isDragging = true;
-        this.elBtn.style.cursor = "move";
-      });
+      this.draggie.on(
+        "dragStart",
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        // (event: Event, pointer: MouseEvent | Touch) => {
+        (event: Event) => {
+          event.stopPropagation();
+          // console.log(event, pointer, "dragStart");
+          this.isDragging = true;
+          this.elBtn!.style.cursor = "move";
+        }
+      );
       // this.draggie.on("dragMove", (event, pointer) => {
       // console.log(event, pointer, "dragMove");
+      // event.stopPropagation();
       // this.updatePosition();
       // });
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      this.draggie.on("dragEnd", (event, pointer) => {
-        // console.log(event, pointer, "dragEnd");
-        event.stopPropagation();
-        this.elBtn.style.cursor = "pointer";
-        const { clientX, clientY } = pointer;
-        const { left, top, direction } = this.updatePosition(
-          clientX,
-          clientY - 35
-        );
+      this.draggie.on(
+        "dragEnd",
+        (event: Event, pointer: MouseEvent | Touch) => {
+          event.stopPropagation();
+          this.elBtn!.style.cursor = "pointer";
+          const { clientX, clientY } = pointer;
+          const { left, top, direction } = this.updatePosition(
+            clientX,
+            clientY - 35
+          );
 
-        if (this.config.rememberPosition) {
-          this.setButtonStorageData({
-            x: left,
-            y: top,
-            direction,
-          });
+          if (this.config.rememberPosition) {
+            this.setButtonStorageData({
+              x: left,
+              y: top,
+              direction,
+            });
+          }
+          setTimeout(() => {
+            this.isDragging = false;
+          }, 50);
         }
-        setTimeout(() => {
-          this.isDragging = false;
-        }, 50);
-      });
-      this.draggie.on("staticClick", () => {
+      );
+      this.draggie.on("staticClick", (event: Event) => {
         event.stopPropagation();
         this.handleClick();
       });
@@ -374,6 +402,7 @@ export class CarvIdWidget extends LitElement {
 
 export class CarvId {
   env: Enum_Env;
+  theme: Enum_CarvIdTheme;
   token: string;
   entryUrl: string;
   onSuccess?: (data: I_AuthenticateUser) => void;
