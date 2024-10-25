@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { LitElement, html, css } from "lit";
 import { customElement, property } from "lit/decorators.js";
-// import IconCARVID from "../assets/icon/carv_id.svg";
 import { MapUrl } from "../config/url";
 import { IconCARVID } from "../config/file";
 import { throttle } from "lodash-es";
@@ -14,6 +13,12 @@ export enum Enum_Env {
 export enum Enum_CarvIdTheme {
   LIGHT = "light",
   DARK = "dark",
+}
+export enum Enum_CarvIdIconDirection {
+  TOP = "top",
+  RIGHT = "right",
+  BOTTOM = "bottom",
+  LEFT = "left",
 }
 export enum Enum_CarvIdIconPlacement {
   TOP_LEFT = "top-left",
@@ -42,23 +47,29 @@ export interface I_AuthenticateUser {
 export interface I_CarvIdWidgetOptions {
   env?: Enum_Env;
   theme?: Enum_CarvIdTheme;
-  icon?: string;
+  // icon?: string;
   size?: string;
+  className?: string;
   draggable?: boolean;
+  watchResize?: boolean;
+  rememberPosition?: boolean;
   carvIdInstance?: CarvId;
   entryUrl?: string;
-  className?: string;
   placement?: Enum_CarvIdIconPlacement;
   offset?: { left: number; right: number; top: number; bottom: number };
 }
 
+const FLAG_CARV_ID_BTN_POSITION = "carv_id_btn_position";
+
 const defaultCarvIdWidgetOptions = {
   env: Enum_Env.DEV,
   theme: Enum_CarvIdTheme.LIGHT,
-  icon: IconCARVID,
+  // icon: IconCARVID,
   size: "48px",
   className: "",
   draggable: true,
+  watchResize: true,
+  rememberPosition: true,
   entryUrl: MapUrl[Enum_Env.DEV].TELEGRAM_APP_URL,
   placement: Enum_CarvIdIconPlacement.BOTTOM_RIGHT,
   offset: { left: 20, right: 20, top: 40, bottom: 60 },
@@ -69,16 +80,16 @@ export class CarvIdWidget extends LitElement {
   @property({ type: Object })
   options?: I_CarvIdWidgetOptions = defaultCarvIdWidgetOptions;
 
+  private elBtn: HTMLElement | null = null;
   private config = defaultCarvIdWidgetOptions;
+  private draggie: any; // 拖拽实例
   private isDragging = false; // 是否正在拖动
-  private dragFlag = { x1: 0, y1: 0, x2: 0, y2: 0 }; // 拖动标记
-  private position = { x: 0, y: 0 }; // 图标当前位置
+  private position = { x: 0, y: 0, direction: Enum_CarvIdIconDirection.RIGHT }; // 图标当前位置信息
 
   static styles = css`
     :host {
       position: fixed;
       z-index: 50;
-      --icon-size: 48px;
       width: var(--icon-size);
       height: var(--icon-size);
       touch-action: none; /* 禁用默认的触摸滚动行为 */
@@ -89,76 +100,154 @@ export class CarvIdWidget extends LitElement {
       height: var(--icon-size);
       user-select: none;
       border-radius: 50%;
-      /* box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); */
-    }
-    .dark {
-      background-color: #333;
-    }
-    .light {
-      background-color: #fff;
+      img {
+        width: 100%;
+        height: 100%;
+      }
     }
   `;
 
-  setInitialPosition() {
-    const host = this.shadowRoot?.host as HTMLElement;
-    const { top, right, bottom, left } = this.config.offset;
+  // 记录位置信息到本地存储
+  setButtonStorageData(data) {
+    const { innerWidth, innerHeight } = window;
+    localStorage.setItem(
+      FLAG_CARV_ID_BTN_POSITION,
+      `${data.x},${data.y},${data.direction},${this.config.placement}`
+    );
+    localStorage.setItem(
+      FLAG_CARV_ID_BTN_POSITION + "_window",
+      `${innerWidth},${innerHeight}`
+    );
+  }
+  // 从本地存储中获取位置信息
+  getButtonStorageData() {
+    const { innerWidth, innerHeight } = window;
+    // 获取本地存储的位置信息
+    const localPlacement = localStorage.getItem(FLAG_CARV_ID_BTN_POSITION);
+    const [x, y, direction, placement] = localPlacement
+      ? localPlacement.split(",")
+      : [];
 
-    switch (this.config.placement) {
-      case Enum_CarvIdIconPlacement.TOP_LEFT:
-        host.style.top = `${top}px`;
-        host.style.left = `${left}px`;
-        break;
-      case Enum_CarvIdIconPlacement.TOP_RIGHT:
-        host.style.top = `${top}px`;
-        host.style.right = `${right}px`;
-        break;
-      case Enum_CarvIdIconPlacement.BOTTOM_LEFT:
-        host.style.bottom = `${bottom}px`;
-        host.style.left = `${left}px`;
-        break;
-      case Enum_CarvIdIconPlacement.BOTTOM_RIGHT:
-        host.style.bottom = `${bottom}px`;
-        host.style.right = `${right}px`;
-        break;
-      default:
-        host.style.bottom = `${bottom}px`;
-        host.style.right = `${right}px`;
+    // 获取本地存储的窗口大小信息
+    const localWindowSize = localStorage.getItem(
+      FLAG_CARV_ID_BTN_POSITION + "_window"
+    );
+    let [width, height] = localWindowSize ? localWindowSize.split(",") : [];
+    width = Number(width || 0);
+    height = Number(height || 0);
+
+    if (width && height && (width != innerWidth || height != innerHeight)) {
+      this.clearButtonStorageData();
+      return {
+        x: innerWidth,
+        y: innerHeight,
+        direction: Enum_CarvIdIconDirection.RIGHT,
+        placement,
+      };
+    }
+
+    return {
+      x: Number(x) || 0,
+      y: Number(y) || 0,
+      direction,
+      placement,
+    };
+  }
+  // 清除本地存储的位置信息
+  clearButtonStorageData() {
+    localStorage.removeItem(FLAG_CARV_ID_BTN_POSITION + "_window");
+    localStorage.removeItem(FLAG_CARV_ID_BTN_POSITION);
+  }
+  // 初始化按钮位置信息
+  setInitialPosition() {
+    const { innerWidth, innerHeight } = window;
+
+    const { x: btnX, y: btnY } = this.getButtonStorageData();
+    // 如果有存储的位置信息，则使用存储的位置信息
+    if (btnX && btnY) {
+      if (
+        (Number(btnX) || 0) < innerWidth &&
+        (Number(btnY) || 0) < innerHeight
+      ) {
+        this.updatePosition(Number(btnX) || 0, Number(btnY) || 0);
+      } else {
+        this.updatePosition(innerWidth, innerHeight);
+      }
+    } else {
+      // 如果没有存储的位置信息，则使用默认的位置信息
+      const { top, right, bottom, left } = this.config.offset;
+      let x, y;
+      switch (this.config.placement) {
+        case Enum_CarvIdIconPlacement.TOP_LEFT:
+          x = left;
+          y = top;
+          break;
+        case Enum_CarvIdIconPlacement.TOP_RIGHT:
+          x = innerWidth - right;
+          y = top;
+          break;
+        case Enum_CarvIdIconPlacement.BOTTOM_LEFT:
+          x = left;
+          y = innerHeight - bottom;
+          break;
+        case Enum_CarvIdIconPlacement.BOTTOM_RIGHT:
+          x = innerWidth - right;
+          y = innerHeight - bottom;
+          break;
+        default:
+          x = innerWidth - right;
+          y = innerHeight - bottom;
+      }
+
+      this.updatePosition(x, y);
     }
   }
-  updatePosition() {
-    const iconRect = this.getBoundingClientRect();
-    const iconWidth = iconRect.width;
-    const iconHeight = iconRect.height;
+  // 更新按钮位置信息
+  updatePosition(x: number, y: number, type?: string) {
+    const {
+      left: iconLeft,
+      top: iconTop,
+      width: iconWidth,
+      height: iconHeight,
+    } = this.elBtn.getBoundingClientRect();
+    const isResize = type === "windowResize"; // 是否来自 Resize 事件
+    const iconOffsetLeft = isResize ? iconLeft : x; // 按钮左侧位置
+    const iconOffsetTop = isResize ? iconTop : y; // 按钮左侧位置
     const maxX = window.innerWidth - iconWidth;
     const maxY = window.innerHeight - iconHeight;
-    // console.log(maxY, this.position.y, maxY / 2);
+    let newDirection;
+    let newX;
 
-    this.position.x =
-      this.position.x <= maxX / 2
-        ? this.config.offset.left
-        : maxX - this.config.offset.right;
-    this.position.y =
-      this.position.y <= maxY
-        ? this.position.y
-        : maxY - this.config.offset.bottom;
+    // 水平方向控制 - 根据拖动结束时的 x 位置判断吸附到左侧或右侧
+    if (iconOffsetLeft <= maxX / 2) {
+      newDirection = Enum_CarvIdIconDirection.LEFT;
+      newX = this.config.offset.left;
+    } else {
+      newDirection = Enum_CarvIdIconDirection.RIGHT;
+      newX = maxX - this.config.offset.right;
+    }
 
-    this.style.left = `${this.position.x}px`;
-    this.style.top = `${this.position.y}px`;
-    this.style.right = "auto";
-    this.style.bottom = "auto";
+    // 垂直方向控制 - 根据拖动结束时的 y 位置判断吸附到上侧或下侧
+    const newY = Math.max(
+      this.config.offset.top,
+      Math.min(iconOffsetTop, maxY - this.config.offset.bottom)
+    );
+
+    // 更新按钮位置
+    this.position = { x: newX, y: newY, direction: newDirection };
+    if (this.elBtn) {
+      this.elBtn.style.left = newX + "px";
+      this.elBtn.style.top = newY + "px";
+    }
+
+    return {
+      left: newX,
+      top: newY,
+      direction: newDirection,
+    };
   }
-
-  handleResize() {
-    return throttle(this.updatePosition, 1000).bind(this)();
-  }
+  // 点击按钮
   handleClick() {
-    const { x1, y1, x2, y2 } = this.dragFlag;
-    console.log("clicked", this.config);
-    if (Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2)) > 5) return; // 防止误触发点击事件
-
-    console.log("clicked into");
-
-    // @ts-ignore
     const carvIdInstance = this.config.carvIdInstance!;
     if (carvIdInstance.token) {
       window.open(this.config.entryUrl, "_blank");
@@ -173,258 +262,111 @@ export class CarvIdWidget extends LitElement {
         });
     }
   }
-  handleStartDrag(event: MouseEvent | TouchEvent) {
-    event.stopPropagation();
-    event.preventDefault();
-    this.isDragging = true;
-    console.log(event, "handleStartDrag");
-
-    const clientX =
-      event instanceof MouseEvent ? event.clientX : event.touches[0].clientX;
-    const clientY =
-      event instanceof MouseEvent ? event.clientY : event.touches[0].clientY;
-    this.position.x = clientX - (this.getBoundingClientRect().left || 0);
-    this.position.y = clientY - (this.getBoundingClientRect().top || 0);
-
-    this.dragFlag.x1 = clientX;
-    this.dragFlag.y1 = clientY;
-
-    window.addEventListener("mousemove", this.handleOnDrag.bind(this));
-    window.addEventListener("mouseup", this.handleStopDrag.bind(this));
-    window.addEventListener("touchmove", this.handleOnDrag.bind(this), {
-      passive: false,
-    });
-    window.addEventListener("touchend", this.handleStopDrag.bind(this));
-    // this.addEventListener("mousemove", this.handleOnDrag.bind(this));
-    // this.addEventListener("mouseup", this.handleStopDrag.bind(this));
-    // this.addEventListener("touchmove", this.handleOnDrag.bind(this), {
-    //   passive: false,
-    // });
-    // this.addEventListener("touchend", this.handleStopDrag.bind(this));
-  }
-  handleOnDrag(event: MouseEvent | TouchEvent) {
-    event.stopPropagation();
-    event.preventDefault();
-
-    console.log(event, "handleOnDrag");
-
-    if (!this.isDragging) return;
-
-    const clientX =
-      event instanceof MouseEvent ? event.clientX : event.touches[0].clientX;
-    const clientY =
-      event instanceof MouseEvent ? event.clientY : event.touches[0].clientY;
-
-    // const iconRect = this.getBoundingClientRect();
-    // const iconWidth = iconRect.width;
-    // const iconHeight = iconRect.height;
-    // const maxX = window.innerWidth - iconWidth;
-    // const maxY = window.innerHeight - iconHeight;
-    const x = clientX - this.position.x;
-    const y = clientY - this.position.y;
-
-    // this.position.x = x;
-    // this.position.y = y;
-    // const limitedX = Math.max(0, Math.min(x, maxX));
-    // const limitedY = Math.max(0, Math.min(y, maxY));
-
-    // this.style.left = `${limitedX}px`;
-    // this.style.top = `${limitedY}px`;
-
-    this.style.left = `${x}px`;
-    this.style.top = `${y}px`;
-    this.style.right = "auto";
-    this.style.bottom = "auto";
-  }
-  handleStopDrag(event: MouseEvent | TouchEvent) {
-    event.stopPropagation();
-    event.preventDefault();
-    this.isDragging = false;
-
-    console.log(event, "handleStopDrag");
-
-    // 获取当前图标的位置信息
-    const iconRect = this.getBoundingClientRect();
-    const iconWidth = iconRect.width;
-    const iconHeight = iconRect.height;
-    const maxX = window.innerWidth - iconWidth;
-    const maxY = window.innerHeight - iconHeight;
-
-    const clientX =
-      event instanceof MouseEvent
-        ? event.clientX
-        : event.touches?.[0]?.clientX || 0;
-    const clientY =
-      event instanceof MouseEvent
-        ? event.clientY
-        : event.touches?.[0]?.clientY || 0;
-
-    const offsetLeft = iconRect.left;
-    const offsetTop = iconRect.top;
-
-    // 水平方向控制 - 根据拖动结束时的 x 位置判断吸附到左侧或右侧
-    if (offsetLeft <= maxX / 2) {
-      this.position.x = this.config.offset.left;
-    } else {
-      this.position.x = maxX - this.config.offset.right;
+  // 销毁
+  destroy() {
+    this.draggie?.destroy();
+    this.elBtn.parentNode.removeChild(this.elBtn);
+    this.elBtn = null;
+    this.resizeHander = null;
+    if (this.config.watchResize) {
+      window.removeEventListener("resize", this.resizeHandler);
     }
-
-    this.dragFlag.x2 = clientX;
-    this.dragFlag.y2 = clientY;
-    // 垂直方向保持当前位置，只要在可视区域内
-    // if (offsetTop < this.config.offset.top) {
-    //   // 吸附到顶部
-    //   this.position.y = this.config.offset.top;
-    // } else if (offsetTop > maxY) {
-    //   // 吸附到底部
-    //   this.position.y = maxY - this.config.offset.bottom;
-    // } else {
-    //   this.position.y = offsetTop;
-    // }
-    this.position.y = Math.max(
-      this.config.offset.top,
-      Math.min(offsetTop, maxY - this.config.offset.bottom)
-    );
-
-    // console.log(
-    //   JSON.stringify(
-    //     {
-    //       position: this.position,
-    //       offset: this.config.offset,
-    //     },
-    //     null,
-    //     2
-    //   )
-    // );
-
-    this.style.left = `${this.position.x}px`;
-    this.style.top = `${this.position.y}px`;
-    this.style.right = "auto";
-    this.style.bottom = "auto";
-
-    window.removeEventListener("mousemove", this.handleOnDrag.bind(this));
-    window.removeEventListener("mouseup", this.handleStopDrag.bind(this));
-    window.removeEventListener("touchmove", this.handleOnDrag.bind(this));
-    window.removeEventListener("touchend", this.handleStopDrag.bind(this));
-    // this.removeEventListener("mousemove", this.handleOnDrag.bind(this));
-    // this.removeEventListener("mouseup", this.handleStopDrag.bind(this));
-    // this.removeEventListener("touchmove", this.handleOnDrag.bind(this));
-    // this.removeEventListener("touchend", this.handleStopDrag.bind(this));
-  }
-  handleOnMouseLeave(event: MouseEvent | TouchEvent) {
-    event.stopPropagation();
-    event.preventDefault();
-
-    window.removeEventListener("touchmove", this.handleOnDrag.bind(this));
-    window.removeEventListener("touchend", this.handleStopDrag.bind(this));
-    // this.removeEventListener("touchmove", this.handleOnDrag.bind(this));
-    // this.removeEventListener("touchend", this.handleStopDrag.bind(this));
   }
 
+  // 初始化
   async firstUpdated() {
+    // 合并配置项
     this.config = Object.assign(this.config, {
       ...this.options,
       offset: Object.assign(this.config.offset, this.options?.offset || {}),
     });
-    this.setInitialPosition();
-    this.style.setProperty("--icon-size", this.config.size);
+    this.resizeHandler = throttle(() => {
+      console.log("resize");
+      const { left, top, direction } = this.updatePosition(
+        0,
+        0,
+        "windowResize"
+      );
 
-    await sleep(1000);
+      if (this.config.rememberPosition) {
+        this.setButtonStorageData({
+          x: left,
+          y: top,
+          direction,
+        });
+      }
+    }, 100);
 
+    // 是否记住位置信息
+    if (!this.options.rememberPosition) {
+      this.clearButtonStorageData();
+    }
+
+    this.elBtn = this.shadowRoot?.host as HTMLElement; // 缓存当前按钮元素
+    this.elBtn.style.setProperty("--icon-size", this.config.size); // 设置图标大小
+    this.setInitialPosition(); // 设置初始位置
+
+    // 开启拖拽功能
     if (this.config.draggable) {
-      const walletBtn = document.querySelector(".carv-id-widget");
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
       const Draggabilly = (await import("draggabilly")).default;
-      draggie = new Draggabilly(walletBtn);
-      draggie.on("dragStart", () => {
-        isDraggie = true;
-        walletBtn.style.cursor = "move";
+      this.draggie = new Draggabilly(this.elBtn);
+
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      this.draggie.on("dragStart", (event, pointer) => {
+        // console.log(event, pointer, "dragStart");
+        this.isDragging = true;
+        this.elBtn.style.cursor = "move";
       });
-      draggie.on("dragMove", () => {
-        // this.updateIframeContentPosition();
-      });
-      draggie.on("dragEnd", (event, pointer) => {
+      // this.draggie.on("dragMove", (event, pointer) => {
+      // console.log(event, pointer, "dragMove");
+      // this.updatePosition();
+      // });
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      this.draggie.on("dragEnd", (event, pointer) => {
+        // console.log(event, pointer, "dragEnd");
         event.stopPropagation();
-        walletBtn.style.cursor = "pointer";
-        const { clientX: x, clientY: y } = pointer;
-        // const { left, top, direction } = this.updateWalletBtnPosition(
-        //   x,
-        //   y - 35
-        // );
-        // walletBtn.style.left = left + "px";
-        // walletBtn.style.top = top + "px";
-        // this.updateIframeContentPosition();
-        // (async () => {
-        //   let count = 0;
-        //   do {
-        //     count++;
-        //     await this.sleep(20);
-        //     this.updateIframeContentPosition();
-        //   } while (count < 70);
-        // })();
-        // this.setButtonStorageData({
-        //   x: left,
-        //   y: top,
-        //   direction,
-        // });
-        // setTimeout(() => {
-        //   isDraggie = false;
-        // }, 50);
+        this.elBtn.style.cursor = "pointer";
+        const { clientX, clientY } = pointer;
+        const { left, top, direction } = this.updatePosition(
+          clientX,
+          clientY - 35
+        );
+
+        if (this.config.rememberPosition) {
+          this.setButtonStorageData({
+            x: left,
+            y: top,
+            direction,
+          });
+        }
+        setTimeout(() => {
+          this.isDragging = false;
+        }, 50);
+      });
+      this.draggie.on("staticClick", () => {
+        event.stopPropagation();
+        this.handleClick();
       });
     }
 
-    window.addEventListener("resize", this.handleResize.bind(this));
-    console.log(this.config, "CarvID Widget Initialized👌🏻 -9999999");
+    // 是否需要监听窗口大小变化
+    if (this.config.watchResize) {
+      window.addEventListener("resize", this.resizeHandler);
+    }
+
+    console.log(this.config, "CarvID Widget Initialized👌🏻");
   }
   destroyed() {
-    window.removeEventListener("resize", this.handleResize.bind(this));
+    this.destroy();
   }
 
   render() {
     const cls = `${this.config.className ? `${this.config.className} ` : ""}${this.config.theme === Enum_CarvIdTheme.DARK ? Enum_CarvIdTheme.DARK : Enum_CarvIdTheme.LIGHT}`;
 
-    // @mousedown=${this.handleStartDrag}
-    // @touchstart=${this.handleStartDrag}
-
     return html`
-      <div class="carv-id-widget ${cls}" @click=${this.handleClick}>
-        <img
-          src="${this.config.icon}"
-          alt="CARV ID"
-          style="width: 100%; height: 100%;"
-        />
-        <!-- <svg
-          width="64"
-          height="64"
-          viewBox="0 0 64 64"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          style="width: 100%; height: 100%;"
-        >
-          <rect
-            width="64"
-            height="64"
-            rx="32"
-            fill="${this.config.theme === Enum_CarvIdTheme.LIGHT
-          ? "#fff"
-          : "#000"}"
-          />
-          <rect
-            x="1"
-            y="1"
-            width="62"
-            height="62"
-            rx="31"
-            stroke="black"
-            stroke-opacity="0.1"
-            stroke-width="2"
-          />
-          <path
-            d="M38.9118 42.0725L49 32.0743L38.9626 21.9833L29.0324 12L19.0158 22.0701L28.9461 32.0534L19 42.0526L28.8945 52L38.9118 42.0725Z"
-            fill="${this.config.theme === Enum_CarvIdTheme.LIGHT
-          ? "#713FFE"
-          : "#fff"}"
-          />
-        </svg> -->
+      <div class="carv-id-widget ${cls}">
+        <img src="${IconCARVID}" alt="CARV ID" />
       </div>
     `;
   }
@@ -439,6 +381,7 @@ export class CarvId {
   constructor(options?: I_CarvIdOptions) {
     const env = options?.env || Enum_Env.DEV;
     this.env = env;
+    this.theme = options?.theme || Enum_CarvIdTheme.LIGHT;
     this.onSuccess = options?.onSuccess;
 
     // this.token = "";
@@ -455,10 +398,10 @@ export class CarvId {
       const carvId = document.createElement("carv-id-widget") as CarvIdWidget;
       carvId.options = {
         env: env,
-        theme: options?.theme || Enum_CarvIdTheme.LIGHT,
+        theme: this.theme,
         ...(options?.widgetOptions || {}),
         carvIdInstance: this,
-        entryUrl: MapUrl[env].TELEGRAM_APP_URL,
+        entryUrl: `${MapUrl[env].TELEGRAM_APP_URL}?theme=${this.theme}`,
       };
       document.body.appendChild(carvId);
     }
@@ -473,7 +416,7 @@ export class CarvId {
     const token = sessionStorage.getItem("carv_id_token");
     if (!token) {
       window.open(
-        `${MapUrl[this.env].TELEGRAM_APP_URL}?startapp=scope=${data.scope}&state=${data.state}`
+        `${MapUrl[this.env].TELEGRAM_APP_URL}?startapp=theme=${this.theme}&scope=${data.scope}&state=${data.state}`
       );
       const newToken = Date.now().toString();
       sessionStorage.setItem("carv_id_token", newToken);

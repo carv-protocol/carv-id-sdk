@@ -29,8 +29,13 @@ window.onload = () => {
     widgetOptions: {
       // icon: '',
       className: "my-carv-id-widget",
-      size: "60px",
+      size: "50px",
       placement: Enum_CarvIdIconPlacement.BOTTOM_RIGHT,
+      offset: {
+        bottom: 80,
+      },
+      // watchResize: false,
+      // rememberPosition: false,
     },
     onLoad: (data) => {
       console.log("onLoad", data);

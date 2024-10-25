@@ -48,26 +48,6 @@ h1 {
   text-align: center;
 }
 
-/* .logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vanilla:hover {
-  filter: drop-shadow(0 0 2em #f7df1eaa);
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
-} */
-
 button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -108,7 +88,13 @@ button:focus-visible {
   align-items: center;
   height: 100vh;
   #btn-authorize {
+    color: #fff;
     background: #5c3eb8;
+    &[disabled] {
+      pointer-events: none;
+      cursor: default;
+      background: #6e6e6e;
+    }
   }
   #result {
     display: block;

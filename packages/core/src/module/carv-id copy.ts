@@ -332,7 +332,7 @@ export class CarvIdWidget extends LitElement {
     await sleep(1000);
 
     window.addEventListener("resize", this.handleResize.bind(this));
-    console.log(this.config, "CarvID Widget Initialized👌🏻 -9999999");
+    console.log(this.config, "CarvID Widget Initialized👌🏻");
   }
   destroyed() {
     window.removeEventListener("resize", this.handleResize.bind(this));
