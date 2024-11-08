@@ -262,6 +262,7 @@ export class CarvIdWidget extends LitElement {
     // @ts-ignore
     const carvIdInstance = this.config.carvIdInstance!;
     if (carvIdInstance.token) {
+      alert("已授权");
       window.open(this.config.entryUrl, "_blank");
     } else {
       carvIdInstance
@@ -435,7 +436,11 @@ export class CarvId {
         theme: this.theme,
         ...(options?.widgetOptions || {}),
         carvIdInstance: this,
-        entryUrl: `${MapUrl[env].TELEGRAM_APP_URL}?startapp=theme=${this.theme}`,
+        entryUrl: `${MapUrl[env].TELEGRAM_APP_URL}?startapp=${HexUtils.jsonEncode(
+          {
+            theme: this.theme,
+          }
+        )}`,
       };
       document.body.appendChild(carvId);
     }
