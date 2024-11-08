@@ -5,6 +5,7 @@ import { sleep } from "@carvid/utils/common";
 import { IconCARVID } from "../config/file";
 import { MapUrl } from "../config/url";
 import { throttle } from "lodash-es";
+import { HexUtils } from "../utils";
 
 export enum Enum_Env {
   DEV = "dev",
@@ -415,7 +416,13 @@ export class CarvId {
     // 从 sessionStorage 中获取 token
     const token = sessionStorage.getItem("carv_id_token") || "";
     this.token = token;
-    this.entryUrl = `${MapUrl[this.env].TELEGRAM_APP_URL}?startapp=page=identity&user_id=${token}`;
+
+    const encodeStartParams = HexUtils.jsonEncode({
+      theme: this.theme,
+      page: "identity",
+      token,
+    });
+    this.entryUrl = `${MapUrl[this.env].TELEGRAM_APP_URL}?startapp=${encodeStartParams}`;
 
     this.authenticateUser = this.authenticateUser.bind(this);
     this.handleAuthCallback = this.handleAuthCallback.bind(this);
@@ -442,12 +449,26 @@ export class CarvId {
     console.log(data, "authenticateUser", MapUrl[this.env].TELEGRAM_APP_URL);
     const token = sessionStorage.getItem("carv_id_token");
     if (!token) {
+      // 没授权过，打开授权页面
+      const authConfig = {
+        client_id: "0a17299349c4b3e57bc8c25581b01bd0ec80c279",
+        client_secret:
+          "871cc95ca5a54866492bb052e0d487799e21a5c5896b7cd2ecbe813876a4b286",
+        scope: "carv_id_basic_read email_basic_read evm_address_basic_read",
+        redirect_url: "https://carv-id-dev.carv.io/auth/landing",
+      };
+      const encodeStartParams = HexUtils.jsonEncode({
+        theme: this.theme,
+        authParams: JSON.stringify(authConfig),
+      });
       window.open(
-        `${MapUrl[this.env].TELEGRAM_APP_URL}?startapp=theme=${this.theme}&scope=${data.scope}&state=${data.state}`
+        `${MapUrl[this.env].TELEGRAM_APP_URL}?startapp=${encodeStartParams}`
       );
       const newToken = Date.now().toString();
       sessionStorage.setItem("carv_id_token", newToken);
       this.token = newToken;
+
+      // TODO: 监听授权状态 - 通过轮询或者其他
       await sleep(2000);
       const res = { code: newToken, state: "first authenticate" };
       if (this.onSuccess) {
@@ -455,6 +476,7 @@ export class CarvId {
       }
       return res;
     } else {
+      // 已授权过，直接返回 token
       this.token = token;
       const res = { code: token, state: "authenticate from cache" };
       if (this.onSuccess) {
