@@ -88,9 +88,7 @@ export class CarvIdWidget extends LitElement {
   private elBtn: HTMLElement | null = null;
   private config = defaultCarvIdWidgetOptions;
   private draggie: any; // 拖拽实例
-  // @ts-ignore
-  private isDragging = false; // 是否正在拖动
-  // @ts-ignore
+  private isDragging = false; // 是否正在拖
   private position: I_PositionInfo = {
     x: 0,
     y: 0,
@@ -430,7 +428,7 @@ export class CarvId {
         theme: this.theme,
         ...(options?.widgetOptions || {}),
         carvIdInstance: this,
-        entryUrl: `${MapUrl[env].TELEGRAM_APP_URL}?theme=${this.theme}`,
+        entryUrl: `${MapUrl[env].TELEGRAM_APP_URL}?startapp=theme=${this.theme}`,
       };
       document.body.appendChild(carvId);
     }
