@@ -1,15 +1,12 @@
 {
   "name": "@carvid/core",
-  "version": "0.0.1",
-  "exports": {
-    "./carv-id": "./src/module/carv-id.ts"
-  },
+  "version": "0.0.0",
+  "license": "MIT",
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
-  "license": "MIT",
-  "publishConfig": {
-    "access": "public"
+  "exports": {
+    ".": "./src/module/carv-id.ts"
   },
   "scripts": {
     "dev": "tsup --watch",
@@ -17,6 +14,10 @@
     "publish": "npm publish",
     "lint": "eslint \"**/*.ts\""
   },
+  "files": [
+    "dist",
+    "package.json"
+  ],
   "devDependencies": {
     "@carvid/eslint-config": "workspace:*",
     "@carvid/typescript-config": "workspace:*",

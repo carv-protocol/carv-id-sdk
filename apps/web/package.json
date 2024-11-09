@@ -13,10 +13,11 @@
     "lint": "eslint \"src/**/*.ts\""
   },
   "dependencies": {
+    "@carvid/assets": "workspace:*",
     "@carvid/core": "workspace:*",
     "@carvid/utils": "workspace:*",
-    "@carvid/assets": "workspace:*",
-    "lit": "^3.2.0"
+    "lit": "^3.2.0",
+    "testcarvid": "^0.0.1"
   },
   "devDependencies": {
     "@carvid/eslint-config": "workspace:*",

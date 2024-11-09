@@ -26,6 +26,8 @@
     "build-storybook": "storybook build"
   },
   "devDependencies": {
+    "@aws-sdk/client-s3": "^3.521.0",
+    "@aws-sdk/credential-providers": "^3.521.0",
     "@chromatic-com/storybook": "^1.9.0",
     "@storybook/addon-essentials": "^8.3.6",
     "@storybook/addon-links": "^8.3.6",
@@ -38,6 +40,10 @@
     "changeset": "^0.2.6",
     "eslint": "^8.57.0",
     "eslint-plugin-storybook": "^0.10.1",
+    "glob": "^10.3.10",
+    "chalk": "4.1.2",
+    "mime-types": "^2.1.35",
+    "yargs": "^17.7.2",
     "prettier": "^3.2.5",
     "storybook": "^8.3.6",
     "ts-lit-plugin": "^2.0.2",

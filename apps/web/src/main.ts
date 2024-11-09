@@ -1,17 +1,20 @@
 import "./style.css";
 
-import {
-  CarvId,
-  Enum_Env,
-  Enum_CarvIdTheme,
-  Enum_CarvIdIconPlacement,
-} from "@carvid/core/carv-id";
+// 本地包
 // import {
 //   CarvId,
 //   Enum_Env,
 //   Enum_CarvIdTheme,
 //   Enum_CarvIdIconPlacement,
 // } from "@carvid/core";
+
+// NPM 线上包
+import {
+  CarvId,
+  Enum_Env,
+  Enum_CarvIdTheme,
+  Enum_CarvIdIconPlacement,
+} from "testcarvid";
 
 window.onload = () => {
   const elButton = document.querySelector(
