@@ -49,7 +49,7 @@ import {
   Enum_Env,
   Enum_CarvIdTheme,
   Enum_CarvIdIconPlacement,
-} from "@carvid/core/carv-id";
+} from "@carvid/core";
 
 window.onload =function()=>{
    // 初始化 CarvId 实例
