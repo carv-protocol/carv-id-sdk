@@ -261,19 +261,19 @@ export class CarvIdWidget extends LitElement {
   handleClick() {
     // @ts-ignore
     const carvIdInstance = this.config.carvIdInstance!;
-    if (carvIdInstance.token) {
-      alert("已授权");
-      window.open(this.config.entryUrl, "_blank");
-    } else {
-      carvIdInstance
-        .authenticateUser({
-          scope: "widget-trigger-authenticateUser",
-          state: "67890",
-        })
-        .then((res: I_AuthenticateUser) => {
-          console.log("res-widget-trigger-authenticateUser", res);
-        });
-    }
+    // if (carvIdInstance.token) {
+    //   alert("已授权");
+    //   window.open(this.config.entryUrl, "_blank");
+    // } else {
+    carvIdInstance
+      .authenticateUser({
+        scope: "widget-trigger-authenticateUser",
+        state: "67890",
+      })
+      .then((res: I_AuthenticateUser) => {
+        console.log("res-widget-trigger-authenticateUser", res);
+      });
+    // }
   }
   // 销毁
   destroy() {
@@ -460,7 +460,7 @@ export class CarvId {
         client_secret:
           "871cc95ca5a54866492bb052e0d487799e21a5c5896b7cd2ecbe813876a4b286",
         scope: "carv_id_basic_read email_basic_read evm_address_basic_read",
-        redirect_url: `${MapUrl[this.env].CARV_ID_HOST}/auth/landing`, // https://carv-id-dev.carv.io/auth/landing
+        redirect_uri: `${MapUrl[this.env].CARV_ID_HOST}/auth/landing`, // https://carv-id-dev.carv.io/auth/landing
       };
       const encodeStartParams = HexUtils.jsonEncode({
         theme: this.theme,
