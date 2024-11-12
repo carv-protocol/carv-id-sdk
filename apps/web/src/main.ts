@@ -1,20 +1,21 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import "./style.css";
 
 // 本地包
-// import {
-//   CarvId,
-//   Enum_Env,
-//   Enum_CarvIdTheme,
-//   Enum_CarvIdIconPlacement,
-// } from "@carvid/core";
-
-// NPM 线上包
 import {
   CarvId,
   Enum_Env,
   Enum_CarvIdTheme,
   Enum_CarvIdIconPlacement,
-} from "testcarvid";
+} from "@carvid/core";
+
+// NPM 线上包
+// import {
+//   CarvId,
+//   Enum_Env,
+//   Enum_CarvIdTheme,
+//   Enum_CarvIdIconPlacement,
+// } from "testcarvid";
 
 window.onload = () => {
   const elButton = document.querySelector(
@@ -40,7 +41,7 @@ window.onload = () => {
       // watchResize: false,
       // rememberPosition: false,
     },
-    onLoad: (data) => {
+    onLoad: (data: any) => {
       console.log("onLoad", data);
       if (data.token) {
         elButton.innerHTML = "Authorized";
@@ -52,7 +53,7 @@ window.onload = () => {
         );
       }
     },
-    onSuccess: (data) => {
+    onSuccess: (data: any) => {
       console.log("onSuccess", data);
       elButton.innerHTML = "Authorized";
       elButton.setAttribute("disabled", "true");
@@ -64,7 +65,7 @@ window.onload = () => {
   elButton.addEventListener("click", () => {
     console.log(CarvIdInstance, "CarvIdInstance");
     CarvIdInstance.authenticateUser({ scope: "profile", state: "1234" }).then(
-      (res) => {
+      (res: any) => {
         console.log(res, "res-authenticateUser");
         elButton.innerHTML = "Authorized";
         elButton.setAttribute("disabled", "true");
