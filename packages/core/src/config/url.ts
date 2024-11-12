@@ -2,10 +2,12 @@ import { Enum_Env } from "../enum/env";
 
 export const MapUrl = {
   [Enum_Env.DEV]: {
-    TELEGRAM_BOT_URL: "https://t.me/carv_identity_bot",
+    CARV_ID_HOST: "https://carv-id-dev.carv.io",
+    TELEGRAM_BOT_URL: "https://t.me/carv_identity_dev_bot",
     TELEGRAM_APP_URL: "https://t.me/carv_identity_dev_bot/carv_id",
   },
   [Enum_Env.PROD]: {
+    CARV_ID_HOST: "https://carv-id.carv.io",
     TELEGRAM_BOT_URL: "https://t.me/carv_identity_bot",
     TELEGRAM_APP_URL: "https://t.me/carv_identity_bot/carv_id",
   },

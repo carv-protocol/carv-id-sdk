@@ -432,7 +432,7 @@ export class CarvId {
     if (options?.showWidget) {
       const carvId = document.createElement("carv-id-widget") as CarvIdWidget;
       carvId.options = {
-        env: env,
+        env,
         theme: this.theme,
         ...(options?.widgetOptions || {}),
         carvIdInstance: this,
@@ -460,7 +460,7 @@ export class CarvId {
         client_secret:
           "871cc95ca5a54866492bb052e0d487799e21a5c5896b7cd2ecbe813876a4b286",
         scope: "carv_id_basic_read email_basic_read evm_address_basic_read",
-        redirect_url: "https://carv-id-dev.carv.io/auth/landing",
+        redirect_url: `${MapUrl[this.env].CARV_ID_HOST}/auth/landing`, // https://carv-id-dev.carv.io/auth/landing
       };
       const encodeStartParams = HexUtils.jsonEncode({
         theme: this.theme,
