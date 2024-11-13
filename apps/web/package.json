@@ -9,6 +9,7 @@
     "dev:prod": "vite --clearScreen false --mode prod",
     "build": "tsc && vite build --mode dev",
     "build:prod": "tsc && vite build --mode prod",
+    "uploadS3": "ts-node ../../.github/scripts/uploadS3.ts",
     "preview": "vite preview",
     "lint": "eslint \"src/**/*.ts\""
   },
