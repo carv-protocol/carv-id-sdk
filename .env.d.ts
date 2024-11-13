@@ -11,7 +11,9 @@ interface ImportMeta {
 }
 
 declare global {
-  interface Window {}
+  interface Window {
+    Telegram?: any;
+  }
 }
 
 export {};

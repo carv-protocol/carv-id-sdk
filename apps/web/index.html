@@ -5,6 +5,7 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CARV ID demo</title>
+    <script defer src="https://telegram.org/js/telegram-web-app.js"></script>
     <!-- <% if(NODE_ENV==='production' && APP_ENV==='dev' ){ %> -->
     <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
     <script>
@@ -16,6 +17,15 @@
       window.onload = function () {
         const instance = new CarvIdSDK.CarvId({
           showWidget: true,
+          authorizeConfig: {
+            client_id: "0a17299349c4b3e57bc8c25581b01bd0ec80c279",
+            client_secret:
+              "871cc95ca5a54866492bb052e0d487799e21a5c5896b7cd2ecbe813876a4b286",
+            response_type: "code",
+            state: "test app state",
+            scope: "carv_id_basic_read email_basic_read evm_address_basic_read",
+            redirect_uri: "https://t.me/BabyChinBot/carv_id_demo",
+          },
         });
         console.log(instance, "CarvID initialized");
       };

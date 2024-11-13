@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { LitElement, html, css } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { sleep } from "@carvid/utils/common";
 import { IconCARVID } from "../config/file";
 import { MapUrl } from "../config/url";
 import { throttle } from "lodash-es";
@@ -27,24 +26,30 @@ export enum Enum_CarvIdIconPlacement {
   BOTTOM_LEFT = "bottom-left",
   BOTTOM_RIGHT = "bottom-right",
 }
-
+export interface I_CarvIdAuthorizeConfig {
+  client_id: string;
+  client_secret: string;
+  response_type: string;
+  state: string;
+  scope: string;
+  redirect_uri: string;
+}
+export interface I_AuthenticateResponse {
+  code: string;
+  state: string;
+  // token?: string;
+  message?: string;
+}
 export interface I_CarvIdOptions {
   env?: Enum_Env;
   theme?: Enum_CarvIdTheme;
   showWidget?: boolean;
   widgetOptions?: I_CarvIdWidgetOptions;
+  authorizeConfig: I_CarvIdAuthorizeConfig;
   onLoad?: (data: CarvId) => void;
-  onSuccess?: (data: I_AuthenticateUser) => void;
+  onAuthSuccess?: (data: I_AuthenticateResponse) => void;
+  onAuthFailed?: (data: I_AuthenticateResponse) => void;
 }
-export interface I_AuthenticateUserArgs {
-  scope: string;
-  state: string;
-}
-export interface I_AuthenticateUser {
-  code: string;
-  state: string;
-}
-
 export interface I_CarvIdWidgetOptions {
   env?: Enum_Env;
   theme?: Enum_CarvIdTheme;
@@ -89,7 +94,7 @@ export class CarvIdWidget extends LitElement {
   private elBtn: HTMLElement | null = null;
   private config = defaultCarvIdWidgetOptions;
   private draggie: any; // 拖拽实例
-  private isDragging = false; // 是否正在拖
+  private isDragging: boolean = false; // 是否正在拖
   private position: I_PositionInfo = {
     x: 0,
     y: 0,
@@ -257,22 +262,24 @@ export class CarvIdWidget extends LitElement {
       direction: newDirection,
     };
   }
-  // 点击按钮
+  // 点击悬浮图标
   handleClick() {
     // @ts-ignore
-    const carvIdInstance = this.config.carvIdInstance!;
-    // if (carvIdInstance.token) {
-    //   alert("已授权");
-    //   window.open(this.config.entryUrl, "_blank");
+    // const carvIdInstance = this.config.carvIdInstance!;
+    // if (carvIdInstance.getToken()) {
+    //   alert("已授权，直接打开 Identity 页面");
+    window.open(this.config.entryUrl, "_blank");
     // } else {
-    carvIdInstance
-      .authenticateUser({
-        scope: "widget-trigger-authenticateUser",
-        state: "67890",
-      })
-      .then((res: I_AuthenticateUser) => {
-        console.log("res-widget-trigger-authenticateUser", res);
-      });
+    //   alert("未授权，携带授权参数到 CARVID bot 去授权");
+    //   carvIdInstance.authenticateUser({
+    //     client_id: "0a17299349c4b3e57bc8c25581b01bd0ec80c279",
+    //     client_secret:
+    //       "871cc95ca5a54866492bb052e0d487799e21a5c5896b7cd2ecbe813876a4b286",
+    //     scope: "carv_id_basic_read email_basic_read evm_address_basic_read",
+    //     response_type: "code",
+    //     state: "test app state",
+    //     redirect_uri: "https://t.me/BabyChinBot/carv_id_demo",
+    //   });
     // }
   }
   // 销毁
@@ -403,28 +410,28 @@ export class CarvIdWidget extends LitElement {
 export class CarvId {
   env: Enum_Env;
   theme: Enum_CarvIdTheme;
-  token: string;
+  // token: string;
   entryUrl: string;
-  onSuccess?: (data: I_AuthenticateUser) => void;
+  authorizeConfig: I_CarvIdAuthorizeConfig;
+  onAuthSuccess?: (data: I_AuthenticateResponse) => void;
+  onAuthFailed?: (data: I_AuthenticateResponse) => void;
 
-  constructor(options?: I_CarvIdOptions) {
+  constructor(options: I_CarvIdOptions) {
     const env = options?.env || Enum_Env.DEV;
     this.env = env;
     this.theme = options?.theme || Enum_CarvIdTheme.LIGHT;
-    this.onSuccess = options?.onSuccess;
+    this.authorizeConfig = options.authorizeConfig;
+    this.onAuthSuccess = options?.onAuthSuccess;
+    this.onAuthFailed = options?.onAuthFailed;
 
-    // this.token = "";
-    // 从 sessionStorage 中获取 token
-    const token = sessionStorage.getItem("carv_id_token") || "";
-    this.token = token;
+    // 从本地获取 token
+    // this.token = this.getToken();
 
     const encodeStartParams = HexUtils.jsonEncode({
       theme: this.theme,
-      page: "identity",
-      token,
     });
-    this.entryUrl = `${MapUrl[this.env].TELEGRAM_APP_URL}?startapp=${encodeStartParams}`;
 
+    this.entryUrl = `${MapUrl[this.env].TELEGRAM_APP_URL}?startapp=${encodeStartParams}`;
     this.authenticateUser = this.authenticateUser.bind(this);
     this.handleAuthCallback = this.handleAuthCallback.bind(this);
     this.openIdentityPage = this.openIdentityPage.bind(this);
@@ -436,11 +443,7 @@ export class CarvId {
         theme: this.theme,
         ...(options?.widgetOptions || {}),
         carvIdInstance: this,
-        entryUrl: `${MapUrl[env].TELEGRAM_APP_URL}?startapp=${HexUtils.jsonEncode(
-          {
-            theme: this.theme,
-          }
-        )}`,
+        entryUrl: this.entryUrl,
       };
       document.body.appendChild(carvId);
     }
@@ -449,51 +452,57 @@ export class CarvId {
       options.onLoad(this);
     }
   }
+  private getToken() {
+    return localStorage.getItem("carv_id_token") || "";
+  }
 
-  async authenticateUser(data: I_AuthenticateUserArgs) {
-    console.log(data, "authenticateUser", MapUrl[this.env].TELEGRAM_APP_URL);
-    const token = sessionStorage.getItem("carv_id_token");
-    if (!token) {
-      // 没授权过，打开授权页面
-      const authConfig = {
-        client_id: "0a17299349c4b3e57bc8c25581b01bd0ec80c279",
-        client_secret:
-          "871cc95ca5a54866492bb052e0d487799e21a5c5896b7cd2ecbe813876a4b286",
-        scope: "carv_id_basic_read email_basic_read evm_address_basic_read",
-        redirect_uri: `${MapUrl[this.env].CARV_ID_HOST}/auth/landing`, // https://carv-id-dev.carv.io/auth/landing
-      };
-      const encodeStartParams = HexUtils.jsonEncode({
-        theme: this.theme,
-        authParams: JSON.stringify(authConfig),
-      });
-      window.open(
-        `${MapUrl[this.env].TELEGRAM_APP_URL}?startapp=${encodeStartParams}`
-      );
-      const newToken = Date.now().toString();
-      sessionStorage.setItem("carv_id_token", newToken);
-      this.token = newToken;
-
-      // TODO: 监听授权状态 - 通过轮询或者其他
-      await sleep(2000);
-      const res = { code: newToken, state: "first authenticate" };
-      if (this.onSuccess) {
-        this.onSuccess(res);
+  // CARVID 授权流程
+  async authenticateUser() {
+    if (!this.authorizeConfig) {
+      console.error("authorizeConfig is required");
+      return;
+    }
+    // const token = this.getToken();
+    // if (!token) {
+    const encodeStartParams = HexUtils.jsonEncode({
+      theme: this.theme,
+      authParams: JSON.stringify(this.authorizeConfig),
+    });
+    window.open(
+      `${MapUrl[this.env].TELEGRAM_APP_URL}?startapp=${encodeStartParams}`
+    );
+    // } else {
+    //   // 已授权过，直接返回 token
+    //   this.token = token;
+    //   const res = { code: token, state: "authenticate from cache" };
+    //   if (this.onAuthSuccess) {
+    //     this.onAuthSuccess(res);
+    //   }
+    // }
+  }
+  async handleAuthCallback(
+    startParam: string
+  ): Promise<I_AuthenticateResponse> {
+    console.log("handleAuthCallback >>> ", startParam);
+    const { code, state } = HexUtils.jsonDecode(startParam);
+    if (state === "success") {
+      const result = { code, state: "success" };
+      // localStorage.setItem("carv_id_token", result.token);
+      // this.token = token;
+      if (this.onAuthSuccess) {
+        this.onAuthSuccess(result);
       }
-      return res;
+      return result;
     } else {
-      // 已授权过，直接返回 token
-      this.token = token;
-      const res = { code: token, state: "authenticate from cache" };
-      if (this.onSuccess) {
-        this.onSuccess(res);
+      const result = { code, state: "failed", message: "Authorization failed" };
+      // localStorage.removeItem("carv_id_token");
+      if (this.onAuthFailed) {
+        this.onAuthFailed(result);
       }
-      return res;
+      return result;
     }
   }
-  handleAuthCallback(startParam: string): I_AuthenticateUser {
-    console.log("authorize callback", startParam);
-    return { code: "12345", state: "callback" };
-  }
+  // 打开 CARVID Bot 的首页，进去也会检查授权状态
   async openIdentityPage(user_id: string) {
     if (!user_id) {
       throw new Error("user_id is required");
