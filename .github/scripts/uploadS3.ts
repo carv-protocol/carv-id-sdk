@@ -138,7 +138,7 @@ async function main() {
   const argv = yargs(process.argv.slice(2))
     .options({
       env: { choices: ["dev", "prod"], demandOption: true },
-      project: { type: "string", default: false },
+      project: { type: "string", default: "" },
       sha: { type: "string", default: "" },
       onlyOutput: { type: "boolean", default: false },
       useLocalS3: { type: "boolean", default: false },
