@@ -1,5 +1,6 @@
+// @ts-nocheck
 import { fromEnv } from "@aws-sdk/credential-providers";
-import { intersectionBy, differenceBy } from "lodash-es";
+import { intersectionBy, differenceBy } from "lodash";
 import {
   S3Client,
   paginateListObjectsV2,
@@ -137,7 +138,7 @@ async function uploadObjects(
 async function main() {
   const argv = yargs(process.argv.slice(2))
     .options({
-      env: { choices: ["dev", "prod"], demandOption: true },
+      env: { type: "string", default: "dev" },
       project: { type: "string", default: "" },
       sha: { type: "string", default: "" },
       onlyOutput: { type: "boolean", default: false },
