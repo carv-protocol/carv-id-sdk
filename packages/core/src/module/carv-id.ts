@@ -93,8 +93,8 @@ export class CarvIdWidget extends LitElement {
   private elBtn: HTMLElement | null = null;
   private config = defaultCarvIdWidgetOptions;
   private draggie: any; // 拖拽实例
-  private isDragging: boolean = false; // 是否正在拖
-  private position: I_PositionInfo = {
+  isDragging: boolean = false; // 是否正在拖
+  position: I_PositionInfo = {
     x: 0,
     y: 0,
     direction: Enum_CarvIdIconDirection.RIGHT,
@@ -339,6 +339,7 @@ export class CarvIdWidget extends LitElement {
           event.stopPropagation();
           // console.log(event, pointer, "dragStart");
           this.isDragging = true;
+          console.log(this.elBtn, "dragStart");
           this.elBtn!.style.cursor = "move";
         }
       );
@@ -371,6 +372,7 @@ export class CarvIdWidget extends LitElement {
         }
       );
       this.draggie.on("staticClick", (event: Event) => {
+        console.log("staticClick", this.isDragging);
         event.stopPropagation();
         this.handleClick();
       });
