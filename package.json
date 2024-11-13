@@ -40,6 +40,7 @@
     "@types/node": "^22.7.9",
     "changeset": "^0.2.6",
     "eslint": "^8.57.0",
+    "ts-node": "^10.9.2",
     "eslint-plugin-storybook": "^0.10.1",
     "glob": "^10.3.10",
     "chalk": "4.1.2",
