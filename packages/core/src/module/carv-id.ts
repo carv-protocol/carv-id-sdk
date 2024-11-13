@@ -35,9 +35,8 @@ export interface I_CarvIdAuthorizeConfig {
   redirect_uri: string;
 }
 export interface I_AuthenticateResponse {
-  code: string;
+  code?: string;
   state: string;
-  // token?: string;
   message?: string;
 }
 export interface I_CarvIdOptions {
@@ -265,22 +264,14 @@ export class CarvIdWidget extends LitElement {
   // 点击悬浮图标
   handleClick() {
     // @ts-ignore
-    // const carvIdInstance = this.config.carvIdInstance!;
-    // if (carvIdInstance.getToken()) {
-    //   alert("已授权，直接打开 Identity 页面");
-    window.open(this.config.entryUrl, "_blank");
-    // } else {
-    //   alert("未授权，携带授权参数到 CARVID bot 去授权");
-    //   carvIdInstance.authenticateUser({
-    //     client_id: "0a17299349c4b3e57bc8c25581b01bd0ec80c279",
-    //     client_secret:
-    //       "871cc95ca5a54866492bb052e0d487799e21a5c5896b7cd2ecbe813876a4b286",
-    //     scope: "carv_id_basic_read email_basic_read evm_address_basic_read",
-    //     response_type: "code",
-    //     state: "test app state",
-    //     redirect_uri: "https://t.me/BabyChinBot/carv_id_demo",
-    //   });
-    // }
+    const carvIdInstance = this.config.carvIdInstance!;
+    if (carvIdInstance.getAuthCode()) {
+      alert("已授权，直接打开 Identity 页面");
+      window.open(this.config.entryUrl, "_blank");
+    } else {
+      alert("未授权，携带授权参数到 CARVID bot 去授权");
+      carvIdInstance.authenticateUser();
+    }
   }
   // 销毁
   destroy() {
@@ -410,7 +401,7 @@ export class CarvIdWidget extends LitElement {
 export class CarvId {
   env: Enum_Env;
   theme: Enum_CarvIdTheme;
-  // token: string;
+  authCode: string;
   entryUrl: string;
   authorizeConfig: I_CarvIdAuthorizeConfig;
   onAuthSuccess?: (data: I_AuthenticateResponse) => void;
@@ -424,8 +415,8 @@ export class CarvId {
     this.onAuthSuccess = options?.onAuthSuccess;
     this.onAuthFailed = options?.onAuthFailed;
 
-    // 从本地获取 token
-    // this.token = this.getToken();
+    // 从本地获取 authCode
+    this.authCode = this.getAuthCode();
 
     const encodeStartParams = HexUtils.jsonEncode({
       theme: this.theme,
@@ -452,8 +443,8 @@ export class CarvId {
       options.onLoad(this);
     }
   }
-  private getToken() {
-    return localStorage.getItem("carv_id_token") || "";
+  private getAuthCode() {
+    return localStorage.getItem("carv_id_auth_code") || "";
   }
 
   // CARVID 授权流程
@@ -462,40 +453,40 @@ export class CarvId {
       console.error("authorizeConfig is required");
       return;
     }
-    // const token = this.getToken();
-    // if (!token) {
-    const encodeStartParams = HexUtils.jsonEncode({
-      theme: this.theme,
-      authParams: JSON.stringify(this.authorizeConfig),
-    });
-    window.open(
-      `${MapUrl[this.env].TELEGRAM_APP_URL}?startapp=${encodeStartParams}`
-    );
-    // } else {
-    //   // 已授权过，直接返回 token
-    //   this.token = token;
-    //   const res = { code: token, state: "authenticate from cache" };
-    //   if (this.onAuthSuccess) {
-    //     this.onAuthSuccess(res);
-    //   }
-    // }
+    const authCode = this.getAuthCode();
+    if (!authCode) {
+      const encodeStartParams = HexUtils.jsonEncode({
+        theme: this.theme,
+        authParams: JSON.stringify(this.authorizeConfig),
+      });
+      window.open(
+        `${MapUrl[this.env].TELEGRAM_APP_URL}?startapp=${encodeStartParams}`
+      );
+    } else {
+      // 已授权过，直接返回 authCode
+      this.authCode = authCode;
+      const res = { code: authCode, state: "authenticate from cache" };
+      if (this.onAuthSuccess) {
+        this.onAuthSuccess(res);
+      }
+    }
   }
   async handleAuthCallback(
     startParam: string
   ): Promise<I_AuthenticateResponse> {
     console.log("handleAuthCallback >>> ", startParam);
     const { code, state } = HexUtils.jsonDecode(startParam);
-    if (state === "success") {
-      const result = { code, state: "success" };
-      // localStorage.setItem("carv_id_token", result.token);
-      // this.token = token;
+    if (code) {
+      const result = { code, state, message: "success" };
+      localStorage.setItem("carv_id_auth_code", code);
+      this.authCode = code;
       if (this.onAuthSuccess) {
         this.onAuthSuccess(result);
       }
       return result;
     } else {
-      const result = { code, state: "failed", message: "Authorization failed" };
-      // localStorage.removeItem("carv_id_token");
+      const result = { state, message: "Authorization failed" };
+      localStorage.removeItem("carv_id_auth_code");
       if (this.onAuthFailed) {
         this.onAuthFailed(result);
       }

@@ -13,6 +13,7 @@ interface ImportMeta {
 declare global {
   interface Window {
     Telegram?: any;
+    TelegramWebviewProxy?: any;
   }
 }
 

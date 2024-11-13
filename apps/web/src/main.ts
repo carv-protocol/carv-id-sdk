@@ -55,24 +55,24 @@ window.onload = () => {
     authorizeConfig,
     onLoad: (data) => {
       console.log("onLoad", data);
-      if (data.token) {
+      if (data.authCode) {
         elButton.innerHTML = "Authorized";
         elButton.setAttribute("disabled", "true");
         elResult.textContent = JSON.stringify(
-          { code: data.token, state: "authenticate from cache" },
+          { code: data.authCode, state: "authenticate from cache" },
           null,
           2
         );
       }
     },
     onAuthSuccess: (res) => {
-      console.log("onSuccess", res);
+      console.log("onAuthSuccess", res);
       elButton.innerHTML = "Authorized";
       elButton.setAttribute("disabled", "true");
       elResult.textContent = JSON.stringify(res, null, 2);
     },
     onAuthFailed: (res) => {
-      console.log("onSuccess", res);
+      console.log("onAuthFailed", res);
       elButton.innerHTML = "Authorize failed";
       elButton.setAttribute("disabled", "false");
       elResult.textContent = JSON.stringify(res, null, 2);
