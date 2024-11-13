@@ -23,7 +23,8 @@
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "uploadS3": "ts-node ./.github/scripts/uploadS3.ts"
   },
   "devDependencies": {
     "@aws-sdk/client-s3": "^3.521.0",

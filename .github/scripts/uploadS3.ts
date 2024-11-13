@@ -137,29 +137,9 @@ async function uploadObjects(
 async function main() {
   const argv = yargs(process.argv.slice(2))
     .options({
-      env: { choices: ["dev", "uat", "prod"], demandOption: true },
-      project: {
-        choices: [
-          "auth",
-          "landing",
-          "play",
-          "portal",
-          "protocol",
-          "verifier",
-          "explorer",
-          "alphanetExplorer",
-          "explorerClient",
-          "binanceAirdrop",
-          "binanceBind",
-          "staking",
-          "airdrop",
-          "sybil",
-          "carvid",
-        ],
-        demandOption: true,
-      },
+      env: { choices: ["dev", "prod"], demandOption: true },
+      project: { type: "string", default: false },
       sha: { type: "string", default: "" },
-      invalidAll: { type: "string", default: "false" },
       onlyOutput: { type: "boolean", default: false },
       useLocalS3: { type: "boolean", default: false },
     })
