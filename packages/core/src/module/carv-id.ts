@@ -70,6 +70,7 @@ export interface I_PositionInfo {
 }
 
 const FLAG_CARV_ID_BTN_POSITION = "carv_id_btn_position";
+const FLAG_CARV_ID_AUTH_CODE = "carv_id_auth_code";
 
 const defaultCarvIdWidgetOptions = {
   env: Enum_Env.DEV,
@@ -428,6 +429,7 @@ export class CarvId {
     this.authenticateUser = this.authenticateUser.bind(this);
     this.handleAuthCallback = this.handleAuthCallback.bind(this);
     this.openIdentityPage = this.openIdentityPage.bind(this);
+    this.destroy = this.destroy.bind(this);
 
     if (options?.showWidget) {
       const carvId = document.createElement("carv-id-widget") as CarvIdWidget;
@@ -446,7 +448,7 @@ export class CarvId {
     }
   }
   private getAuthCode() {
-    return localStorage.getItem("carv_id_auth_code") || "";
+    return localStorage.getItem(FLAG_CARV_ID_AUTH_CODE) || "";
   }
 
   // CARVID 授权流程
@@ -480,7 +482,7 @@ export class CarvId {
     const { code, state } = HexUtils.jsonDecode(startParam);
     if (code) {
       const result = { code, state, message: "success" };
-      localStorage.setItem("carv_id_auth_code", code);
+      localStorage.setItem(FLAG_CARV_ID_AUTH_CODE, code);
       this.authCode = code;
       if (this.onAuthSuccess) {
         this.onAuthSuccess(result);
@@ -488,7 +490,7 @@ export class CarvId {
       return result;
     } else {
       const result = { state, message: "Authorization failed" };
-      localStorage.removeItem("carv_id_auth_code");
+      localStorage.removeItem(FLAG_CARV_ID_AUTH_CODE);
       if (this.onAuthFailed) {
         this.onAuthFailed(result);
       }
@@ -502,5 +504,13 @@ export class CarvId {
     }
 
     window.open(this.entryUrl, "_blank");
+  }
+
+  // 销毁
+  destroy() {
+    const elWidget = document.querySelector("carv-id-widget") as HTMLElement;
+    if (!elWidget) return;
+
+    elWidget.parentNode?.removeChild(elWidget);
   }
 }

@@ -43,7 +43,29 @@ This Turborepo has some additional tools already setup for you:
 
 ### Usage
 
-```js
+#### UMD
+```html
+<script src="./src/dist/index.umd.js" defer></script>
+<script>
+ window.onload = function () {
+  const instance = new CarvIdSDK.CarvId({
+    showWidget: true,
+    authorizeConfig: {
+      client_id: "0a17299349c4b3e57bc8c25581b01bd0ec80c279",
+      client_secret:
+        "871cc95ca5a54866492bb052e0d487799e21a5c5896b7cd2ecbe813876a4b286",
+      response_type: "code",
+      state: "test app state",
+      scope: "carv_id_basic_read email_basic_read evm_address_basic_read",
+      redirect_uri: "https://t.me/BabyChinBot/carv_id_demo",
+    },
+  });
+  console.log(instance, "CarvID initialized");
+    </script>
+```
+
+#### ES Module
+```ts
 import {
   CarvId,
   Enum_Env,
