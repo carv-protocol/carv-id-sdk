@@ -24,20 +24,20 @@ interface LocalFile {
 
 const config: any = {
   dist: {
-    carvIdDemo: "../../apps/web/dist",
+    carvIdSDKDemo: "../../apps/carvid-sdk-demo/dist",
   },
   oldDist: {
-    carvIdDemo: "../../apps/web/dist-old",
+    carvIdSDKDemo: "../../apps/carvid-sdk-demo/dist-old",
   },
   project: {
     dev: {
       bucket: {
-        carvIdDemo: "carv-id-test",
+        carvIdSDKDemo: "carv-id-test",
       },
     },
     prod: {
       bucket: {
-        carvIdDemo: "carv-id-test",
+        carvIdSDKDemo: "carv-id-test",
       },
     },
   },

@@ -60,4 +60,4 @@ jobs:
 
       - name: Upload files to S3
         shell: bash
-        run: pnpm run uploadS3 --project carvIdDemo --env dev --sha ${{ github.sha }}
+        run: pnpm run uploadS3 --project carvIdSDKDemo --env dev --sha ${{ github.sha }}
