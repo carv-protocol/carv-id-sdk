@@ -81,7 +81,67 @@ window.onload = function() => {
 
 <br/>
 
-## 🧿 What's inside?
+## 🛠️ Options
+
+```typescript
+new CarvId(Options: I_CarvIdOptions)
+```
+
+#### 1、I_CarvIdOptions
+
+```typescript
+interface I_CarvIdOptions {
+  env?: Enum_Env;
+  theme?: Enum_CarvIdTheme;
+  showWidget?: boolean;
+  widgetOptions?: I_CarvIdWidgetOptions;
+  authorizeConfig: I_CarvIdAuthorizeConfig;
+  onLoad?: (data: CarvId) => void;
+  onAuthSuccess?: (data: I_AuthenticateResponse) => void;
+  onAuthFailed?: (data: I_AuthenticateResponse) => void;
+}
+```
+
+| Field            | Description                                            | Type                                   | Default                |
+| ---------------- | ------------------------------------------------------ | -------------------------------------- | ---------------------- |
+| env              | Environment                                            | Enum_Env                               | Enum_Env.DEV           |
+| theme            | Theme mode                                             | Enum_CarvIdTheme                       | Enum_CarvIdTheme.LIGHT |
+| showWidget       | Show widget icon                                       | Boolean                                | false                  |
+| widgetOptions    | Widget options                                         | I_CarvIdWidgetOptions                  | undefined              |
+| authorizeConfig  | Configuration for authorization                        | I_CarvIdAuthorizeConfig                | undefined              |
+| onLoad           | Callback that triggered after SDK initialized          | (data: CarvId) => void                 | undefined              |
+| onAuthSuccess    | Callback that triggered after authorization successful | (data: I_AuthenticateResponse) => void | undefined              |
+| onAuthFailed     | Callback that triggered after authorization failed     | (data: I_AuthenticateResponse) => void | undefined              |
+
+#### 2、I_CarvIdWidgetOptions
+
+``` typescript
+interface I_CarvIdWidgetOptions {
+  theme?: Enum_CarvIdTheme;
+  size?: string;
+  className?: string;
+  draggable?: boolean;
+  watchResize?: boolean;
+  rememberPosition?: boolean;
+  placement?: Enum_CarvIdIconPlacement;
+  offset?: I_CarvIdIconPlacementOffset;
+}
+```
+
+| Field            | Description                     | Type                        | Default                                      |
+| ---------------- | ------------------------------- | --------------------------- | -------------------------------------------- |
+| theme            | Theme mode                      | Enum_CarvIdTheme            | Enum_CarvIdTheme.LIGHT                       |
+| size             | Icon size                       | String                      | "48px"                                       |
+| placement        | Icon placement                  | Enum_CarvIdIconPlacement    | Enum_CarvIdIconPlacement.BOTTOM_RIGHT        |
+| offset           | The offset config for placement | I_CarvIdIconPlacementOffset | { left: 20, right: 20, top: 40, bottom: 60 } |
+| className        | The class name of widget        | String                      | ""                                           |
+| draggable        | Enable drag interaction         | Boolean                     | true                                         |
+| watchResize      | Watch the resize event          | Boolean                     | true                                         |
+| rememberPosition | Remember icon position          | Boolean                     | true                                         |
+
+<br/>
+
+## 🧿 Turborepo
 
 This project generated from a [Turborepo](https://turbo.build/repo/docs) starter. Run the following command to init a new project:
 
@@ -91,11 +151,11 @@ npx create-turbo@latest -e with-vite
 
 And this project includes the following packages and apps:
 
-#### Apps
+#### - Apps
 
 - `carv-id-sdk-demo`: used for testing SDK
 
-#### Packages
+#### - Packages
 
 - `docs`: a vanilla [vite](https://vitejs.dev) ts app
 - `web`: another vanilla [vite](https://vitejs.dev) ts app
@@ -106,7 +166,7 @@ And this project includes the following packages and apps:
 
 <br/>
 
-### 🦴 Utilities
+### 🦴 Utils
 
 This Turborepo has some additional tools already setup for you:
 

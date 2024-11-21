@@ -42,6 +42,12 @@ export interface I_AuthenticateResponse {
   state: string;
   message?: string;
 }
+export interface I_CarvIdIconPlacementOffset {
+  left?: number;
+  right?: number;
+  top?: number;
+  bottom?: number;
+}
 export interface I_CarvIdOptions {
   env?: Enum_Env;
   theme?: Enum_CarvIdTheme;
@@ -64,7 +70,7 @@ export interface I_CarvIdWidgetOptions {
   carvIdInstance?: CarvId;
   entryUrl?: string;
   placement?: Enum_CarvIdIconPlacement;
-  offset?: { left?: number; right?: number; top?: number; bottom?: number };
+  offset?: I_CarvIdIconPlacementOffset;
 }
 export interface I_PositionInfo {
   x: number;
@@ -441,15 +447,17 @@ export class CarvId {
     this.destroy = this.destroy.bind(this);
 
     if (options?.showWidget) {
-      const carvId = document.createElement("carv-id-widget") as CarvIdWidget;
-      carvId.options = {
+      const carvIdNode = document.createElement(
+        "carv-id-widget"
+      ) as CarvIdWidget;
+      carvIdNode.options = {
         env,
         theme: this.theme,
         ...(options?.widgetOptions || {}),
         carvIdInstance: this,
         entryUrl: this.entryUrl,
       };
-      document.body.appendChild(carvId);
+      document.body.appendChild(carvIdNode);
     }
 
     if (options?.onLoad) {
