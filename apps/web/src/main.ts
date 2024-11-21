@@ -215,7 +215,7 @@ document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
       <textarea id="config" rows="10"></textarea>
     </div>
     <div class="btn-col">
-      <button id="btn-initialize">🕹️ Initialize SDK</button>
+      <button id="btn-initialize">🕹️ Initialize</button>
       <button disabled id="btn-authorize">🔑 Authorize</button>
       <button id="btn-reset">↪️ Reset</button>
     </div>
@@ -225,8 +225,8 @@ document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
     </div>
     <div class="box-col status-box">
       <h3>🟡 SDK Status</h3>
-      <p id="sdk-version"></p>
       <p id="sdk-status">Not active</p>
+      <p id="sdk-version"></p>
     </div>
     <div class="box-col result-box">
       <h3>🟡 Authorize Result</h3>
