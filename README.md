@@ -15,17 +15,7 @@ The SDK for CARV ID ecosystem.
 
 <br/>
 
-
-## 🧿 Turborepo
-
-This project generated from a [Turborepo](https://turbo.build/repo/docs) starter. Run the following command to init a new project:
-
-```bash
-npx create-turbo@latest -e with-vite
-```
-<br/>
-
-## 🔩 Configurations
+## 📒 Configurations
 
 -  carv-id-demo（Telegram demo）: [https://t.me/BabyChinBot/carv_id_demo](https://t.me/BabyChinBot/carv_id_demo)
 -  carv-id-dev (carv-id-app@dev): [https://t.me/carv_identity_dev_bot/carv_id](https://t.me/carv_identity_dev_bot/carv_id)
@@ -91,11 +81,21 @@ window.onload = function() => {
 
 <br/>
 
-## 💠 What's inside?
+## 🧿 What's inside?
 
-This Turborepo includes the following packages and apps:
+This project generated from a [Turborepo](https://turbo.build/repo/docs) starter. Run the following command to init a new project:
 
-### Apps and Packages
+```bash
+npx create-turbo@latest -e with-vite
+```
+
+And this project includes the following packages and apps:
+
+#### Apps
+
+- `carvId-sdk-demo`: used for testing SDK
+
+#### Packages
 
 - `docs`: a vanilla [vite](https://vitejs.dev) ts app
 - `web`: another vanilla [vite](https://vitejs.dev) ts app
@@ -104,7 +104,7 @@ This Turborepo includes the following packages and apps:
 - `@carvid/eslint-config`: shared `eslint` configurations
 - `@carvid/typescript-config`: `tsconfig.json`s used throughout the monorepo
 
-Each package and app is 100% [TypeScript](https://www.typescriptlang.org/).
+<br/>
 
 ### 🦴 Utilities
 
