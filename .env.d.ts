@@ -14,6 +14,7 @@ declare global {
   interface Window {
     Telegram?: any;
     TelegramWebviewProxy?: any;
+    CarvIdInstance?: any;
   }
 }
 

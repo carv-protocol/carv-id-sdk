@@ -1,6 +1,6 @@
 import { LitElement, html, css } from "lit";
 // import { customElement, property } from "lit/decorators.js";
-//localhost:5173/carv_id.svg
+
 class AuthPage extends LitElement {
   static styles = css`
     .container {

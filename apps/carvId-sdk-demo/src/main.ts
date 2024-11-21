@@ -137,6 +137,9 @@ const initSDK = () => {
     // 初始化 CarvId 实例
     CarvIdInstance = new CarvId(config);
 
+    // @ts-ignore
+    window.CarvIdInstance = CarvIdInstance;
+
     console.log("CarvIdInstance >>> ", CarvIdInstance);
 
     // 设置 SDK 状态
@@ -193,6 +196,8 @@ const initSDK = () => {
 
     if (CarvIdInstance) {
       CarvIdInstance.destroy();
+      // @ts-ignore
+      window.CarvIdInstance = null;
     }
     localStorage.clear();
     sessionStorage.clear();
