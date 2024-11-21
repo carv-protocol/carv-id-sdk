@@ -57,7 +57,7 @@ const initSDK = () => {
   const elStartParams = document.querySelector(
     "#start-params"
   ) as HTMLPreElement;
-  const elResult = document.querySelector("#result") as HTMLPreElement;
+  const elAuthorizeResult = document.querySelector("#result") as HTMLPreElement;
 
   const CONFIG_STORE_KEY = "carv_id_demo_config";
 
@@ -96,18 +96,14 @@ const initSDK = () => {
     },
     authorizeConfig,
     onLoad: (data: any) => {
-      console.log(data.authCode, "authCode");
       console.log("onLoad", data);
-      // elBtnInitialize.innerText = "Initialized";
-      // elBtnInitialize.setAttribute("disabled", "true");
-
       elBtnAuthorize.innerText = "Authorize";
       elBtnAuthorize.removeAttribute("disabled");
 
       if (data.authCode) {
         elBtnAuthorize.innerText = "Authorized";
         elBtnAuthorize.setAttribute("disabled", "true");
-        elResult.innerHTML = JSON.stringify(
+        elAuthorizeResult.innerHTML = JSON.stringify(
           { code: data.authCode, state: "authenticate from cache" },
           null,
           2
@@ -118,13 +114,13 @@ const initSDK = () => {
       console.log("onAuthSuccess", res);
       elBtnAuthorize.innerText = "Authorized";
       elBtnAuthorize.setAttribute("disabled", "true");
-      elResult.innerHTML = JSON.stringify(res, null, 2);
+      elAuthorizeResult.innerHTML = JSON.stringify(res, null, 2);
     },
     onAuthFailed: (res: any) => {
       console.log("onAuthFailed", res);
       elBtnAuthorize.innerText = "Authorize failed";
       elBtnAuthorize.setAttribute("disabled", "false");
-      elResult.innerHTML = JSON.stringify(res, null, 2);
+      elAuthorizeResult.innerHTML = JSON.stringify(res, null, 2);
     },
   };
 
@@ -147,7 +143,7 @@ const initSDK = () => {
     elVersion.innerText = `Version: ${CarvId.version}`;
     elStatus.innerText = CarvIdInstance
       ? `Initialized${fromLocal ? " (from last configuration)" : ""}`
-      : "Initialize Failed";
+      : "Initialization Failed";
 
     // 保存当前配置，以便下次初始化时使用
     localStorage.setItem(CONFIG_STORE_KEY, JSON.stringify(config));
@@ -156,7 +152,7 @@ const initSDK = () => {
     if (CarvIdInstance.authCode) {
       elBtnAuthorize.innerText = "Authorized";
       elBtnAuthorize.setAttribute("disabled", "true");
-      elResult.innerHTML = JSON.stringify(
+      elAuthorizeResult.innerHTML = JSON.stringify(
         { code: CarvIdInstance.authCode, state: "authenticate from cache" },
         null,
         2
@@ -168,7 +164,6 @@ const initSDK = () => {
 
     // 点击 Authorize 按钮触发 authenticateUser 方法
     elBtnAuthorize.addEventListener("click", () => {
-      console.log(CarvIdInstance, "CarvIdInstance");
       CarvIdInstance.authenticateUser();
     });
 
@@ -176,9 +171,14 @@ const initSDK = () => {
     if (startParam) {
       CarvIdInstance.handleAuthCallback(startParam).then((res) => {
         console.log(res, "handleAuthCallback");
+        if (res.code) {
+          elBtnAuthorize.innerText = "Authorized";
+          elBtnAuthorize.setAttribute("disabled", "true");
+          elAuthorizeResult.innerHTML = JSON.stringify(res, null, 2);
+        }
       });
     }
-    console.log(CarvIdInstance, "CarvIdInstance");
+
     return CarvIdInstance;
   };
 
@@ -187,12 +187,15 @@ const initSDK = () => {
     elBtnAuthorize.setAttribute("disabled", "true");
     elConfig.value = JSON.stringify(config, null, 2);
     elStatus.innerText = "Not active";
-    elResult.innerHTML = "";
+    elAuthorizeResult.innerHTML = "";
+
+    window.history.pushState(null, "", location.origin);
 
     if (CarvIdInstance) {
       CarvIdInstance.destroy();
     }
     localStorage.clear();
+    sessionStorage.clear();
   };
 
   // 设置 StartParams 参数
