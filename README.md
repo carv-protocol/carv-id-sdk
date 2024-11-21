@@ -11,7 +11,7 @@ The SDK for CARV ID ecosystem.
 
 ## Demo
 
- - <a href="https://carv-id-test.carv.io/">CARV ID SDK Demo</a>
+ - <a target="_blank" href="https://carv-id-test.carv.io/">CARV ID SDK Demo</a>
 
 <br/>
 
