@@ -1,7 +1,17 @@
-# CARV ID SDK
+<p align="center">
+  <img src="./stories/assets/carv_id.svg" style="width:100px;" alt="CARV ID logo" />
+</p>
+<h1 align="center">CARV ID SDK</h1>
+
 
 The SDK for CARV ID ecosystem.
 
+- CARV ID SDK
+- CARV ID SDK Widget
+
+## Demo
+
+ - [CARV ID SDK Demo](https://carv-id-test.carv.io/)
 
 ## Turborepo
 
@@ -60,8 +70,8 @@ This Turborepo has some additional tools already setup for you:
       redirect_uri: "https://t.me/BabyChinBot/carv_id_demo",
     },
   });
-  console.log(instance, "CarvID initialized");
-    </script>
+  console.log(instance, "CarvID SDK initialized");
+</script>
 ```
 
 #### ES Module
@@ -86,8 +96,11 @@ window.onload =function()=>{
     onLoad: (data) => {
       console.log("onLoad", data);
     },
-    onSuccess: (data) => {
-      console.log("onSuccess", data);
+    onAuthSuccess: (data) => {
+      console.log("onAuthSuccess", data);
+    },,
+    onAuthFailed: (data) => {
+      console.log("onAuthFailed", data);
     },
   });
 }
