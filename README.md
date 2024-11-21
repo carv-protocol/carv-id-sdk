@@ -15,7 +15,7 @@ The SDK for CARV ID ecosystem.
 
 <br/>
 
-## 📒 Configurations
+## 📒 Memo
 
 -  carv-id-demo（Telegram demo）: [https://t.me/BabyChinBot/carv_id_demo](https://t.me/BabyChinBot/carv_id_demo)
 -  carv-id-dev (carv-id-app@dev): [https://t.me/carv_identity_dev_bot/carv_id](https://t.me/carv_identity_dev_bot/carv_id)
@@ -27,7 +27,7 @@ The SDK for CARV ID ecosystem.
 
 #### 1、UMD
 ```html
-<script src="./src/dist/index.umd.js" defer></script>
+<script src="carv-id-sdk.umd.js" defer></script>
 
 <script>
  window.onload = function () {
