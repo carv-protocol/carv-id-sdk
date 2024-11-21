@@ -1,23 +1,44 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import "./style.css";
 
-// 本地包
 import {
   CarvId,
   Enum_Env,
   Enum_CarvIdTheme,
   Enum_CarvIdIconPlacement,
   I_CarvIdOptions,
-} from "@carvid/core";
+} from "@carvid/core"; //  从工作区引入（本地测试）
+// } from "testcarvid"; // 从 NPM 包引入（NPM 包测试）
 
-// NPM 线上包
-// import {
-//   CarvId,
-//   Enum_Env,
-//   Enum_CarvIdTheme,
-//   Enum_CarvIdIconPlacement,
-// } from "testcarvid";
+document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
+  <div class="container">
+    <h1 class="title">CARV ID SDK <span>Demo</span></h1>
+    <div class="box-col config-box">
+      <h3>🟢 SDK Config&nbsp;&nbsp;<a href="https://github.com/carv-protocol/carv-id-sdk/blob/main/README.md" target="_blank">📋 Documentation</a></h3>
+      <textarea id="config" rows="10"></textarea>
+    </div>
+    <div class="btn-col">
+      <button id="btn-initialize">🕹️ Initialize</button>
+      <button disabled id="btn-authorize">🔑 Authorize</button>
+      <button id="btn-reset">↪️ Reset</button>
+    </div>
+    <div class="box-col params-box">
+      <h3>🔵 Start Params</h3>
+      <pre id="start-params"></pre>
+    </div>
+    <div class="box-col status-box">
+      <h3>🟡 SDK Status</h3>
+      <p id="sdk-status">Not active</p>
+      <p id="sdk-version"></p>
+    </div>
+    <div class="box-col result-box">
+      <h3>🟡 Authorize Result</h3>
+      <pre id="result"></pre>
+    </div>
+  </div>
+`;
 
+// 初始化 SDK
 const initSDK = () => {
   const elBtnInitialize = document.querySelector(
     "#btn-initialize"
@@ -167,23 +188,23 @@ const initSDK = () => {
     elConfig.value = JSON.stringify(config, null, 2);
     elStatus.innerText = "Not active";
     elResult.innerHTML = "";
+
     if (CarvIdInstance) {
       CarvIdInstance.destroy();
     }
     localStorage.clear();
   };
 
-  // 从 localStorage 获取上一次的配置
-  const localConfig = JSON.parse(
-    localStorage.getItem(CONFIG_STORE_KEY) || "null"
-  );
-
-  elConfig.value = JSON.stringify(localConfig || config, null, 2);
-
   // 设置 StartParams 参数
   elStartParams.innerHTML = startParam
     ? JSON.stringify(CarvId.utils.HexUtils.jsonDecode(startParam), null, 2)
     : "";
+
+  // 从 localStorage 获取上一次的配置
+  const localConfig = JSON.parse(
+    localStorage.getItem(CONFIG_STORE_KEY) || "null"
+  );
+  elConfig.value = JSON.stringify(localConfig || config, null, 2);
 
   if (localConfig) {
     init(localConfig, true);
@@ -194,7 +215,7 @@ const initSDK = () => {
     const config = JSON.parse(elConfig.value);
 
     if (!config) {
-      console.log("config is not valid");
+      console.log("Configuration is not valid");
       return;
     }
     init(config);
@@ -206,31 +227,3 @@ const initSDK = () => {
 window.onload = () => {
   initSDK();
 };
-
-document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
-  <div class="container">
-    <h1 class="title">CARV ID SDK <span>Demo</span></h1>
-    <div class="box-col config-box">
-      <h3>🟢 SDK Config&nbsp;&nbsp;<a href="https://github.com/carv-protocol/carv-id-sdk/blob/main/README.md" target="_blank">📋 Documentation</a></h3>
-      <textarea id="config" rows="10"></textarea>
-    </div>
-    <div class="btn-col">
-      <button id="btn-initialize">🕹️ Initialize</button>
-      <button disabled id="btn-authorize">🔑 Authorize</button>
-      <button id="btn-reset">↪️ Reset</button>
-    </div>
-    <div class="box-col params-box">
-      <h3>🔵 Start Params</h3>
-      <pre id="start-params"></pre>
-    </div>
-    <div class="box-col status-box">
-      <h3>🟡 SDK Status</h3>
-      <p id="sdk-status">Not active</p>
-      <p id="sdk-version"></p>
-    </div>
-    <div class="box-col result-box">
-      <h3>🟡 Authorize Result</h3>
-      <pre id="result"></pre>
-    </div>
-  </div>
-`;
