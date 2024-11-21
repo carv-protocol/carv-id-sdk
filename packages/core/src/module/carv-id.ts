@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { LitElement, html, css } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { IconCARVID } from "../config/file";
@@ -98,6 +97,7 @@ export class CarvIdWidget extends LitElement {
 
   private elBtn: HTMLElement | null = null;
   private config = defaultCarvIdWidgetOptions;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private draggie: any; // 拖拽实例
   isDragging: boolean = false; // 是否正在拖
   position: I_PositionInfo = {
@@ -105,7 +105,8 @@ export class CarvIdWidget extends LitElement {
     y: 0,
     direction: Enum_CarvIdIconDirection.RIGHT,
   }; // 图标当前位置信息
-  private resizeHandler: any; // 窗口大小变化事件处理函数
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private resizeHandler?: (e: any) => void; // 窗口大小变化事件处理函数
 
   static styles = css`
     :host {
