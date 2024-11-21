@@ -93,7 +93,7 @@ And this project includes the following packages and apps:
 
 #### Apps
 
-- `carvId-sdk-demo`: used for testing SDK
+- `carv-id-sdk-demo`: used for testing SDK
 
 #### Packages
 

@@ -100,7 +100,7 @@ importers:
         specifier: ^17.7.2
         version: 17.7.2
 
-  apps/carvId-sdk-demo:
+  apps/carv-id-sdk-demo:
     dependencies:
       '@carvid/assets':
         specifier: workspace:*
