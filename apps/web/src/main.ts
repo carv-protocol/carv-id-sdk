@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import "./style.css";
-
 import {
   CarvId,
   Enum_Env,
@@ -28,8 +26,10 @@ document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
     </div>
     <div class="box-col status-box">
       <h3>🟡 SDK Status</h3>
-      <p id="sdk-status">Not active</p>
-      <p id="sdk-version"></p>
+      <div class="box-pre">
+        <p id="sdk-status">❗Not active</p>
+        <p id="sdk-version"></p>
+      </div>
     </div>
     <div class="box-col result-box">
       <h3>🟡 Authorize Result</h3>
@@ -78,7 +78,7 @@ const initSDK = () => {
     redirect_uri: "https://t.me/BabyChinBot/carv_id_demo",
   };
 
-  const config = {
+  const config: I_CarvIdOptions = {
     // @ts-ignore
     env: import.meta.env.VITE_APP_ENV === "dev" ? Enum_Env.DEV : Enum_Env.PROD,
     theme: Enum_CarvIdTheme.LIGHT,
@@ -95,7 +95,7 @@ const initSDK = () => {
       // rememberPosition: false,
     },
     authorizeConfig,
-    onLoad: (data: any) => {
+    onLoad: (data) => {
       console.log("onLoad", data);
       elBtnAuthorize.innerText = "Authorize";
       elBtnAuthorize.removeAttribute("disabled");
@@ -110,13 +110,13 @@ const initSDK = () => {
         );
       }
     },
-    onAuthSuccess: (res: any) => {
+    onAuthSuccess: (res) => {
       console.log("onAuthSuccess", res);
       elBtnAuthorize.innerText = "Authorized";
       elBtnAuthorize.setAttribute("disabled", "true");
       elAuthorizeResult.innerHTML = JSON.stringify(res, null, 2);
     },
-    onAuthFailed: (res: any) => {
+    onAuthFailed: (res) => {
       console.log("onAuthFailed", res);
       elBtnAuthorize.innerText = "Authorize failed";
       elBtnAuthorize.setAttribute("disabled", "false");
@@ -142,8 +142,8 @@ const initSDK = () => {
     // 设置 SDK 状态
     elVersion.innerText = `Version: ${CarvId.version}`;
     elStatus.innerText = CarvIdInstance
-      ? `Initialized${fromLocal ? " (from last configuration)" : ""}`
-      : "Initialization Failed";
+      ? `👌 Initialized${fromLocal ? " (from last configuration)" : ""}`
+      : "❗Initialization Failed";
 
     // 保存当前配置，以便下次初始化时使用
     localStorage.setItem(CONFIG_STORE_KEY, JSON.stringify(config));
@@ -186,9 +186,9 @@ const initSDK = () => {
     elBtnAuthorize.innerText = "🔑 Authorize";
     elBtnAuthorize.setAttribute("disabled", "true");
     elConfig.value = JSON.stringify(config, null, 2);
-    elStatus.innerText = "Not active";
+    elStatus.innerText = "❗Not active";
+    elVersion.innerText = "";
     elAuthorizeResult.innerHTML = "";
-
     window.history.pushState(null, "", location.origin);
 
     if (CarvIdInstance) {

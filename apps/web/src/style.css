@@ -80,7 +80,7 @@ button[disabled] {
     height: 250px;
     transform: rotate(-16deg);
     filter: grayscale(0.3);
-    background: url(/carv_id.svg) no-repeat center;
+    background: url(./carv_id.svg) no-repeat center;
     background-size: 100% 100%;
     z-index: 0;
   }
@@ -90,6 +90,7 @@ button[disabled] {
   width: 100%;
   display: flex;
   min-height: 100%;
+  padding-bottom: 50px;
   flex-direction: column;
   justify-content: center;
 
@@ -120,6 +121,20 @@ button[disabled] {
       margin-bottom: 1rem;
       font-size: 1rem;
       font-weight: 600;
+    }
+    .box-pre {
+      display: block;
+      width: 100%;
+      overflow: auto;
+      padding: 12px 16px;
+      line-height: 1.4;
+      word-break: break-all;
+      font-size: 12px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.07);
+      p {
+        margin: 0;
+      }
     }
   }
 
