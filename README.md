@@ -9,7 +9,7 @@ The SDK for CARV ID ecosystem.
 - CARV ID SDK
 - CARV ID SDK Widget
 
-## Demo
+## 🎾 Demo
 
  - [CARV ID SDK Demo](https://carv-id-test.carv.io/)
 
@@ -35,7 +35,7 @@ npx create-turbo@latest -e with-vite
 
 ## 💊 Usage
 
-### UMD
+#### 1、UMD
 ```html
 <script src="./src/dist/index.umd.js" defer></script>
 
@@ -57,7 +57,7 @@ npx create-turbo@latest -e with-vite
 </script>
 ```
 
-### ES Module
+#### 2、ES Module
 ```js
 import {
   CarvId,
