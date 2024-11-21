@@ -11,7 +11,7 @@ The SDK for CARV ID ecosystem.
 
 ## Demo
 
- - [CARV ID SDK Demo](https://carv-id-test.carv.io/)
+ - <a href="https://carv-id-test.carv.io/">CARV ID SDK Demo</a>
 
 ## Turborepo
 
