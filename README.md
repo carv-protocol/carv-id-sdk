@@ -166,7 +166,7 @@ And this project includes the following packages and apps:
 
 <br/>
 
-### 🦴 Utils
+## 🦴 Utils
 
 This Turborepo has some additional tools already setup for you:
 
