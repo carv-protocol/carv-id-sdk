@@ -6,6 +6,6 @@
     "tsup.config.ts"
   ],
   "compilerOptions": {
-    "rootDir": "./src"
+    "rootDir": "."
   }
 }
