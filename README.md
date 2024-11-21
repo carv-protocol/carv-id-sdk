@@ -87,7 +87,7 @@ window.onload = function() => {
 new CarvId(Options: I_CarvIdOptions)
 ```
 
-#### 1、I_CarvIdOptions
+#### 🔸 I_CarvIdOptions
 
 ```typescript
 interface I_CarvIdOptions {
@@ -113,7 +113,7 @@ interface I_CarvIdOptions {
 | onAuthSuccess    | Callback that triggered after authorization successful | (data: I_AuthenticateResponse) => void | undefined              |
 | onAuthFailed     | Callback that triggered after authorization failed     | (data: I_AuthenticateResponse) => void | undefined              |
 
-#### 2、I_CarvIdWidgetOptions
+#### 🔸 I_CarvIdWidgetOptions
 
 ``` typescript
 interface I_CarvIdWidgetOptions {
