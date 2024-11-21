@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import "./style.css";
-import { HexUtils } from "../../../packages/core/src/utils/index";
 
 // 本地包
 import {
