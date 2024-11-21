@@ -40,6 +40,7 @@ document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
 
 // 初始化 SDK
 const initSDK = () => {
+  const CONFIG_STORE_KEY = "carv_id_demo_config";
   const elBtnInitialize = document.querySelector(
     "#btn-initialize"
   ) as HTMLButtonElement;
@@ -58,8 +59,6 @@ const initSDK = () => {
     "#start-params"
   ) as HTMLPreElement;
   const elAuthorizeResult = document.querySelector("#result") as HTMLPreElement;
-
-  const CONFIG_STORE_KEY = "carv_id_demo_config";
 
   // @ts-ignore
   const tgapp = window?.Telegram?.WebApp;
