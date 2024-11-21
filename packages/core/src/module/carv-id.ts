@@ -26,6 +26,10 @@ export enum Enum_CarvIdIconPlacement {
   BOTTOM_LEFT = "bottom-left",
   BOTTOM_RIGHT = "bottom-right",
 }
+export enum Enum_CarvIdIntent {
+  AUTHORIZE = "authorize",
+  IDENTITY = "identity",
+}
 export interface I_CarvIdAuthorizeConfig {
   client_id: string;
   client_secret: string;
@@ -411,7 +415,7 @@ export class CarvId {
   onAuthFailed?: (data: I_AuthenticateResponse) => void;
 
   static utils = Utils;
-  static version = "1.0.0";
+  static version = "0.0.0"; // TODO: 更新版本号，和 package.json 一致
 
   constructor(options: I_CarvIdOptions) {
     const env = options?.env || Enum_Env.DEV;
@@ -426,6 +430,7 @@ export class CarvId {
 
     const encodeStartParams = Utils.HexUtils.jsonEncode({
       theme: this.theme,
+      intent: Enum_CarvIdIntent.IDENTITY,
     });
 
     this.entryUrl = `${MapUrl[this.env].TELEGRAM_APP_URL}?startapp=${encodeStartParams}`;
@@ -464,6 +469,7 @@ export class CarvId {
     if (!authCode) {
       const encodeStartParams = Utils.HexUtils.jsonEncode({
         theme: this.theme,
+        intent: Enum_CarvIdIntent.AUTHORIZE,
         authParams: JSON.stringify(this.authorizeConfig),
       });
       window.open(
@@ -517,6 +523,7 @@ export class CarvId {
 
     const elWidget = document.querySelector("carv-id-widget") as HTMLElement;
     if (!elWidget) return;
+
     elWidget.parentNode?.removeChild(elWidget);
   }
 }
