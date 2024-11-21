@@ -13,6 +13,9 @@ The SDK for CARV ID ecosystem.
 
  - <a href="https://carv-id-test.carv.io/">CARV ID SDK Demo</a>
 
+<br/>
+
+
 ## Turborepo
 
 This project generated from a [Turborepo](https://turbo.build/repo/docs) starter. Run the following command to init a new project:
@@ -20,6 +23,7 @@ This project generated from a [Turborepo](https://turbo.build/repo/docs) starter
 ```sh
 npx create-turbo@latest -e with-vite
 ```
+<br/>
 
 ## Configurations
 
@@ -27,6 +31,7 @@ npx create-turbo@latest -e with-vite
 -  carv-id-dev (测试环境 App): [https://t.me/carv_identity_dev_bot/carv_id](https://t.me/carv_identity_dev_bot/carv_id)
 -  carv-id（正式环境 App）: [https://t.me/carv_identity_bot/carv_id](https://t.me/carv_identity_bot/carv_id)
 
+<br/>
 
 ## What's inside?
 
@@ -51,11 +56,14 @@ This Turborepo has some additional tools already setup for you:
 - [ESLint](https://eslint.org/) for code linting
 - [Prettier](https://prettier.io) for code formatting
 
-### Usage
+<br/>
 
-#### UMD
+## Usage
+
+### UMD
 ```html
 <script src="./src/dist/index.umd.js" defer></script>
+
 <script>
  window.onload = function () {
   const instance = new CarvIdSDK.CarvId({
@@ -74,8 +82,8 @@ This Turborepo has some additional tools already setup for you:
 </script>
 ```
 
-#### ES Module
-```ts
+### ES Module
+```js
 import {
   CarvId,
   Enum_Env,
@@ -83,7 +91,7 @@ import {
   Enum_CarvIdIconPlacement,
 } from "@carvid/core";
 
-window.onload =function()=>{
+window.onload = function() => {
    // 初始化 CarvId 实例
   const CarvIdInstance = new CarvId({
     env: Enum_Env.DEV,
