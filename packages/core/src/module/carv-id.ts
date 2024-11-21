@@ -292,7 +292,7 @@ export class CarvIdWidget extends LitElement {
 
     if (this.config.watchResize && this.resizeHandler) {
       window.removeEventListener("resize", this.resizeHandler);
-      this.resizeHandler = null;
+      this.resizeHandler = undefined;
     }
   }
 

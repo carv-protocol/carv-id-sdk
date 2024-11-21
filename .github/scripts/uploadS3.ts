@@ -24,10 +24,10 @@ interface LocalFile {
 
 const config: any = {
   dist: {
-    carvIdSDKDemo: "../../apps/carvid-sdk-demo/dist",
+    carvIdSDKDemo: "../../apps/carvId-sdk-demo/dist",
   },
   oldDist: {
-    carvIdSDKDemo: "../../apps/carvid-sdk-demo/dist-old",
+    carvIdSDKDemo: "../../apps/carvId-sdk-demo/dist-old",
   },
   project: {
     dev: {
