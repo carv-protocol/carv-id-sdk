@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import "./style.css";
+import { HexUtils } from "../../../packages/core/src/utils/index";
 
 // 本地包
 import {
@@ -27,9 +28,24 @@ const initSDK = () => {
   ) as HTMLButtonElement;
   const elBtnReset = document.querySelector("#btn-reset") as HTMLButtonElement;
   const elConfig = document.querySelector("#config") as HTMLTextAreaElement;
+  const elVersion = document.querySelector(
+    "#sdk-version"
+  ) as HTMLParagraphElement;
+  const elStatus = document.querySelector(
+    "#sdk-status"
+  ) as HTMLParagraphElement;
+  const elStartParams = document.querySelector(
+    "#start-params"
+  ) as HTMLPreElement;
   const elResult = document.querySelector("#result") as HTMLPreElement;
 
   const CONFIG_STORE_KEY = "carv_id_demo_config";
+
+  // @ts-ignore
+  const tgapp = window?.Telegram?.WebApp;
+  const startParam = tgapp?.initDataUnsafe?.start_param;
+  console.log("url >> ", window.location.href);
+  console.log("startParam >> ", startParam);
 
   // 授权参数，接入方自行配置
   const authorizeConfig = {
@@ -94,21 +110,29 @@ const initSDK = () => {
 
   // 初始化 CarvId 实例
   let CarvIdInstance: CarvId;
-  const init = (config: I_CarvIdOptions) => {
-    // @ts-ignore
-    const tgapp = window?.Telegram?.WebApp;
-    const startParam = tgapp?.initDataUnsafe?.start_param;
-    console.log("url >> ", window.location.href);
-    console.log("startParam >> ", startParam);
-
+  const init = (config: I_CarvIdOptions, fromLocal = false) => {
+    // 初始化前先清除 localStorage 和 widget
+    localStorage.clear();
     const elWidget = document.querySelector("carv-id-widget");
     if (elWidget) {
       elWidget.parentNode?.removeChild(elWidget);
     }
 
+    // 初始化 CarvId 实例
     CarvIdInstance = new CarvId(config);
-    console.log(CarvIdInstance);
 
+    console.log("CarvIdInstance >>> ", CarvIdInstance);
+
+    // 设置 SDK 状态
+    elVersion.innerText = `Version: ${CarvId.version}`;
+    elStatus.innerText = CarvIdInstance
+      ? `Initialized${fromLocal ? " (from last configuration)" : ""}`
+      : "Initialize Failed";
+
+    // 保存当前配置，以便下次初始化时使用
+    localStorage.setItem(CONFIG_STORE_KEY, JSON.stringify(config));
+
+    // 检查授权状态
     if (CarvIdInstance.authCode) {
       elBtnAuthorize.innerText = "Authorized";
       elBtnAuthorize.setAttribute("disabled", "true");
@@ -121,8 +145,6 @@ const initSDK = () => {
       elBtnAuthorize.innerText = "🔑 Authorize";
       elBtnAuthorize.removeAttribute("disabled");
     }
-
-    localStorage.setItem(CONFIG_STORE_KEY, JSON.stringify(config)); // 保存配置
 
     // 点击 Authorize 按钮触发 authenticateUser 方法
     elBtnAuthorize.addEventListener("click", () => {
@@ -143,8 +165,9 @@ const initSDK = () => {
   const reset = () => {
     elBtnAuthorize.innerText = "🔑 Authorize";
     elBtnAuthorize.setAttribute("disabled", "true");
-    elResult.innerHTML = "";
     elConfig.value = JSON.stringify(config, null, 2);
+    elStatus.innerText = "Not active";
+    elResult.innerHTML = "";
     if (CarvIdInstance) {
       CarvIdInstance.destroy();
     }
@@ -158,8 +181,13 @@ const initSDK = () => {
 
   elConfig.value = JSON.stringify(localConfig || config, null, 2);
 
+  // 设置 StartParams 参数
+  elStartParams.innerHTML = startParam
+    ? JSON.stringify(CarvId.utils.HexUtils.jsonDecode(startParam), null, 2)
+    : "";
+
   if (localConfig) {
-    init(localConfig);
+    init(localConfig, true);
   }
 
   // 点击 Initialize 按钮触发初始化方法
@@ -189,8 +217,17 @@ document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
     </div>
     <div class="btn-col">
       <button id="btn-initialize">🕹️ Initialize SDK</button>
-      <button id="btn-authorize">🔑 Authorize</button>
+      <button disabled id="btn-authorize">🔑 Authorize</button>
       <button id="btn-reset">↪️ Reset</button>
+    </div>
+    <div class="box-col params-box">
+      <h3>🔵 Start Params</h3>
+      <pre id="start-params"></pre>
+    </div>
+    <div class="box-col status-box">
+      <h3>🟡 SDK Status</h3>
+      <p id="sdk-version"></p>
+      <p id="sdk-status">Not active</p>
     </div>
     <div class="box-col result-box">
       <h3>🟡 Authorize Result</h3>

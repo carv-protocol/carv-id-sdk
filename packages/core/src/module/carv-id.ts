@@ -4,7 +4,7 @@ import { customElement, property } from "lit/decorators.js";
 import { IconCARVID } from "../config/file";
 import { MapUrl } from "../config/url";
 import { throttle } from "lodash-es";
-import { HexUtils } from "../utils";
+import * as Utils from "../utils";
 
 export enum Enum_Env {
   DEV = "dev",
@@ -69,6 +69,7 @@ export interface I_PositionInfo {
   direction: Enum_CarvIdIconDirection;
 }
 
+const FLAG_CARV_ID_WINDOW_SIZE = "carv_id_window_size";
 const FLAG_CARV_ID_BTN_POSITION = "carv_id_btn_position";
 const FLAG_CARV_ID_AUTH_CODE = "carv_id_auth_code";
 
@@ -127,12 +128,12 @@ export class CarvIdWidget extends LitElement {
   setButtonStorageData(data: I_PositionInfo) {
     const { innerWidth, innerHeight } = window;
     localStorage.setItem(
-      FLAG_CARV_ID_BTN_POSITION,
-      `${data.x},${data.y},${data.direction},${this.config.placement}`
+      FLAG_CARV_ID_WINDOW_SIZE,
+      `${innerWidth},${innerHeight}`
     );
     localStorage.setItem(
-      FLAG_CARV_ID_BTN_POSITION + "_window",
-      `${innerWidth},${innerHeight}`
+      FLAG_CARV_ID_BTN_POSITION,
+      `${data.x},${data.y},${data.direction},${this.config.placement}`
     );
   }
   // 从本地存储中获取位置信息
@@ -145,9 +146,7 @@ export class CarvIdWidget extends LitElement {
       : [];
 
     // 获取本地存储的窗口大小信息
-    const localWindowSize = localStorage.getItem(
-      FLAG_CARV_ID_BTN_POSITION + "_window"
-    );
+    const localWindowSize = localStorage.getItem(FLAG_CARV_ID_WINDOW_SIZE);
     const res = localWindowSize ? localWindowSize.split(",") : [];
     const width = Number(res[0] || 0);
     const height = Number(res[1] || 0);
@@ -171,7 +170,7 @@ export class CarvIdWidget extends LitElement {
   }
   // 清除本地存储的位置信息
   clearButtonStorageData() {
-    localStorage.removeItem(FLAG_CARV_ID_BTN_POSITION + "_window");
+    localStorage.removeItem(FLAG_CARV_ID_WINDOW_SIZE);
     localStorage.removeItem(FLAG_CARV_ID_BTN_POSITION);
   }
   // 初始化按钮位置信息
@@ -276,6 +275,10 @@ export class CarvIdWidget extends LitElement {
   }
   // 销毁
   destroy() {
+    localStorage.removeItem(FLAG_CARV_ID_WINDOW_SIZE);
+    localStorage.removeItem(FLAG_CARV_ID_BTN_POSITION);
+    localStorage.removeItem(FLAG_CARV_ID_AUTH_CODE);
+
     if (!this.elBtn) return;
 
     this.draggie?.destroy();
@@ -296,7 +299,6 @@ export class CarvIdWidget extends LitElement {
       offset: Object.assign(this.config.offset, this.options?.offset || {}),
     });
     this.resizeHandler = throttle(() => {
-      console.log("resize");
       const { left, top, direction } = this.updatePosition(
         0,
         0,
@@ -340,7 +342,6 @@ export class CarvIdWidget extends LitElement {
           event.stopPropagation();
           // console.log(event, pointer, "dragStart");
           this.isDragging = true;
-          console.log(this.elBtn, "dragStart");
           this.elBtn!.style.cursor = "move";
         }
       );
@@ -373,7 +374,6 @@ export class CarvIdWidget extends LitElement {
         }
       );
       this.draggie.on("staticClick", (event: Event) => {
-        console.log("staticClick", this.isDragging);
         event.stopPropagation();
         this.handleClick();
       });
@@ -410,6 +410,9 @@ export class CarvId {
   onAuthSuccess?: (data: I_AuthenticateResponse) => void;
   onAuthFailed?: (data: I_AuthenticateResponse) => void;
 
+  static utils = Utils;
+  static version = "1.0.0";
+
   constructor(options: I_CarvIdOptions) {
     const env = options?.env || Enum_Env.DEV;
     this.env = env;
@@ -421,7 +424,7 @@ export class CarvId {
     // 从本地获取 authCode
     this.authCode = this.getAuthCode();
 
-    const encodeStartParams = HexUtils.jsonEncode({
+    const encodeStartParams = Utils.HexUtils.jsonEncode({
       theme: this.theme,
     });
 
@@ -459,7 +462,7 @@ export class CarvId {
     }
     const authCode = this.getAuthCode();
     if (!authCode) {
-      const encodeStartParams = HexUtils.jsonEncode({
+      const encodeStartParams = Utils.HexUtils.jsonEncode({
         theme: this.theme,
         authParams: JSON.stringify(this.authorizeConfig),
       });
@@ -479,7 +482,7 @@ export class CarvId {
     startParam: string
   ): Promise<I_AuthenticateResponse> {
     console.log("handleAuthCallback >>> ", startParam);
-    const { code, state } = HexUtils.jsonDecode(startParam);
+    const { code, state } = Utils.HexUtils.jsonDecode(startParam);
     if (code) {
       const result = { code, state, message: "success" };
       localStorage.setItem(FLAG_CARV_ID_AUTH_CODE, code);
@@ -508,9 +511,12 @@ export class CarvId {
 
   // 销毁
   destroy() {
+    localStorage.removeItem(FLAG_CARV_ID_WINDOW_SIZE);
+    localStorage.removeItem(FLAG_CARV_ID_BTN_POSITION);
+    localStorage.removeItem(FLAG_CARV_ID_AUTH_CODE);
+
     const elWidget = document.querySelector("carv-id-widget") as HTMLElement;
     if (!elWidget) return;
-
     elWidget.parentNode?.removeChild(elWidget);
   }
 }
