@@ -26,6 +26,7 @@ The SDK for CARV ID ecosystem.
 ## 💊 Usage
 
 #### 1、UMD
+
 ```html
 <script src="carv-id-sdk.umd.js" defer></script>
 
@@ -48,7 +49,8 @@ The SDK for CARV ID ecosystem.
 ```
 
 #### 2、ES Module
-```js
+
+```typescript
 import {
   CarvId,
   Enum_Env,

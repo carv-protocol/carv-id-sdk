@@ -78,9 +78,9 @@ export interface I_PositionInfo {
   direction: Enum_CarvIdIconDirection;
 }
 
-const FLAG_CARV_ID_WINDOW_SIZE = "carv_id_window_size";
-const FLAG_CARV_ID_BTN_POSITION = "carv_id_btn_position";
-const FLAG_CARV_ID_AUTH_CODE = "carv_id_auth_code";
+export const FLAG_CARV_ID_WINDOW_SIZE = "carv_id_window_size";
+export const FLAG_CARV_ID_BTN_POSITION = "carv_id_btn_position";
+export const FLAG_CARV_ID_AUTH_CODE = "carv_id_auth_code";
 
 const defaultCarvIdWidgetOptions = {
   env: Enum_Env.DEV,
@@ -425,9 +425,15 @@ export class CarvId {
   static version = "0.0.0"; // TODO: 更新版本号，和 package.json 一致
 
   constructor(options: I_CarvIdOptions) {
-    const env = options?.env || Enum_Env.DEV;
+    const env = [Enum_Env.DEV, Enum_Env.PROD].includes(options?.env as Enum_Env)
+      ? options.env!
+      : Enum_Env.DEV;
     this.env = env;
-    this.theme = options?.theme || Enum_CarvIdTheme.LIGHT;
+    this.theme = [Enum_CarvIdTheme.LIGHT, Enum_CarvIdTheme.DARK].includes(
+      options?.theme as Enum_CarvIdTheme
+    )
+      ? options.theme!
+      : Enum_CarvIdTheme.LIGHT;
     this.authorizeConfig = options.authorizeConfig;
     this.onAuthSuccess = options?.onAuthSuccess;
     this.onAuthFailed = options?.onAuthFailed;

@@ -83,15 +83,12 @@ const initSDK = () => {
     theme: Enum_CarvIdTheme.LIGHT,
     showWidget: true,
     widgetOptions: {
-      // icon: '',
-      className: "my-carv-id-widget",
       size: "50px",
+      rememberPosition: false,
       placement: Enum_CarvIdIconPlacement.BOTTOM_RIGHT,
       offset: {
         bottom: 80,
       },
-      // watchResize: false,
-      // rememberPosition: false,
     },
     authorizeConfig,
     onLoad: (data) => {
@@ -126,8 +123,7 @@ const initSDK = () => {
   // 初始化 CarvId 实例
   let CarvIdInstance: CarvId;
   const init = (config: I_CarvIdOptions, fromLocal = false) => {
-    // 初始化前先清除 localStorage 和 widget
-    localStorage.clear();
+    // 初始化前先清除旧的 widget
     const elWidget = document.querySelector("carv-id-widget");
     if (elWidget) {
       elWidget.parentNode?.removeChild(elWidget);
