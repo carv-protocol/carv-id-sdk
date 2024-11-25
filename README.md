@@ -32,7 +32,7 @@ The SDK for CARV ID ecosystem.
 
 <script>
  window.onload = function () {
-  const instance = new CarvIdSDK.CarvId({
+  const CarvIdInstance = new CarvIdSDK.CarvId({
     showWidget: true,
     authorizeConfig: {
       client_id: "0a17299349c4b3e57bc8c25581b01bd0ec80c279",
@@ -42,9 +42,10 @@ The SDK for CARV ID ecosystem.
       state: "test app state",
       scope: "carv_id_basic_read email_basic_read evm_address_basic_read",
       redirect_uri: "https://t.me/BabyChinBot/carv_id_demo",
-    },
+    }
   });
-  console.log(instance, "CarvID SDK initialized");
+  console.log(CarvIdInstance, "CarvID SDK initialized");
+}
 </script>
 ```
 
@@ -59,7 +60,6 @@ import {
 } from "@carv-id-sdk";
 
 window.onload = function() => {
-   // 初始化 CarvId 实例
   const CarvIdInstance = new CarvId({
     env: Enum_Env.DEV,
     theme: Enum_CarvIdTheme.LIGHT,
@@ -73,11 +73,12 @@ window.onload = function() => {
     },
     onAuthSuccess: (data) => {
       console.log("onAuthSuccess", data);
-    },,
+    },
     onAuthFailed: (data) => {
       console.log("onAuthFailed", data);
-    },
+    }
   });
+  console.log(CarvIdInstance, "CarvID SDK initialized");
 }
 ```
 
