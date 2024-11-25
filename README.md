@@ -41,7 +41,7 @@ The SDK for CARV ID ecosystem.
       response_type: "code",
       state: "test app state",
       scope: "carv_id_basic_read email_basic_read evm_address_basic_read",
-      redirect_uri: "https://t.me/BabyChinBot/carv_id_demo",
+      redirect_uri: "https://t.me/BabyChinBot/carv_id_demo"
     }
   });
   console.log(CarvIdInstance, "CarvID SDK initialized");
@@ -66,7 +66,7 @@ window.onload = function() => {
     showWidget: true,
     widgetOptions: {
       size: "60px",
-      placement: Enum_CarvIdIconPlacement.BOTTOM_RIGHT,
+      placement: Enum_CarvIdIconPlacement.BOTTOM_RIGHT
     },
     onLoad: (data) => {
       console.log("onLoad", data);
