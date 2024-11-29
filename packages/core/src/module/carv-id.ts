@@ -38,7 +38,7 @@ export interface I_CarvIdAuthorizeConfig {
   redirect_uri: string;
 }
 export interface I_AuthenticateResponse {
-  code?: string;
+  code: string;
   state: string;
   message?: string;
 }
@@ -277,10 +277,12 @@ export class CarvIdWidget extends LitElement {
     // @ts-ignore
     const carvIdInstance = this.config.carvIdInstance!;
     if (carvIdInstance.getAuthCode()) {
-      alert("已授权，直接打开 Identity 页面");
+      alert("Authorized, open Identity page directly");
       window.open(this.config.entryUrl, "_blank");
     } else {
-      alert("未授权，携带授权参数到 CARVID bot 去授权");
+      alert(
+        "Unauthorized, bring authorization parameters to the CARVID bot for authorization"
+      );
       carvIdInstance.authenticateUser();
     }
   }
@@ -499,13 +501,13 @@ export class CarvId {
       }
     }
   }
-  async handleAuthCallback(
-    startParam: string
-  ): Promise<I_AuthenticateResponse> {
-    console.log("handleAuthCallback >>> ", startParam);
+  async handleAuthCallback(): Promise<I_AuthenticateResponse> {
+    // @ts-ignore
+    const tgapp = window?.Telegram?.WebApp;
+    const startParam = tgapp?.initDataUnsafe?.start_param;
     const { code, state } = Utils.HexUtils.jsonDecode(startParam);
     if (code) {
-      const result = { code, state, message: "success" };
+      const result = { code, state, message: "Authorization success" };
       localStorage.setItem(FLAG_CARV_ID_AUTH_CODE, code);
       this.authCode = code;
       if (this.onAuthSuccess) {
@@ -513,7 +515,7 @@ export class CarvId {
       }
       return result;
     } else {
-      const result = { state, message: "Authorization failed" };
+      const result = { code, state, message: "Authorization failed" };
       localStorage.removeItem(FLAG_CARV_ID_AUTH_CODE);
       if (this.onAuthFailed) {
         this.onAuthFailed(result);

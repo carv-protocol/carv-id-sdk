@@ -17,7 +17,8 @@
     "@carvid/core": "workspace:*",
     "@carvid/utils": "workspace:*",
     "lit": "^3.2.0",
-    "testcarvid": "^0.0.1"
+    "testcarvid": "^0.0.1",
+    "toastify-js": "^1.12.0"
   },
   "devDependencies": {
     "@carvid/eslint-config": "workspace:*",

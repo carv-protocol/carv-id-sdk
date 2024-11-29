@@ -7,6 +7,20 @@ import {
   I_CarvIdOptions,
 } from "@carvid/core"; //  从工作区引入（本地测试）
 // } from "testcarvid"; // 从 NPM 包引入（NPM 包测试）
+import Toastify from "toastify-js";
+import "toastify-js/src/toastify.css";
+
+const showToast = (text: string, duration = 2500) => {
+  Toastify({
+    text,
+    duration,
+    position: "center",
+    style: {
+      background: "linear-gradient(to right, #00b09b, #96c93d)",
+      borderRadius: "8px",
+    },
+  }).showToast();
+};
 
 document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
   <div class="container">
@@ -135,6 +149,7 @@ const initSDK = () => {
     // @ts-ignore
     window.CarvIdInstance = CarvIdInstance;
 
+    !fromLocal && showToast("👌🏻 SDK Initialized");
     console.log("CarvIdInstance >>> ", CarvIdInstance);
 
     // 设置 SDK 状态
@@ -166,16 +181,15 @@ const initSDK = () => {
     });
 
     // 触发授权回调
-    if (startParam) {
-      CarvIdInstance.handleAuthCallback(startParam).then((res) => {
-        console.log(res, "handleAuthCallback");
-        if (res.code) {
-          elBtnAuthorize.innerText = "Authorized";
-          elBtnAuthorize.setAttribute("disabled", "true");
-          elAuthorizeResult.innerHTML = JSON.stringify(res, null, 2);
-        }
-      });
-    }
+    CarvIdInstance.handleAuthCallback().then((res) => {
+      console.log(res, "handleAuthCallback");
+      if (res.code) {
+        showToast("Authorize success");
+        // elBtnAuthorize.innerText = "Authorized";
+        // elBtnAuthorize.setAttribute("disabled", "true");
+        // elAuthorizeResult.innerHTML = JSON.stringify(res, null, 2);
+      }
+    });
 
     return CarvIdInstance;
   };
@@ -196,12 +210,13 @@ const initSDK = () => {
     }
     localStorage.clear();
     sessionStorage.clear();
+    showToast("🔄 Reset Success");
   };
 
   // 设置 StartParams 参数
-  elStartParams.innerHTML = startParam
-    ? JSON.stringify(CarvId.utils.HexUtils.jsonDecode(startParam), null, 2)
-    : "";
+  // elStartParams.innerHTML = startParam
+  //   ? JSON.stringify(CarvId.utils.HexUtils.jsonDecode(startParam), null, 2)
+  //   : "";
 
   // 从 localStorage 获取上一次的配置
   const localConfig = JSON.parse(

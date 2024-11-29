@@ -84,11 +84,42 @@ window.onload = function() => {
 
 <br/>
 
-## 🛠️ Options
+## 🧩 Methods
 
 ```typescript
-new CarvId(Options: I_CarvIdOptions)
+// Initialize
+const carvIdInstance = new CarvId(Options: I_CarvIdOptions)
 ```
+
+#### 🔹 authenticateUser: () => void
+
+```ts
+// Start authorization process
+carvIdInstance.authenticateUser();
+```
+
+#### 🔹 openIdentityPage: () => void
+
+```ts
+// Open CARV ID identity page
+carvIdInstance.openIdentityPage();
+```
+#### 🔹 openIdentityPage: I_AuthenticateResponse
+
+```ts
+// Callback triggered after authorization
+CarvIdInstance.handleAuthCallback().then((res: I_AuthenticateResponse) => {
+  // {code: string, state: string}
+  console.log(res, "handleAuthCallback");
+  if (res.code) {
+    console.log("Authorize success", res.code);
+  }
+});
+```
+
+<br/>
+
+## 🛠️ Options
 
 #### 🔸 I_CarvIdOptions
 
