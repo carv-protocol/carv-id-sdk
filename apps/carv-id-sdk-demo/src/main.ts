@@ -5,8 +5,8 @@ import {
   Enum_CarvIdTheme,
   Enum_CarvIdIconPlacement,
   I_CarvIdOptions,
-} from "@carvid/core"; //  从工作区引入（本地测试）
-// } from "testcarvid"; // 从 NPM 包引入（NPM 包测试）
+  // } from "@carvid/core"; //  从工作区引入（本地测试）
+} from "testcarvid"; // 从 NPM 包引入（NPM 包测试）
 import Toastify from "toastify-js";
 import "toastify-js/src/toastify.css";
 
@@ -175,17 +175,12 @@ const initSDK = () => {
       elBtnAuthorize.removeAttribute("disabled");
     }
 
-    // 点击 Authorize 按钮触发 authenticateUser 方法
-    elBtnAuthorize.addEventListener("click", () => {
-      CarvIdInstance.authenticateUser();
-    });
-
     // 触发授权回调
     CarvIdInstance.handleAuthCallback().then((res) => {
       console.log(res, "handleAuthCallback");
-      if (!res.code) return showToast("Authorization Failed");
+      if (!res.code) return;
 
-      // showToast("🎉 Authorization Success");
+      showToast("🎉 Authorization Success");
       elBtnAuthorize.innerText = "Authorized";
       elBtnAuthorize.setAttribute("disabled", "true");
       elAuthorizeResult.innerHTML = JSON.stringify(res, null, 2);
@@ -238,6 +233,12 @@ const initSDK = () => {
     }
     init(config);
   });
+
+  // 点击 Authorize 按钮触发 authenticateUser 方法
+  elBtnAuthorize.addEventListener("click", () => {
+    CarvIdInstance?.authenticateUser();
+  });
+
   // 点击 Reset 按钮触发初始化方法
   elBtnReset.addEventListener("click", reset);
 };
