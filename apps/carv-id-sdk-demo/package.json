@@ -14,10 +14,10 @@
   },
   "dependencies": {
     "@carvid/assets": "workspace:*",
-    "@carvid/core": "workspace:*",
+    "@carvid/widget": "workspace:*",
     "@carvid/utils": "workspace:*",
     "lit": "^3.2.0",
-    "testcarvid": "^0.0.1",
+    "testcarvid": "^0.0.4",
     "toastify-js": "^1.12.0"
   },
   "devDependencies": {

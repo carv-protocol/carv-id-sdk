@@ -185,7 +185,7 @@ const initSDK = () => {
       console.log(res, "handleAuthCallback");
       if (!res.code) return showToast("Authorization Failed");
 
-      showToast("🎉 Authorization Success");
+      // showToast("🎉 Authorization Success");
       elBtnAuthorize.innerText = "Authorized";
       elBtnAuthorize.setAttribute("disabled", "true");
       elAuthorizeResult.innerHTML = JSON.stringify(res, null, 2);

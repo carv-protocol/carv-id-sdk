@@ -44,7 +44,7 @@ The SDK for CARV ID ecosystem.
       redirect_uri: "https://t.me/BabyChinBot/carv_id_demo"
     }
   });
-  console.log(CarvIdInstance, "CarvID SDK initialized");
+  console.log(CarvIdInstance, "CARV ID SDK initialized");
 }
 </script>
 ```
@@ -78,7 +78,7 @@ window.onload = function() => {
       console.log("onAuthFailed", data);
     }
   });
-  console.log(CarvIdInstance, "CarvID SDK initialized");
+  console.log(CarvIdInstance, "CARV ID SDK initialized");
 }
 ```
 
