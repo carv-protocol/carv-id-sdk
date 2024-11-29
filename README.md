@@ -104,7 +104,7 @@ carvIdInstance.authenticateUser();
 // Open CARV ID identity page
 carvIdInstance.openIdentityPage();
 ```
-#### 🔹 openIdentityPage: I_AuthenticateResponse
+#### 🔹 handleAuthCallback: Promise<I_AuthenticateResponse>
 
 ```ts
 // Callback triggered after authorization

@@ -105,33 +105,33 @@ const initSDK = () => {
       },
     },
     authorizeConfig,
-    onLoad: (data) => {
-      console.log("onLoad", data);
-      elBtnAuthorize.innerText = "Authorize";
-      elBtnAuthorize.removeAttribute("disabled");
+    // onLoad: (data) => {
+    //   console.log("onLoad", data);
+    //   elBtnAuthorize.innerText = "Authorize";
+    //   elBtnAuthorize.removeAttribute("disabled");
 
-      if (data.authCode) {
-        elBtnAuthorize.innerText = "Authorized";
-        elBtnAuthorize.setAttribute("disabled", "true");
-        elAuthorizeResult.innerHTML = JSON.stringify(
-          { code: data.authCode, state: "authenticate from cache" },
-          null,
-          2
-        );
-      }
-    },
-    onAuthSuccess: (res) => {
-      console.log("onAuthSuccess", res);
-      elBtnAuthorize.innerText = "Authorized";
-      elBtnAuthorize.setAttribute("disabled", "true");
-      elAuthorizeResult.innerHTML = JSON.stringify(res, null, 2);
-    },
-    onAuthFailed: (res) => {
-      console.log("onAuthFailed", res);
-      elBtnAuthorize.innerText = "Authorize failed";
-      elBtnAuthorize.setAttribute("disabled", "false");
-      elAuthorizeResult.innerHTML = JSON.stringify(res, null, 2);
-    },
+    //   if (data.authCode) {
+    //     elBtnAuthorize.innerText = "Authorized";
+    //     elBtnAuthorize.setAttribute("disabled", "true");
+    //     elAuthorizeResult.innerHTML = JSON.stringify(
+    //       { code: data.authCode, state: "authenticate from cache" },
+    //       null,
+    //       2
+    //     );
+    //   }
+    // },
+    // onAuthSuccess: (res) => {
+    //   console.log("onAuthSuccess", res);
+    //   elBtnAuthorize.innerText = "Authorized";
+    //   elBtnAuthorize.setAttribute("disabled", "true");
+    //   elAuthorizeResult.innerHTML = JSON.stringify(res, null, 2);
+    // },
+    // onAuthFailed: (res) => {
+    //   console.log("onAuthFailed", res);
+    //   elBtnAuthorize.innerText = "Authorize failed";
+    //   elBtnAuthorize.setAttribute("disabled", "false");
+    //   elAuthorizeResult.innerHTML = JSON.stringify(res, null, 2);
+    // },
   };
 
   // 初始化 CarvId 实例
@@ -183,12 +183,12 @@ const initSDK = () => {
     // 触发授权回调
     CarvIdInstance.handleAuthCallback().then((res) => {
       console.log(res, "handleAuthCallback");
-      if (res.code) {
-        showToast("Authorize success");
-        // elBtnAuthorize.innerText = "Authorized";
-        // elBtnAuthorize.setAttribute("disabled", "true");
-        // elAuthorizeResult.innerHTML = JSON.stringify(res, null, 2);
-      }
+      if (!res.code) return showToast("🎉 Authorization Success");
+
+      showToast("🎉 Authorization Success");
+      elBtnAuthorize.innerText = "Authorized";
+      elBtnAuthorize.setAttribute("disabled", "true");
+      elAuthorizeResult.innerHTML = JSON.stringify(res, null, 2);
     });
 
     return CarvIdInstance;
