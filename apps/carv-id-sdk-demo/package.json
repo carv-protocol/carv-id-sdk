@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@carvid/assets": "workspace:*",
-    "@carvid/widget": "workspace:*",
+    "@carvid/core": "workspace:*",
     "@carvid/utils": "workspace:*",
     "lit": "^3.2.0",
     "testcarvid": "^0.0.4",
