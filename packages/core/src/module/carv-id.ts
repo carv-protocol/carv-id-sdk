@@ -496,7 +496,11 @@ export class CarvId {
     } else {
       // 已授权过，直接返回 authCode
       this.authCode = authCode;
-      const res = { code: authCode, state: "authenticate from cache" };
+      const res = {
+        code: authCode,
+        state: "",
+        message: "Authorization success: from cache",
+      };
       if (this.onAuthSuccess) {
         this.onAuthSuccess(res);
       }
@@ -506,6 +510,14 @@ export class CarvId {
     // @ts-ignore
     const tgapp = window?.Telegram?.WebApp;
     const startParam = tgapp?.initDataUnsafe?.start_param;
+    if (!startParam) {
+      return {
+        code: "",
+        state: "",
+        message: "Authorization failed: no start param",
+      };
+    }
+
     const { code, state } = Utils.HexUtils.jsonDecode(startParam);
     if (code) {
       const result = { code, state, message: "Authorization success" };

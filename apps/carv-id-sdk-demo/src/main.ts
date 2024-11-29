@@ -183,7 +183,7 @@ const initSDK = () => {
     // 触发授权回调
     CarvIdInstance.handleAuthCallback().then((res) => {
       console.log(res, "handleAuthCallback");
-      if (!res.code) return showToast("🎉 Authorization Success");
+      if (!res.code) return showToast("Authorization Failed");
 
       showToast("🎉 Authorization Success");
       elBtnAuthorize.innerText = "Authorized";
@@ -214,9 +214,9 @@ const initSDK = () => {
   };
 
   // 设置 StartParams 参数
-  // elStartParams.innerHTML = startParam
-  //   ? JSON.stringify(CarvId.utils.HexUtils.jsonDecode(startParam), null, 2)
-  //   : "";
+  elStartParams.innerHTML = startParam
+    ? JSON.stringify(CarvId.utils.HexUtils.jsonDecode(startParam), null, 2)
+    : "";
 
   // 从 localStorage 获取上一次的配置
   const localConfig = JSON.parse(
