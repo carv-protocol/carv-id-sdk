@@ -437,7 +437,6 @@ export class CarvId {
       ? options.theme!
       : Enum_CarvIdTheme.LIGHT;
     this.authorizeConfig = options.authorizeConfig;
-    console.log(options, "DFDGDG");
     this.onAuthSuccess = options?.onAuthSuccess;
     this.onAuthFailed = options?.onAuthFailed;
 
