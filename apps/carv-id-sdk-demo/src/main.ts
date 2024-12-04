@@ -52,6 +52,14 @@ document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
   </div>
 `;
 
+// @ts-ignore
+const tgapp = window?.Telegram?.WebApp;
+tgapp?.expand(); // 将应用尺寸拉到全屏
+tgapp?.disableVerticalSwipes(); // 禁用垂直拖动，仅 7.7+ 支持
+tgapp?.disableClosingConfirmation(); // 禁用关闭提示
+tgapp?.lockOrientation(); // 锁定屏幕方向
+tgapp?.ready();
+
 // 初始化 SDK
 const initSDK = () => {
   const CONFIG_STORE_KEY = "carv_id_demo_config";
@@ -75,7 +83,6 @@ const initSDK = () => {
   const elAuthorizeResult = document.querySelector("#result") as HTMLPreElement;
 
   // @ts-ignore
-  const tgapp = window?.Telegram?.WebApp;
   const startParam = tgapp?.initDataUnsafe?.start_param;
   console.log("url >> ", window.location.href);
   console.log("startParam >> ", startParam);
