@@ -251,13 +251,14 @@ const initSDK = () => {
 };
 
 window.onload = () => {
+  // 处理 Telegram WebApp 安全区滚动问题
   if (window.visualViewport) {
     window.visualViewport.addEventListener("resize", () => {
       // @ts-ignore
       document.body.style.height = window.visualViewport.height + "px";
     });
   }
-  // This will ensure user never overscroll the page
+  // 禁止页面滚动
   window.addEventListener("scroll", () => {
     if (window.scrollY > 0) window.scrollTo(0, 0);
   });

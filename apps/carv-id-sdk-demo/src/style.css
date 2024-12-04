@@ -67,9 +67,9 @@ button[disabled] {
   width: 100%;
   height: 100%;
   max-width: 640px;
+  overflow-x: hidden;
   overflow-y: auto;
   overscroll-behavior: none;
-  overflow-x: hidden;
   margin: 0 auto;
   padding: 0 1rem;
   &:before {
