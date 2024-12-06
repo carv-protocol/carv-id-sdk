@@ -1,6 +1,6 @@
 {
-  "name": "testcarvid",
-  "version": "0.0.4",
+  "name": "carv-id-tg-sdk",
+  "version": "0.0.0",
   "license": "MIT",
   "type": "module",
   "main": "./dist/index.cjs",

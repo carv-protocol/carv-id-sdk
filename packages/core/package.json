@@ -1,5 +1,5 @@
 {
-  "name": "carv-id-widget",
+  "name": "@carvid/core",
   "version": "0.0.0",
   "license": "MIT",
   "type": "module",
@@ -23,6 +23,7 @@
     "@carvid/eslint-config": "workspace:*",
     "@carvid/typescript-config": "workspace:*",
     "@carvid/utils": "workspace:*",
+    "@swc/core": "^1.10.0",
     "@types/draggabilly": "^2.1.6",
     "eslint": "^8.57.0",
     "typescript": "^5.3.3"

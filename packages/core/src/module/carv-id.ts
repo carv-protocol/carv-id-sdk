@@ -344,7 +344,13 @@ export class CarvIdWidget extends LitElement {
     // 开启拖拽功能
     if (this.config.draggable) {
       // eslint-disable-next-line @typescript-eslint/no-this-alias
-      const Draggabilly = (await import("draggabilly")).default;
+      // const Draggabilly = (await import("draggabilly")).default;
+      const Draggabilly = (
+        await import(
+          // @ts-ignore
+          "https://cdn.jsdelivr.net/npm/draggabilly@3.0.0/+esm"
+        )
+      ).default;
       this.draggie = new Draggabilly(this.elBtn);
 
       this.draggie.on(

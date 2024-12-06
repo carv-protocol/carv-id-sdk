@@ -8,13 +8,15 @@
     <script defer src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
     <script>
-      eruda.init();
+      eruda.init({ tool: ["console", "network", "resources"] });
     </script>
-    <!-- <script src="./src/dist/index.umd.js" defer></script>
+    <!-- <script src="./sdk/carv-id-tg-sdk.umd.js"></script> -->
+    <!-- <script src="https://public.carv.io/sdk/carv-id/carv-id-tg-sdk.umd.js"></script>
     <script>
       window.onload = function () {
         const instance = new CarvIdSDK.CarvId({
           showWidget: true,
+          draggable: true,
           authorizeConfig: {
             client_id: "0a17299349c4b3e57bc8c25581b01bd0ec80c279",
             client_secret:

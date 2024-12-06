@@ -22,7 +22,7 @@ importers:
         version: 4.17.21
       ts-node:
         specifier: ^10.9.2
-        version: 10.9.2(@types/node@22.7.9)(typescript@5.3.3)
+        version: 10.9.2(@swc/core@1.10.0)(@types/node@22.7.9)(typescript@5.3.3)
     devDependencies:
       '@aws-sdk/client-s3':
         specifier: ^3.521.0
@@ -92,7 +92,7 @@ importers:
         version: 2.0.2
       tsup:
         specifier: ^8.3.0
-        version: 8.3.0(postcss@8.4.35)(typescript@5.3.3)
+        version: 8.3.0(@swc/core@1.10.0)(postcss@8.4.35)(typescript@5.3.3)
       turbo:
         specifier: ^2.1.3
         version: 2.1.3
@@ -111,12 +111,12 @@ importers:
       '@carvid/utils':
         specifier: workspace:*
         version: link:../../packages/utils
+      carv-id-tg-sdk:
+        specifier: ^0.0.0
+        version: 0.0.0
       lit:
         specifier: ^3.2.0
         version: 3.2.0
-      testcarvid:
-        specifier: ^0.0.4
-        version: 0.0.4
       toastify-js:
         specifier: ^1.12.0
         version: 1.12.0
@@ -167,6 +167,9 @@ importers:
       '@carvid/utils':
         specifier: workspace:*
         version: link:../utils
+      '@swc/core':
+        specifier: ^1.10.0
+        version: 1.10.0
       '@types/draggabilly':
         specifier: ^2.1.6
         version: 2.1.6
@@ -1221,6 +1224,81 @@ packages:
       lit: ^2.0.0 || ^3.0.0
       storybook: ^8.3.6
 
+  '@swc/core-darwin-arm64@1.10.0':
+    resolution: {integrity: sha512-wCeUpanqZyzvgqWRtXIyhcFK3CqukAlYyP+fJpY2gWc/+ekdrenNIfZMwY7tyTFDkXDYEKzvn3BN/zDYNJFowQ==}
+    engines: {node: '>=10'}
+    cpu: [arm64]
+    os: [darwin]
+
+  '@swc/core-darwin-x64@1.10.0':
+    resolution: {integrity: sha512-0CZPzqTynUBO+SHEl/qKsFSahp2Jv/P2ZRjFG0gwZY5qIcr1+B/v+o74/GyNMBGz9rft+F2WpU31gz2sJwyF4A==}
+    engines: {node: '>=10'}
+    cpu: [x64]
+    os: [darwin]
+
+  '@swc/core-linux-arm-gnueabihf@1.10.0':
+    resolution: {integrity: sha512-oq+DdMu5uJOFPtRkeiITc4kxmd+QSmK+v+OBzlhdGkSgoH3yRWZP+H2ao0cBXo93ZgCr2LfjiER0CqSKhjGuNA==}
+    engines: {node: '>=10'}
+    cpu: [arm]
+    os: [linux]
+
+  '@swc/core-linux-arm64-gnu@1.10.0':
+    resolution: {integrity: sha512-Y6+PC8knchEViRxiCUj3j8wsGXaIhuvU+WqrFqV834eiItEMEI9+Vh3FovqJMBE3L7d4E4ZQtgImHCXjrHfxbw==}
+    engines: {node: '>=10'}
+    cpu: [arm64]
+    os: [linux]
+
+  '@swc/core-linux-arm64-musl@1.10.0':
+    resolution: {integrity: sha512-EbrX9A5U4cECCQQfky7945AW9GYnTXtCUXElWTkTYmmyQK87yCyFfY8hmZ9qMFIwxPOH6I3I2JwMhzdi8Qoz7g==}
+    engines: {node: '>=10'}
+    cpu: [arm64]
+    os: [linux]
+
+  '@swc/core-linux-x64-gnu@1.10.0':
+    resolution: {integrity: sha512-TaxpO6snTjjfLXFYh5EjZ78se69j2gDcqEM8yB9gguPYwkCHi2Ylfmh7iVaNADnDJFtjoAQp0L41bTV/Pfq9Cg==}
+    engines: {node: '>=10'}
+    cpu: [x64]
+    os: [linux]
+
+  '@swc/core-linux-x64-musl@1.10.0':
+    resolution: {integrity: sha512-IEGvDd6aEEKEyZFZ8oCKuik05G5BS7qwG5hO5PEMzdGeh8JyFZXxsfFXbfeAqjue4UaUUrhnoX+Ze3M2jBVMHw==}
+    engines: {node: '>=10'}
+    cpu: [x64]
+    os: [linux]
+
+  '@swc/core-win32-arm64-msvc@1.10.0':
+    resolution: {integrity: sha512-UkQ952GSpY+Z6XONj9GSW8xGSkF53jrCsuLj0nrcuw7Dvr1a816U/9WYZmmcYS8tnG2vHylhpm6csQkyS8lpCw==}
+    engines: {node: '>=10'}
+    cpu: [arm64]
+    os: [win32]
+
+  '@swc/core-win32-ia32-msvc@1.10.0':
+    resolution: {integrity: sha512-a2QpIZmTiT885u/mUInpeN2W9ClCnqrV2LnMqJR1/Fgx1Afw/hAtiDZPtQ0SqS8yDJ2VR5gfNZo3gpxWMrqdVA==}
+    engines: {node: '>=10'}
+    cpu: [ia32]
+    os: [win32]
+
+  '@swc/core-win32-x64-msvc@1.10.0':
+    resolution: {integrity: sha512-tZcCmMwf483nwsEBfUk5w9e046kMa1iSik4bP9Kwi2FGtOfHuDfIcwW4jek3hdcgF5SaBW1ktnK/lgQLDi5AtA==}
+    engines: {node: '>=10'}
+    cpu: [x64]
+    os: [win32]
+
+  '@swc/core@1.10.0':
+    resolution: {integrity: sha512-+CuuTCmQFfzaNGg1JmcZvdUVITQXJk9sMnl1C2TiDLzOSVOJRwVD4dNo5dljX/qxpMAN+2BIYlwjlSkoGi6grg==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      '@swc/helpers': '*'
+    peerDependenciesMeta:
+      '@swc/helpers':
+        optional: true
+
+  '@swc/counter@0.1.3':
+    resolution: {integrity: sha512-e2BR4lsJkkRlKZ/qCHPw9ZaSxc0MVUd7gtbtaB7aMvHeJVYe8sOB8DBZkP2DtISHGSku9sCK6T6cnY0CtXrOCQ==}
+
+  '@swc/types@0.1.17':
+    resolution: {integrity: sha512-V5gRru+aD8YVyCOMAjMpWR1Ui577DD5KSJsHP8RAxopAH22jFz6GZd/qxqjO6MJHQhcsjvjOFXyDhyLQUnMveQ==}
+
   '@testing-library/dom@10.4.0':
     resolution: {integrity: sha512-pemlzrSESWbdAloYml3bAJMEfNh1Z7EduzqPKprCH5S341frlpYnUEW0H72dLxa6IsYr+mPno20GiSm+h9dEdQ==}
     engines: {node: '>=18'}
@@ -1579,6 +1657,9 @@ packages:
   callsites@3.1.0:
     resolution: {integrity: sha512-P8BjAsXvZS+VIDUI11hHCQEv74YT67YUi5JJFNWIqL235sBmjX4+qx9Muvls5ivyNENctx46xQLQ3aTuE7ssaQ==}
     engines: {node: '>=6'}
+
+  carv-id-tg-sdk@0.0.0:
+    resolution: {integrity: sha512-agum4I3xmwtmCj401wT3VlAAX+m1/RXenAGas+qTZY1nIsN3iovk3Fo0R6Kw7Gtun/RoMUTJs6HbvuP+JWB/KQ==}
 
   chai@5.1.2:
     resolution: {integrity: sha512-aGtmf24DW6MLHHG5gCx4zaI3uBq3KRtxeVs0DjFH6Z0rDNbsvTxFASFvdj79pxjxZ8/5u3PIiN3IwEIQkiiuPw==}
@@ -2764,9 +2845,6 @@ packages:
 
   telejson@7.2.0:
     resolution: {integrity: sha512-1QTEcJkJEhc8OnStBx/ILRu5J2p0GjvWsBx56bmZRqnrkdBMUe+nX92jxV+p3dB4CP6PZCdJMQJwCggkNBMzkQ==}
-
-  testcarvid@0.0.4:
-    resolution: {integrity: sha512-mfrc5Jrjict6f+kU17loxeISB4nWdvRKV0CfNZcBCGHdSR7oubrHfWMRLcqjOQk4QusZXAwoKwsOJ7NlYP/+kw==}
 
   text-table@0.2.0:
     resolution: {integrity: sha512-N+8UisAXDGk8PFXP4HAzVR9nbfmVJ3zYLAWiTIoqC5v5isinhr+r5uaO8+7r3BMfuNIufIsA7RdpVgacC2cSpw==}
@@ -4596,6 +4674,58 @@ snapshots:
       tiny-invariant: 1.3.3
       ts-dedent: 2.2.0
 
+  '@swc/core-darwin-arm64@1.10.0':
+    optional: true
+
+  '@swc/core-darwin-x64@1.10.0':
+    optional: true
+
+  '@swc/core-linux-arm-gnueabihf@1.10.0':
+    optional: true
+
+  '@swc/core-linux-arm64-gnu@1.10.0':
+    optional: true
+
+  '@swc/core-linux-arm64-musl@1.10.0':
+    optional: true
+
+  '@swc/core-linux-x64-gnu@1.10.0':
+    optional: true
+
+  '@swc/core-linux-x64-musl@1.10.0':
+    optional: true
+
+  '@swc/core-win32-arm64-msvc@1.10.0':
+    optional: true
+
+  '@swc/core-win32-ia32-msvc@1.10.0':
+    optional: true
+
+  '@swc/core-win32-x64-msvc@1.10.0':
+    optional: true
+
+  '@swc/core@1.10.0':
+    dependencies:
+      '@swc/counter': 0.1.3
+      '@swc/types': 0.1.17
+    optionalDependencies:
+      '@swc/core-darwin-arm64': 1.10.0
+      '@swc/core-darwin-x64': 1.10.0
+      '@swc/core-linux-arm-gnueabihf': 1.10.0
+      '@swc/core-linux-arm64-gnu': 1.10.0
+      '@swc/core-linux-arm64-musl': 1.10.0
+      '@swc/core-linux-x64-gnu': 1.10.0
+      '@swc/core-linux-x64-musl': 1.10.0
+      '@swc/core-win32-arm64-msvc': 1.10.0
+      '@swc/core-win32-ia32-msvc': 1.10.0
+      '@swc/core-win32-x64-msvc': 1.10.0
+
+  '@swc/counter@0.1.3': {}
+
+  '@swc/types@0.1.17':
+    dependencies:
+      '@swc/counter': 0.1.3
+
   '@testing-library/dom@10.4.0':
     dependencies:
       '@babel/code-frame': 7.25.9
@@ -5009,6 +5139,10 @@ snapshots:
       set-function-length: 1.2.2
 
   callsites@3.1.0: {}
+
+  carv-id-tg-sdk@0.0.0:
+    dependencies:
+      draggabilly: 3.0.0
 
   chai@5.1.2:
     dependencies:
@@ -6226,10 +6360,6 @@ snapshots:
     dependencies:
       memoizerific: 1.11.3
 
-  testcarvid@0.0.4:
-    dependencies:
-      draggabilly: 3.0.0
-
   text-table@0.2.0: {}
 
   thenify-all@1.6.0:
@@ -6282,7 +6412,7 @@ snapshots:
       lit-analyzer: 2.0.3
       web-component-analyzer: 2.0.0
 
-  ts-node@10.9.2(@types/node@22.7.9)(typescript@5.3.3):
+  ts-node@10.9.2(@swc/core@1.10.0)(@types/node@22.7.9)(typescript@5.3.3):
     dependencies:
       '@cspotcode/source-map-support': 0.8.1
       '@tsconfig/node10': 1.0.11
@@ -6299,12 +6429,14 @@ snapshots:
       typescript: 5.3.3
       v8-compile-cache-lib: 3.0.1
       yn: 3.1.1
+    optionalDependencies:
+      '@swc/core': 1.10.0
 
   ts-simple-type@2.0.0-next.0: {}
 
   tslib@2.8.0: {}
 
-  tsup@8.3.0(postcss@8.4.35)(typescript@5.3.3):
+  tsup@8.3.0(@swc/core@1.10.0)(postcss@8.4.35)(typescript@5.3.3):
     dependencies:
       bundle-require: 5.0.0(esbuild@0.23.1)
       cac: 6.7.14
@@ -6323,6 +6455,7 @@ snapshots:
       tinyglobby: 0.2.9
       tree-kill: 1.2.2
     optionalDependencies:
+      '@swc/core': 1.10.0
       postcss: 8.4.35
       typescript: 5.3.3
     transitivePeerDependencies:
