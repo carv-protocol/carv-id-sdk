@@ -28,7 +28,7 @@ The SDK for CARV ID ecosystem.
 #### 1、UMD
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/@carv_admin/carv-id-tg-sdk/dist/carv-id-tg-sdk.umd.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/@carv_admin/carv-id-tg-sdk@latest/dist/carv-id-tg-sdk.umd.js" defer></script>
 
 <script>
  window.onload = function () {
