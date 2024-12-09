@@ -13,7 +13,7 @@
     "lint": "eslint \"src/**/*.ts\""
   },
   "dependencies": {
-    "@carv_admin/carv-id-tg-sdk": "^0.0.0",
+    "@carv_admin/carv-id-tg-sdk": "^0.0.1",
     "@carvid/assets": "workspace:*",
     "@carvid/utils": "workspace:*",
     "lit": "^3.2.0",

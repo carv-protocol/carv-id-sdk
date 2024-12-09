@@ -430,7 +430,7 @@ export class CarvId {
   onAuthFailed?: (data: I_AuthenticateResponse) => void;
 
   static utils = Utils;
-  static version = "0.0.0"; // TODO: 更新版本号，和 package.json 一致
+  static version = "0.0.1"; // 更新版本号，和 package.json 一致
 
   constructor(options: I_CarvIdOptions) {
     const env = [Enum_Env.DEV, Enum_Env.PROD].includes(options?.env as Enum_Env)

@@ -51,6 +51,10 @@ The SDK for CARV ID ecosystem.
 
 #### 2、ES Module
 
+```bash
+pnpm add @carv_admin/carv-id-tg-sdk
+```
+
 ```typescript
 import {
   CarvId,
