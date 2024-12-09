@@ -1,12 +1,19 @@
 {
   "name": "@carv_admin/carv-id-tg-sdk",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "license": "MIT",
   "type": "module",
-  "homepage": "https://github.com/carv-protocol/carv-id-sdk/blob/main/README.md",
   "main": "./dist/carv-id-tg-sdk.cjs",
   "module": "./dist/carv-id-tg-sdk.mjs",
   "types": "./dist/carv-id-tg-sdk.d.ts",
+  "keywords": [
+    "carv",
+    "carv id",
+    "carv id sdk",
+    "carv oauth",
+    "telegram",
+    "sdk"
+  ],
   "scripts": {
     "dev": "tsup --watch",
     "build": "tsup --dts",

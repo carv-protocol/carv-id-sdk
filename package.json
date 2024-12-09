@@ -8,9 +8,13 @@
     "type": "git",
     "url": "git+https://github.com/carv-protocol/carv-id-sdk.git"
   },
+  "homepage": "https://github.com/carv-protocol/carv-id-sdk/blob/main/README.md",
   "keywords": [
+    "carv",
     "carv id",
-    "oauth",
+    "carv id sdk",
+    "carv oauth",
+    "telegram",
     "sdk",
     "lit"
   ],
