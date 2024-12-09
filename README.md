@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://public.carv.io/sdk/carv-id/carv_id.svg" style="width:100px;" alt="CARV ID logo" />
+  <img src="./stories/assets/carv_id.svg" style="width:100px;" alt="CARV ID logo" />
 </p>
 <h1 align="center">CARV ID SDK</h1>
 

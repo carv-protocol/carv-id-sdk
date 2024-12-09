@@ -3,6 +3,11 @@
   "version": "0.0.3",
   "license": "MIT",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/carv-protocol/carv-id-sdk.git"
+  },
+  "homepage": "https://carv-id-test.carv.io",
   "main": "./dist/carv-id-tg-sdk.cjs",
   "module": "./dist/carv-id-tg-sdk.mjs",
   "types": "./dist/carv-id-tg-sdk.d.ts",
