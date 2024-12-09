@@ -1,5 +1,5 @@
 {
-  "name": "@carvid/carv-id-tg-sdk",
+  "name": "carvid-tg-sdk",
   "version": "0.0.0",
   "license": "MIT",
   "type": "module",
