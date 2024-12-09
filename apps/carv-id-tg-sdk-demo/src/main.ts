@@ -6,8 +6,7 @@ import {
   Enum_CarvIdIconPlacement,
   I_CarvIdOptions,
 } from "@carvid/carv-id-tg-sdk"; // 从工作区引入（本地测试）
-// } from "carv-id-tg-sdk"; // 从 NPM 包引入（NPM 包测试）
-// } from "carvid-tg-sdk"; // 从 NPM 包引入（NPM 包测试）
+// } from "@carv_admin/carv-id-tg-sdk"; // 从 NPM 包引入（NPM 包测试）
 import Toastify from "toastify-js";
 import "toastify-js/src/toastify.css";
 
