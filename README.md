@@ -28,7 +28,7 @@ The SDK for CARV ID ecosystem.
 #### 1、UMD
 
 ```html
-<script src="https://public.carv.io/sdk/carv-id/carv-id-tg-sdk.umd.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/carv-id-tg-sdk@0.0.0/dist/carv-id-tg-sdk.umd.js" defer></script>
 
 <script>
  window.onload = function () {
@@ -193,7 +193,7 @@ And this project includes the following packages and apps:
 
 - `docs`: a vanilla [vite](https://vitejs.dev) ts app
 - `web`: another vanilla [vite](https://vitejs.dev) ts app
-- `@carvid/core`: a CARV ID core component
+- `@carvid/carv-id-tg-sdk`: a CARV ID core component
 - `@carvid/utils`: a stub utility library shared by all applications
 - `@carvid/eslint-config`: shared `eslint` configurations
 - `@carvid/typescript-config`: `tsconfig.json`s used throughout the monorepo

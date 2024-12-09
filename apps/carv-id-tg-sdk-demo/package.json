@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@carvid/assets": "workspace:*",
-    "@carvid/core": "workspace:*",
+    "@carvid/carv-id-tg-sdk": "workspace:*",
     "@carvid/utils": "workspace:*",
     "carv-id-tg-sdk": "^0.0.0",
     "lit": "^3.2.0",
