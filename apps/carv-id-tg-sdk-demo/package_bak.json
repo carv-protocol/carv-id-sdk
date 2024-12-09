@@ -13,9 +13,10 @@
     "lint": "eslint \"src/**/*.ts\""
   },
   "dependencies": {
-    "@carv_admin/carv-id-tg-sdk": "^0.0.0",
     "@carvid/assets": "workspace:*",
+    "@carvid/carv-id-tg-sdk": "workspace:*",
     "@carvid/utils": "workspace:*",
+    "carv-id-tg-sdk": "^0.0.0",
     "lit": "^3.2.0",
     "toastify-js": "^1.12.0"
   },

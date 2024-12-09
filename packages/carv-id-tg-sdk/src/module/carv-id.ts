@@ -277,12 +277,12 @@ export class CarvIdWidget extends LitElement {
     // @ts-ignore
     const carvIdInstance = this.config.carvIdInstance!;
     if (carvIdInstance.getAuthCode()) {
-      alert("Authorized, open Identity page directly");
+      // alert("Authorized, open Identity page directly");
       window.open(this.config.entryUrl, "_blank");
     } else {
-      alert(
-        "Unauthorized, bring authorization parameters to the CARVID bot for authorization"
-      );
+      // alert(
+      //   "Unauthorized, bring authorization parameters to the CARVID bot for authorization"
+      // );
       carvIdInstance.authenticateUser();
     }
   }

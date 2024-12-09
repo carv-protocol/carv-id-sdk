@@ -3,9 +3,9 @@ import { defineConfig } from "tsup";
 export default defineConfig({
   name: "carv-id-tg-sdk",
   entry: ["./src/carv-id-tg-sdk.ts"],
-  // minify: true,
-  // minifySyntax: true,
-  // minifyWhitespace: true,
+  minify: true,
+  minifySyntax: true,
+  minifyWhitespace: true,
   treeshake: true,
   splitting: false,
   sourcemap: false,

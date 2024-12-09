@@ -1,6 +1,6 @@
 {
   "name": "@carv_admin/carv-id-tg-sdk",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "license": "MIT",
   "type": "module",
   "homepage": "https://github.com/carv-protocol/carv-id-sdk/blob/main/README.md",

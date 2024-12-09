@@ -28,7 +28,7 @@ The SDK for CARV ID ecosystem.
 #### 1、UMD
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/carv-id-tg-sdk@0.0.0/dist/carv-id-tg-sdk.umd.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/@carv_admin/carv-id-tg-sdk/dist/carv-id-tg-sdk.umd.js" defer></script>
 
 <script>
  window.onload = function () {
@@ -57,7 +57,7 @@ import {
   Enum_Env,
   Enum_CarvIdTheme,
   Enum_CarvIdIconPlacement,
-} from "carv-id-tg-sdk";
+} from "@carv_admin/carv-id-tg-sdk";
 
 window.onload = function() => {
   const CarvIdInstance = new CarvId({

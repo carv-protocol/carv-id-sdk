@@ -102,18 +102,15 @@ importers:
 
   apps/carv-id-tg-sdk-demo:
     dependencies:
+      '@carv_admin/carv-id-tg-sdk':
+        specifier: ^0.0.0
+        version: 0.0.0
       '@carvid/assets':
         specifier: workspace:*
         version: link:../../packages/assets
-      '@carvid/carv-id-tg-sdk':
-        specifier: workspace:*
-        version: link:../../packages/carv-id-tg-sdk
       '@carvid/utils':
         specifier: workspace:*
         version: link:../../packages/utils
-      carv-id-tg-sdk:
-        specifier: ^0.0.0
-        version: 0.0.0
       lit:
         specifier: ^3.2.0
         version: 3.2.0
@@ -405,6 +402,9 @@ packages:
   '@babel/runtime@7.25.7':
     resolution: {integrity: sha512-FjoyLe754PMiYsFaN5C94ttGiOmBNYTf6pLr4xXHAT5uctHb092PBszndLDR5XA/jghQvn4n7JMHl7dmTgbm9w==}
     engines: {node: '>=6.9.0'}
+
+  '@carv_admin/carv-id-tg-sdk@0.0.0':
+    resolution: {integrity: sha512-08dn0NrC/OCe3uFggPCmGGxzxJCyS/OB91xo4FPxF4u8S1jyYTJk1ExpaF3aPpQE8DeJErc7DfUyclWLQMybRQ==}
 
   '@chromatic-com/storybook@1.9.0':
     resolution: {integrity: sha512-vYQ+TcfktEE3GHnLZXHCzXF/sN9dw+KivH8a5cmPyd9YtQs7fZtHrEgsIjWpYycXiweKMo1Lm1RZsjxk8DH3rA==}
@@ -1654,9 +1654,6 @@ packages:
   callsites@3.1.0:
     resolution: {integrity: sha512-P8BjAsXvZS+VIDUI11hHCQEv74YT67YUi5JJFNWIqL235sBmjX4+qx9Muvls5ivyNENctx46xQLQ3aTuE7ssaQ==}
     engines: {node: '>=6'}
-
-  carv-id-tg-sdk@0.0.0:
-    resolution: {integrity: sha512-agum4I3xmwtmCj401wT3VlAAX+m1/RXenAGas+qTZY1nIsN3iovk3Fo0R6Kw7Gtun/RoMUTJs6HbvuP+JWB/KQ==}
 
   chai@5.1.2:
     resolution: {integrity: sha512-aGtmf24DW6MLHHG5gCx4zaI3uBq3KRtxeVs0DjFH6Z0rDNbsvTxFASFvdj79pxjxZ8/5u3PIiN3IwEIQkiiuPw==}
@@ -3796,6 +3793,10 @@ snapshots:
     dependencies:
       regenerator-runtime: 0.14.1
 
+  '@carv_admin/carv-id-tg-sdk@0.0.0':
+    dependencies:
+      draggabilly: 3.0.0
+
   '@chromatic-com/storybook@1.9.0(react@18.3.1)':
     dependencies:
       chromatic: 11.15.0
@@ -5139,10 +5140,6 @@ snapshots:
       set-function-length: 1.2.2
 
   callsites@3.1.0: {}
-
-  carv-id-tg-sdk@0.0.0:
-    dependencies:
-      draggabilly: 3.0.0
 
   chai@5.1.2:
     dependencies:
