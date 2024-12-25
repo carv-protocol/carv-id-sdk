@@ -83,7 +83,7 @@ export const FLAG_CARV_ID_BTN_POSITION = "carv_id_btn_position";
 export const FLAG_CARV_ID_AUTH_CODE = "carv_id_auth_code";
 
 const defaultCarvIdWidgetOptions = {
-  env: Enum_Env.DEV,
+  env: Enum_Env.PROD,
   theme: Enum_CarvIdTheme.LIGHT,
   // icon: IconCARVID,
   size: "48px",
@@ -91,7 +91,7 @@ const defaultCarvIdWidgetOptions = {
   draggable: true,
   watchResize: true,
   rememberPosition: true,
-  entryUrl: MapUrl[Enum_Env.DEV].TELEGRAM_APP_URL,
+  entryUrl: MapUrl[Enum_Env.PROD].TELEGRAM_APP_URL,
   placement: Enum_CarvIdIconPlacement.BOTTOM_RIGHT,
   offset: { left: 20, right: 20, top: 40, bottom: 60 },
 };
@@ -430,12 +430,12 @@ export class CarvId {
   onAuthFailed?: (data: I_AuthenticateResponse) => void;
 
   static utils = Utils;
-  static version = "0.0.4"; // 更新版本号，和 package.json 一致
+  static version = "0.0.5"; // 更新版本号，和 package.json 一致
 
   constructor(options: I_CarvIdOptions) {
     const env = [Enum_Env.DEV, Enum_Env.PROD].includes(options?.env as Enum_Env)
       ? options.env!
-      : Enum_Env.DEV;
+      : Enum_Env.PROD;
     this.env = env;
     this.theme = [Enum_CarvIdTheme.LIGHT, Enum_CarvIdTheme.DARK].includes(
       options?.theme as Enum_CarvIdTheme

@@ -108,6 +108,9 @@ importers:
       '@carvid/assets':
         specifier: workspace:*
         version: link:../../packages/assets
+      '@carvid/carv-id-tg-sdk':
+        specifier: workspace:*
+        version: link:../../packages/carv-id-tg-sdk
       '@carvid/utils':
         specifier: workspace:*
         version: link:../../packages/utils

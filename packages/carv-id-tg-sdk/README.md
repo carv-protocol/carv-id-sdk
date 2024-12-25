@@ -142,7 +142,7 @@ interface I_CarvIdOptions {
 
 | Field            | Description                                            | Type                                   | Default                |
 | ---------------- | ------------------------------------------------------ | -------------------------------------- | ---------------------- |
-| env              | Environment                                            | Enum_Env                               | Enum_Env.DEV           |
+| env              | Environment                                            | Enum_Env                               | Enum_Env.PROD           |
 | theme            | Theme mode                                             | Enum_CarvIdTheme                       | Enum_CarvIdTheme.LIGHT |
 | showWidget       | Show widget icon                                       | Boolean                                | false                  |
 | widgetOptions    | Widget options                                         | I_CarvIdWidgetOptions                  | undefined              |

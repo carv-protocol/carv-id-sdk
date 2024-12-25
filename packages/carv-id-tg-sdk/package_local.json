@@ -1,5 +1,5 @@
 {
-  "name": "@carv_admin/carv-id-tg-sdk",
+  "name": "@carvid/carv-id-tg-sdk",
   "version": "0.0.5",
   "license": "MIT",
   "type": "module",
@@ -8,9 +8,12 @@
     "url": "git+https://github.com/carv-protocol/carv-id-sdk.git"
   },
   "homepage": "https://carv-id-test.carv.io",
-  "main": "./dist/carv-id-tg-sdk.cjs",
-  "module": "./dist/carv-id-tg-sdk.mjs",
-  "types": "./dist/carv-id-tg-sdk.d.ts",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": "./src/module/carv-id.ts"
+  },
   "keywords": [
     "carv",
     "carv id",
@@ -25,7 +28,11 @@
     "publish": "tsup --dts && npm publish --access=public",
     "lint": "eslint \"**/*.ts\""
   },
-  "files": ["dist", "package.json", "README.md"],
+  "files": [
+    "dist",
+    "package.json",
+    "README.md"
+  ],
   "devDependencies": {
     "@carvid/eslint-config": "workspace:*",
     "@carvid/typescript-config": "workspace:*",
