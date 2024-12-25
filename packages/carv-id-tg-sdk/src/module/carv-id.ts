@@ -442,7 +442,12 @@ export class CarvId {
     )
       ? options.theme!
       : Enum_CarvIdTheme.LIGHT;
+
     this.authorizeConfig = options.authorizeConfig;
+    if (!this.authorizeConfig) {
+      throw new Error("authorizeConfig is required");
+    }
+
     this.onAuthSuccess = options?.onAuthSuccess;
     this.onAuthFailed = options?.onAuthFailed;
 
@@ -485,9 +490,9 @@ export class CarvId {
   // CARVID 授权流程
   async authenticateUser() {
     if (!this.authorizeConfig) {
-      console.error("authorizeConfig is required");
-      return;
+      throw new Error("authorizeConfig is required");
     }
+
     const authCode = this.getAuthCode();
     if (!authCode) {
       const encodeStartParams = Utils.HexUtils.jsonEncode({
