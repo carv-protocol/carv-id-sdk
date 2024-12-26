@@ -65,7 +65,6 @@ import {
 
 window.onload = function() => {
   const CarvIdInstance = new CarvId({
-    env: Enum_Env.DEV,
     theme: Enum_CarvIdTheme.LIGHT,
     showWidget: true,
     widgetOptions: {
