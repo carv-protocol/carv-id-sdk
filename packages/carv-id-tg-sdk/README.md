@@ -191,7 +191,7 @@ And this project includes the following packages and apps:
 
 #### - Apps
 
-- `carv-id-sdk-demo`: used for testing SDK
+- `carv-id-tg-sdk-demo`: used for testing SDK
 
 #### - Packages
 
