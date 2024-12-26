@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@carv_admin/carv-id-tg-sdk": "^0.0.5",
+    "@carvid/carv-id-tg-sdk": "workspace:*",
     "@carvid/assets": "workspace:*",
     "@carvid/utils": "workspace:*",
     "toastify-js": "^1.12.0",

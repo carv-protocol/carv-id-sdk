@@ -103,14 +103,11 @@ importers:
   apps/carv-id-tg-sdk-demo:
     dependencies:
       '@carv_admin/carv-id-tg-sdk':
-        specifier: ^0.0.4
-        version: 0.0.4
+        specifier: ^0.0.5
+        version: 0.0.5
       '@carvid/assets':
         specifier: workspace:*
         version: link:../../packages/assets
-      '@carvid/carv-id-tg-sdk':
-        specifier: workspace:*
-        version: link:../../packages/carv-id-tg-sdk
       '@carvid/utils':
         specifier: workspace:*
         version: link:../../packages/utils
@@ -406,8 +403,8 @@ packages:
     resolution: {integrity: sha512-FjoyLe754PMiYsFaN5C94ttGiOmBNYTf6pLr4xXHAT5uctHb092PBszndLDR5XA/jghQvn4n7JMHl7dmTgbm9w==}
     engines: {node: '>=6.9.0'}
 
-  '@carv_admin/carv-id-tg-sdk@0.0.4':
-    resolution: {integrity: sha512-wHq0r5oKsiQqo/HESPPVweOgcob9J1sYnPOtfkn86Q2/XqotTbGd3twePYFCjvkD4bcLIJ+8HRkUVOe/M16yaA==}
+  '@carv_admin/carv-id-tg-sdk@0.0.5':
+    resolution: {integrity: sha512-Xp6Wjp39eR4CEWE7SyTdNWHqJMUKTrRE75/XJaD1swsaFu/EddRImzxlGJ8crPP3DaPgOq5R3JX5vncj6S1u7w==}
 
   '@chromatic-com/storybook@1.9.0':
     resolution: {integrity: sha512-vYQ+TcfktEE3GHnLZXHCzXF/sN9dw+KivH8a5cmPyd9YtQs7fZtHrEgsIjWpYycXiweKMo1Lm1RZsjxk8DH3rA==}
@@ -3796,7 +3793,7 @@ snapshots:
     dependencies:
       regenerator-runtime: 0.14.1
 
-  '@carv_admin/carv-id-tg-sdk@0.0.4':
+  '@carv_admin/carv-id-tg-sdk@0.0.5':
     dependencies:
       draggabilly: 3.0.0
 
