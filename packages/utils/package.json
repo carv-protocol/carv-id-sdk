@@ -2,7 +2,7 @@
   "name": "@carvid/utils",
   "version": "0.0.0",
   "exports": {
-    "./common": "./core/common.ts"
+    "./common": "./src/common.ts"
   },
   "license": "MIT",
   "scripts": {

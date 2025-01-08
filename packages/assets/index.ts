@@ -1,2 +1,2 @@
-export * from "./core/common";
+export * from "./src/common";
 // export { common, time, file };

@@ -8,9 +8,6 @@ importers:
 
   .:
     dependencies:
-      '@dile/ui':
-        specifier: ^2.1.32
-        version: 2.1.32
       lit:
         specifier: ^3.2.0
         version: 3.2.0
@@ -413,12 +410,6 @@ packages:
   '@cspotcode/source-map-support@0.8.1':
     resolution: {integrity: sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw==}
     engines: {node: '>=12'}
-
-  '@dile/icons@2.0.12':
-    resolution: {integrity: sha512-CGGWVAmM5kjdsXhepzYANlYylVVyWisc2VKgcJSPnizkIn4rFhQnWeQKYW6Ujx2/MMMjHUey9wxhYUfHm/96XQ==}
-
-  '@dile/ui@2.1.32':
-    resolution: {integrity: sha512-t4xqs4zEJoAOec7WUVcyL4k2USTWpLxGMiYr4ayM4QILsqriQFebVAZcMCA3WwW+AbQHoFjZSYSIzzrcJCyeRw==}
 
   '@esbuild/aix-ppc64@0.23.1':
     resolution: {integrity: sha512-6VhYk1diRqrhBAqpJEdjASR/+WVRtfjpqKuNw11cLiaWpAT/Uu+nokB+UJnevzy/P9C/ty6AOe0dwueMrGh/iQ==}
@@ -3812,15 +3803,6 @@ snapshots:
   '@cspotcode/source-map-support@0.8.1':
     dependencies:
       '@jridgewell/trace-mapping': 0.3.9
-
-  '@dile/icons@2.0.12':
-    dependencies:
-      lit: 3.2.0
-
-  '@dile/ui@2.1.32':
-    dependencies:
-      '@dile/icons': 2.0.12
-      lit: 3.2.0
 
   '@esbuild/aix-ppc64@0.23.1':
     optional: true
