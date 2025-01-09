@@ -3,20 +3,18 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "dev": "vite --clearScreen false --mode dev",
-    "dev:prod": "vite --clearScreen false --mode prod",
+    "dev": "vite --mode dev",
+    "dev:prod": "vite --mode prod",
     "build": "tsc && vite build --mode dev",
     "build:prod": "tsc && vite build --mode prod",
     "preview": "vite preview",
-    "lint": "eslint \"src/**/*.ts\""
+    "lint": "eslint \"src/**/*.tsx\""
   },
   "dependencies": {
     "@carv_admin/carv-id-tg-sdk": "^0.0.5",
     "@carvid/carv-id-tg-sdk": "workspace:*",
     "@carvid/assets": "workspace:*",
-    "@carvid/utils": "workspace:*",
-    "toastify-js": "^1.12.0",
-    "lit": "^3.2.0"
+    "@carvid/utils": "workspace:*"
   },
   "devDependencies": {
     "@carvid/eslint-config": "workspace:*",

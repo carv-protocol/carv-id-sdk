@@ -561,6 +561,14 @@ export class CarvId {
     localStorage.removeItem(FLAG_CARV_ID_BTN_POSITION);
     localStorage.removeItem(FLAG_CARV_ID_AUTH_CODE);
 
+    this.authCode = "";
+    this.env = Enum_Env.PROD;
+    this.theme = Enum_CarvIdTheme.LIGHT;
+    this.authorizeConfig = null as unknown as I_CarvIdAuthorizeConfig;
+    this.onAuthSuccess = undefined;
+    this.onAuthFailed = undefined;
+    this.entryUrl = MapUrl[this.env].TELEGRAM_APP_URL;
+
     const elWidget = document.querySelector("carv-id-widget") as HTMLElement;
     if (!elWidget) return;
 

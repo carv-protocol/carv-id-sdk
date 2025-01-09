@@ -3,6 +3,7 @@
   "display": "Default",
   "compilerOptions": {
     "rootDir": ".",
+    "baseUrl": ".",
     "composite": false,
     "declaration": true,
     "declarationMap": true,
@@ -12,21 +13,36 @@
     "forceConsistentCasingInFileNames": true,
     "inlineSources": false,
     "isolatedModules": true,
-    "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "module": "ESNext",
-    "moduleResolution": "Bundler",
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
-    "preserveWatchOutput": true,
-    "skipLibCheck": true,
+    "target": "ESNext",
+    "jsx": "react-jsx",
+    "moduleResolution": "bundler",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "strict": true,
+    "sourceMap": true,
+    "skipLibCheck": true,
+    "importHelpers": true,
+    "noUnusedLocals": false,
+    "resolveJsonModule": true,
+    "skipDefaultLibCheck": true,
+    "preserveWatchOutput": true,
+    "noUnusedParameters": false,
+    "emitDecoratorMetadata": true,
     "types": ["node"],
     "plugins": [
       {
         "name": "ts-lit-plugin"
       }
-    ]
+    ],
+    "paths": {
+      "@/*": ["src/*"]
+    }
   },
-  "include": ["vite-env.d.ts", "../../.env.d.ts"],
+  "ts-node": {
+    "compilerOptions": {
+      "module": "CommonJS"
+    }
+  },
+  "include": ["src", "src/**/*", "../../.env.d.ts"],
   "exclude": ["node_modules", "dist"]
 }

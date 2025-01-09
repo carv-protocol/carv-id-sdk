@@ -28,7 +28,11 @@
     "publish": "tsup --dts && npm publish --access=public",
     "lint": "eslint \"**/*.ts\""
   },
-  "files": ["dist", "package.json", "README.md"],
+  "files": [
+    "dist",
+    "package.json",
+    "README.md"
+  ],
   "devDependencies": {
     "@carvid/eslint-config": "workspace:*",
     "@carvid/typescript-config": "workspace:*",
