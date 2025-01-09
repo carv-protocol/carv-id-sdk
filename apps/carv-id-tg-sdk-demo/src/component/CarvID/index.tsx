@@ -7,8 +7,8 @@ import {
   Enum_CarvIdTheme,
   Enum_CarvIdIconPlacement,
   I_CarvIdOptions,
-} from "@carvid/carv-id-tg-sdk"; // 从工作区引入（本地测试）
-// } from "@carv_admin/carv-id-tg-sdk"; // 从 NPM 包引入（NPM 包测试）
+  // } from "@carvid/carv-id-tg-sdk"; // 从工作区引入（本地测试）
+} from "@carv_admin/carv-id-tg-sdk"; // 从 NPM 包引入（NPM 包测试）
 
 const CONFIG_STORE_KEY = "carv_id_demo_config";
 
